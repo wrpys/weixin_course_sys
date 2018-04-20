@@ -1,0 +1,5 @@
+
+/* 文件上传 */
+.file-upload-area {text-align: right;padding-right: 50px;}
+.file-upload-area #original_fileName {font-weight: bolder; float: left; padding-top: 6px;}
+.file-upload-area .iframe-file-upload { width: 72px; height: 28px; margin: -3px 6px 0px 6px; float: left;}

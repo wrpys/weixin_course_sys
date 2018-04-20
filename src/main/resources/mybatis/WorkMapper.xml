@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shirokumacafe.archetype.repository.WorkMapper">
+  <resultMap id="BaseResultMap" type="com.shirokumacafe.archetype.entity.Work">
+    <id column="w_id" jdbcType="INTEGER" property="wId" />
+    <result column="user_tch_id" jdbcType="INTEGER" property="userTchId" />
+    <result column="clzss_id" jdbcType="INTEGER" property="clzssId" />
+    <result column="w_work_name" jdbcType="VARCHAR" property="wWorkName" />
+    <result column="w_add_time" jdbcType="TIMESTAMP" property="wAddTime" />
+    <result column="w_work_requirement" jdbcType="VARCHAR" property="wWorkRequirement" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    w_id, user_tch_id, clzss_id, w_work_name, w_add_time, w_work_requirement
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_work
+    where w_id = #{wId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByParams" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from t_work t
+		<where>
+			<if test="wWorkName!=null and wWorkName!=''">
+				and t.w_work_name like CONCAT('%',#{wWorkName},'%')
+			</if>
+			<if test="wWorkRequirement!=null and wWorkRequirement!=''">
+				and t.w_work_requirement like CONCAT('%',#{wWorkRequirement},'%')
+			</if>
+		</where>
+	</select>
+
+  <select id="selectByExtParams" resultType="com.shirokumacafe.archetype.entity.WorkExt">
+    select t.w_id as wId, t.user_tch_id as userTchId, t.clzss_id as clzssId, t.w_work_name as wWorkName,
+            t.w_add_time as wAddTime, t.w_work_requirement as wWorkRequirement,t2.nick_name as teacherName
+    from t_work t
+    LEFT JOIN t_user t2 on t.user_tch_id=t2.user_id
+    <where>
+      <if test="wId!=null">
+        t.w_id=#{wId}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_work
+    where w_id = #{wId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteWorkList" parameterType="java.util.List">
+		delete from t_work where 1=1
+		<if test="list !=null and list != ''">
+			and w_id in
+			<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+	</delete>
+  
+  
+  <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.Work">
+    insert into t_work (user_tch_id, clzss_id, 
+      w_work_name, w_add_time, w_work_requirement
+      )
+    values (#{userTchId,jdbcType=INTEGER}, #{clzssId,jdbcType=INTEGER}, 
+      #{wWorkName,jdbcType=VARCHAR}, #{wAddTime,jdbcType=TIMESTAMP}, #{wWorkRequirement,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.Work">
+    insert into t_work
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wId != null">
+        w_id,
+      </if>
+      <if test="userTchId != null">
+        user_tch_id,
+      </if>
+      <if test="clzssId != null">
+        clzss_id,
+      </if>
+      <if test="wWorkName != null">
+        w_work_name,
+      </if>
+      <if test="wAddTime != null">
+        w_add_time,
+      </if>
+      <if test="wWorkRequirement != null">
+        w_work_requirement,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wId != null">
+        #{wId,jdbcType=INTEGER},
+      </if>
+      <if test="userTchId != null">
+        #{userTchId,jdbcType=INTEGER},
+      </if>
+      <if test="clzssId != null">
+        #{clzssId,jdbcType=INTEGER},
+      </if>
+      <if test="wWorkName != null">
+        #{wWorkName,jdbcType=VARCHAR},
+      </if>
+      <if test="wAddTime != null">
+        #{wAddTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wWorkRequirement != null">
+        #{wWorkRequirement,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shirokumacafe.archetype.entity.Work">
+    update t_work
+    <set>
+      <if test="userTchId != null">
+        user_tch_id = #{userTchId,jdbcType=INTEGER},
+      </if>
+      <if test="clzssId != null">
+        clzss_id = #{clzssId,jdbcType=INTEGER},
+      </if>
+      <if test="wWorkName != null">
+        w_work_name = #{wWorkName,jdbcType=VARCHAR},
+      </if>
+      <if test="wAddTime != null">
+        w_add_time = #{wAddTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wWorkRequirement != null">
+        w_work_requirement = #{wWorkRequirement,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where w_id = #{wId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shirokumacafe.archetype.entity.Work">
+    update t_work
+    set user_tch_id = #{userTchId,jdbcType=INTEGER},
+      clzss_id = #{clzssId,jdbcType=INTEGER},
+      w_work_name = #{wWorkName,jdbcType=VARCHAR},
+      w_add_time = #{wAddTime,jdbcType=TIMESTAMP},
+      w_work_requirement = #{wWorkRequirement,jdbcType=VARCHAR}
+    where w_id = #{wId,jdbcType=INTEGER}
+  </update>
+
+  <select id="getQuestionAnswers" resultMap="workQuestionListMap">
+    select t.q_answer,t2.* from t_stu_question t
+    LEFT JOIN t_question t2 on t.q_id=t2.q_id
+    where t.w_id = #{workId} and t.s_id = #{stuId}
+  </select>
+
+  <resultMap id="workQuestionListMap" type="com.shirokumacafe.archetype.entity.Question">
+    <result property="qId" column="q_id" />
+    <result property="qTitle" column="q_title" />
+    <result property="qType" column="q_type" />
+    <result property="qAnswer" column="q_answer" />
+    <collection property="answerList" column="q_id"
+                ofType="com.shirokumacafe.archetype.entity.Answer" select="getDefaultAnswer" />
+  </resultMap>
+
+  <select id="getDefaultAnswer" resultType="com.shirokumacafe.archetype.entity.Answer">
+    select t.a_id as aId,t.a_answer as aAnswer,t.a_correct as aCorrect,t.q_id as qId
+    from t_answer t where t.q_id = #{answerList}
+  </select>
+
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shirokumacafe.archetype.repository.QuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.shirokumacafe.archetype.entity.Question" >
+    <id column="q_id" property="qId" jdbcType="INTEGER" />
+    <result column="q_title" property="qTitle" jdbcType="VARCHAR" />
+    <result column="q_type" property="qType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    q_id, q_title, q_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from t_question
+    where q_id = #{qId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_question
+    where q_id = #{qId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.Question" >
+    insert into t_question (q_id, q_title, q_type
+      )
+    values (#{qId,jdbcType=INTEGER}, #{qTitle,jdbcType=VARCHAR}, #{qType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="qId" parameterType="com.shirokumacafe.archetype.entity.Question" >
+    insert into t_question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="qId != null" >
+        q_id,
+      </if>
+      <if test="qTitle != null" >
+        q_title,
+      </if>
+      <if test="qType != null" >
+        q_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="qId != null" >
+        #{qId,jdbcType=INTEGER},
+      </if>
+      <if test="qTitle != null" >
+        #{qTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="qType != null" >
+        #{qType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shirokumacafe.archetype.entity.Question" >
+    update t_question
+    <set >
+      <if test="qTitle != null" >
+        q_title = #{qTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="qType != null" >
+        q_type = #{qType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where q_id = #{qId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shirokumacafe.archetype.entity.Question" >
+    update t_question
+    set q_title = #{qTitle,jdbcType=VARCHAR},
+      q_type = #{qType,jdbcType=INTEGER}
+    where q_id = #{qId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByParams" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_question t
+    <where>
+      <if test="qTitle!=null and qTitle!=''">
+        and t.q_title like CONCAT('%',#{qTitle},'%')
+      </if>
+    </where>
+  </select>
+
+</mapper>

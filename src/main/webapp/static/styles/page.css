@@ -1,0 +1,22 @@
+.container {
+     margin-left: 0px;
+     margin-top: 0px;
+     width: auto;
+     /*height: 100%;*/
+     padding: 20px 20px 0px 20px;
+ }
+.panel {
+    padding:7px;
+}
+.bui-dialog .bui-stdmod-body {
+    padding:7px;
+}
+.x-editor-tips {
+    z-index: 1080;
+}
+.bui-grid-row-rankA {
+    color: #ff0000;
+}
+.bui-grid-row-rankB {
+    color: blue;
+}

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shirokumacafe.archetype.repository.StuQuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.shirokumacafe.archetype.entity.StuQuestion" >
+    <id column="sq_id" property="sqId" jdbcType="INTEGER" />
+    <result column="s_id" property="sId" jdbcType="INTEGER" />
+    <result column="w_id" property="wId" jdbcType="INTEGER" />
+    <result column="q_id" property="qId" jdbcType="INTEGER" />
+    <result column="q_answer" property="qAnswer" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sq_id, s_id, w_id, q_id, q_answer
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_stu_question
+    where sq_id = #{sqId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_stu_question
+    where sq_id = #{sqId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.StuQuestion" >
+    insert into t_stu_question (sq_id, s_id, w_id, 
+      q_id, q_answer)
+    values (#{sqId,jdbcType=INTEGER}, #{sId,jdbcType=INTEGER}, #{wId,jdbcType=INTEGER}, 
+      #{qId,jdbcType=INTEGER}, #{qAnswer,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.StuQuestion" >
+    insert into t_stu_question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sqId != null" >
+        sq_id,
+      </if>
+      <if test="sId != null" >
+        s_id,
+      </if>
+      <if test="wId != null" >
+        w_id,
+      </if>
+      <if test="qId != null" >
+        q_id,
+      </if>
+      <if test="qAnswer != null" >
+        q_answer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sqId != null" >
+        #{sqId,jdbcType=INTEGER},
+      </if>
+      <if test="sId != null" >
+        #{sId,jdbcType=INTEGER},
+      </if>
+      <if test="wId != null" >
+        #{wId,jdbcType=INTEGER},
+      </if>
+      <if test="qId != null" >
+        #{qId,jdbcType=INTEGER},
+      </if>
+      <if test="qAnswer != null" >
+        #{qAnswer,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shirokumacafe.archetype.entity.StuQuestion" >
+    update t_stu_question
+    <set >
+      <if test="sId != null" >
+        s_id = #{sId,jdbcType=INTEGER},
+      </if>
+      <if test="wId != null" >
+        w_id = #{wId,jdbcType=INTEGER},
+      </if>
+      <if test="qId != null" >
+        q_id = #{qId,jdbcType=INTEGER},
+      </if>
+      <if test="qAnswer != null" >
+        q_answer = #{qAnswer,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sq_id = #{sqId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shirokumacafe.archetype.entity.StuQuestion" >
+    update t_stu_question
+    set s_id = #{sId,jdbcType=INTEGER},
+      w_id = #{wId,jdbcType=INTEGER},
+      q_id = #{qId,jdbcType=INTEGER},
+      q_answer = #{qAnswer,jdbcType=VARCHAR}
+    where sq_id = #{sqId,jdbcType=INTEGER}
+  </update>
+
+  <select id="getQuestionDesc" resultType="com.shirokumacafe.archetype.entity.StuQuestionExt" >
+    select t.sq_id as sqId, t.s_id as sId, t.w_id as wId, t.q_id as qId, t.q_answer as qAnswer,t2.q_title as qTitle,t3.a_answer as correctAnswer
+    FROM t_stu_question t
+    LEFT JOIN t_question t2 on t.q_id=t2.q_id
+    LEFT JOIN t_answer t3 on t2.q_id=t3.q_id and t3.a_correct=1
+    where t.w_id=#{wId} and t.s_id=#{sId}
+  </select>
+
+</mapper>

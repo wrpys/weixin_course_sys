@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shirokumacafe.archetype.repository.WorkInfoMapper">
+  <resultMap id="BaseResultMap" type="com.shirokumacafe.archetype.entity.WorkInfo">
+    <id column="wi_id" jdbcType="INTEGER" property="wiId" />
+    <result column="w_id" jdbcType="INTEGER" property="wId" />
+    <result column="s_id" jdbcType="INTEGER" property="sId" />
+    <result column="wi_add_time" jdbcType="TIMESTAMP" property="wiAddTime" />
+    <result column="w_i_score" jdbcType="VARCHAR" property="wIScore" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    wi_id, w_id, s_id, wi_add_time, w_i_score
+  </sql>
+  
+  <select id="findAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_work_info
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_work_info
+    where wi_id = #{wiId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getWorkInfoByWiIdAndStuId" parameterType="com.shirokumacafe.archetype.entity.WorkInfo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_work_info
+    where w_id = #{wiId,jdbcType=INTEGER} and s_id = #{sId,jdbcType=INTEGER} 
+  </select>
+
+  <select id="getWorkInfoByWIdAndStuId" parameterType="com.shirokumacafe.archetype.entity.WorkInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_work_info
+    where w_id = #{wId,jdbcType=INTEGER} and s_id = #{sId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getWorkInfosByWorkId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_work_info
+    where wi_id = #{workId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_work_info
+    where wi_id = #{wiId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteWorkList" parameterType="java.util.List">
+		delete from t_clzss where 1=1
+		<if test="list !=null and list != ''">
+			and id in
+			<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+	</delete>
+	
+  <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.WorkInfo">
+    insert into t_work_info (w_id, s_id, 
+      wi_add_time, w_i_score)
+    values (#{wId,jdbcType=INTEGER}, #{sId,jdbcType=INTEGER}, 
+      #{wiAddTime,jdbcType=TIMESTAMP}, #{wIScore,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.WorkInfo">
+    insert into t_work_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wiId != null">
+        wi_id,
+      </if>
+      <if test="wId != null">
+        w_id,
+      </if>
+      <if test="sId != null">
+        s_id,
+      </if>
+      <if test="wiAddTime != null">
+        wi_add_time,
+      </if>
+      <if test="wIScore != null">
+        w_i_score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wiId != null">
+        #{wiId,jdbcType=INTEGER},
+      </if>
+      <if test="wId != null">
+        #{wId,jdbcType=INTEGER},
+      </if>
+      <if test="sId != null">
+        #{sId,jdbcType=INTEGER},
+      </if>
+      <if test="wiAddTime != null">
+        #{wiAddTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wIScore != null">
+        #{wIScore,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shirokumacafe.archetype.entity.WorkInfo">
+    update t_work_info
+    <set>
+      <if test="wId != null">
+        w_id = #{wId,jdbcType=INTEGER},
+      </if>
+      <if test="sId != null">
+        s_id = #{sId,jdbcType=INTEGER},
+      </if>
+      <if test="wiAddTime != null">
+        wi_add_time = #{wiAddTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wIScore != null">
+        w_i_score = #{wIScore,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where wi_id = #{wiId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shirokumacafe.archetype.entity.WorkInfo">
+    update t_work_info
+    set w_id = #{wId,jdbcType=INTEGER},
+      s_id = #{sId,jdbcType=INTEGER},
+      wi_add_time = #{wiAddTime,jdbcType=TIMESTAMP},
+      w_i_score = #{wIScore,jdbcType=VARCHAR}
+    where wi_id = #{wiId,jdbcType=INTEGER}
+  </update>
+</mapper>

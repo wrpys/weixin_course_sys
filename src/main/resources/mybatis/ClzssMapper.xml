@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shirokumacafe.archetype.repository.ClzssMapper">
+  <resultMap id="BaseResultMap" type="com.shirokumacafe.archetype.entity.Clzss">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="clzss" jdbcType="VARCHAR" property="clzss" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, grade, clzss
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_clzss
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_clzss order by grade,clzss asc
+  </select>
+  
+  
+  <select id="selectClzssByGradeAndClzss" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_clzss where grade=#{grade,jdbcType=INTEGER} and clzss=#{clzss,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_clzss
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteClzssList" parameterType="java.util.List">
+		delete from t_clzss where 1=1
+		<if test="list !=null and list != ''">
+			and id in
+			<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+	</delete>
+  
+  <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.Clzss">
+    insert into t_clzss (grade, clzss)
+    values (#{grade,jdbcType=VARCHAR}, #{clzss,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.Clzss">
+    insert into t_clzss
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="clzss != null">
+        clzss,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="clzss != null">
+        #{clzss,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shirokumacafe.archetype.entity.Clzss">
+    update t_clzss
+    <set>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="clzss != null">
+        clzss = #{clzss,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shirokumacafe.archetype.entity.Clzss">
+    update t_clzss
+    set grade = #{grade,jdbcType=VARCHAR},
+      clzss = #{clzss,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

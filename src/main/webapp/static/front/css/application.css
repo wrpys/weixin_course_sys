@@ -1,0 +1,117 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-family: Microsoft Yahei;
+	font-size: 50%;
+}
+
+@media screen and (max-width:330px) {
+	html {
+		font-size: 55%;
+	}
+}
+
+@media screen and (min-width:330px) and (max-width:500px) {
+	html {
+		font-size: 62.5%;
+	}
+}
+
+@media screen and (min-width:500px) {
+	html {
+		font-size: 100%;
+	}
+}
+
+a {
+	text-decoration: none;
+}
+
+ul,
+dl,
+ol,
+li,
+dt,
+dd {
+	list-style: none;
+}
+
+body {
+	background: #f0f0f0;
+}
+
+i {
+	font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6, input, textarea, select, button, label, address, caption, cite, code, em, strong, var {
+    font-weight: normal;
+    font-style: normal;
+}
+
+dfn {
+    font-style: normal;
+}
+
+.clearfix:before,
+.clearfix:after {
+	content: " ";
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+	clear: both;
+}
+
+#backTop {
+	z-index: 6;
+	position: fixed;
+	right: 1.3rem;
+	bottom: 4.7rem;
+	width: 45px;
+	height: 45px;
+	background-image: url("../images/top.png");
+	background-color: rgba(0, 0, 0, 0.639216);
+	background-size: 45px;
+	display: none;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	border-radius: 45px;
+}
+
+header .top_title {
+	color: #666;
+	text-align: center;
+	position: relative;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	font-size: 1.8rem;
+	width: 90%;
+	margin: 0 auto;
+	font-weight: bold;
+}
+
+header .back {
+	display: block;
+	width: 2.5rem;
+	height: 2.5rem;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: url(../images/icons.png) no-repeat 5px 5px;
+	background-size: 2.6rem;
+	/*auto;*/
+}
+
+.swiper-container {
+	width: 100%;
+}
+
+.swiper-container img {
+	width: 100%;
+}
+

@@ -1,0 +1,20 @@
+/*-------------------------------------------------------------------------CSS重置--------------------------------------------------------------------*/
+html{color:#000;height:100%;background:#fff}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}q:before,q:after{content:''}abbr,acronym{border:0;font-variant:normal}sup{vertical-align:text-top}sub{vertical-align:text-bottom}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}input,textarea,select{*font-size:100%}legend{color:#000}body{height:100%;}
+
+/*-------------------------------------------------------------------------全局变量--------------------------------------------------------------------*/
+body{ font:12px/1.5 tahoma,arial,'宋体'; }
+.header, .mainer, .footer{ width:960px; margin:0 auto; position:relative; }
+.clr{ clear:both; display:block; font-size:0; height:0; line-height:0; overflow:hidden; }
+.mt10{ margin-top:10px; }
+.fb{ font-weight:bold; }
+a{ color:#70738a; font-size:12px; text-decoration:none; outline:inherit; }
+
+.login-l{ width:561px; float:left; }
+.login-l img{ width:100%; height:100%; }
+.login-r{ float:left; margin:197px 0 0 86px; }
+.login-r h1{ margin-bottom:12px; }
+.login-r input[type=text] { border:1px solid #e3e4ec; width:260px; height:50px; border-radius:4px; margin-top:19px; font-size:14px; padding-left:15px; }
+.login-r input[type=password] { border:1px solid #e3e4ec; width:260px; height:50px; border-radius:4px; margin-top:19px; font-size:14px; padding-left:15px; }
+.login-r input[type=checkbox]{ float:left; margin:23px 0 0 3px; }
+.login-r label{ float:left; margin:19px 0 0 3px; color:#a3abbe; cursor:pointer; }
+.login-r .a-login{ display:block; background:url(../images/btn.jpg) no-repeat; width:115px; height:44px; line-height:44px; color:#fff; text-align:center; font-size:14px; margin-top:21px; }
