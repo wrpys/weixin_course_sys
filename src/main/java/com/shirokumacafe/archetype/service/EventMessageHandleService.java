@@ -26,19 +26,15 @@ public class EventMessageHandleService {
         String eventType = reqMsg.get("Event");
         // 订阅
         if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-            StringBuffer sb = new StringBuffer();
-            sb.append("谢谢您的关注，wrpys公众号：").append("\n");
-            sb.append("***功能列表***").append("\n");
-            sb.append("图文,获取图文列表").append("\n");
-            sb.append("文本链接,获取wrpys主页").append("\n");
-            sb.append("**********************").append("\n");
+
             RespTextMessage respTextMessage = new RespTextMessage();
             respTextMessage.setFromUserName(reqMsg.get("ToUserName"));
             respTextMessage.setToUserName(reqMsg.get("FromUserName"));
             respTextMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
             respTextMessage.setFuncFlag(0);
-            respTextMessage.setContent(sb.toString());
+            respTextMessage.setContent("<a href=\"https://wrpys.github.io/PhotoWall\">谢谢您关注课程公众号，点击这条消息进行绑定，或发送【菜单】查看更多信息.</a>");
             return MessageUtil.textMessageToXml(respTextMessage);
+
         }
         // 取消订阅
         else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
