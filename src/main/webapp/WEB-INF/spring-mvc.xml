@@ -60,6 +60,7 @@
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/front/**" />
+            <mvc:exclude-mapping path="/weixin/**" />
             <mvc:exclude-mapping path="/static/**" />
             <mvc:exclude-mapping path="/WEB-INF/views/**" />
             <mvc:exclude-mapping path="/WEB-INF/layouts/**" />
@@ -68,6 +69,7 @@
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/front/**"/>
+            <mvc:exclude-mapping path="/weixin/**" />
             <mvc:exclude-mapping path="/static/**" />
             <mvc:exclude-mapping path="/WEB-INF/views/front/**" />
             <bean class="com.shirokumacafe.archetype.common.filter.FrontLoginInterceptor"></bean>

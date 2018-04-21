@@ -5,7 +5,7 @@
 	<artifactId>archetype</artifactId>
 	<version>1.1</version>
 	<packaging>war</packaging>
-	<name>h5_work_sys</name>
+	<name>weixin_course_sys</name>
 
     <properties>
         <!-- 主要依赖库的版本定义 -->
@@ -22,7 +22,7 @@
         <junit.version>4.11</junit.version>
         <!-- Plugin的属性定义 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdk.version>1.7</jdk.version>
+        <jdk.version>1.8</jdk.version>
         <!-- 项目属性 mysql或SQLSERVER -->
         <jdbc.driver.groupId>mysql</jdbc.driver.groupId>
         <jdbc.driver.artifactId>mysql-connector-java</jdbc.driver.artifactId>
@@ -30,6 +30,9 @@
         <joda-time.version>2.1</joda-time.version>
         <guava.version>17.0</guava.version>
         <hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
+        <dom4j.version>1.6.1</dom4j.version>
+        <xstream.version>1.4.10</xstream.version>
+        <fastjson.version>1.2.41</fastjson.version>
     </properties>
 
     <prerequisites>
@@ -252,6 +255,22 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${dom4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>${xstream.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
 
     </dependencies>

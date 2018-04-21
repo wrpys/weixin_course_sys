@@ -1,17 +1,45 @@
 管理员：
-  登录。
-  用户管理，管理员、教师、学生信息增删改查。
-  角色管理。
-  菜单管理。
-  班级管理。
+  登录。(已有)
+  用户管理，管理员、教师增删改查。(已有)
+  角色管理。(已有)
+  菜单管理。(已有)
 
 教师：
-  登录。
-  用户管理，教师、学生信息增删改查。
-  班级管理。
-  题库管理。
-  预设作业题，开始和结束作业训练、查看结果、统计分析作业情况、答疑、参与讨论。
+  登录。(已有)【需要加一个weixin_id微信ID字段，String类型，非必须。】，提供绑定接口，即将weixin_id设置到user表中。--荣
+  学生信息管理。(已有)【需要加一个weixin_id微信ID字段，String类型，非必须。】，提供绑定接口，即将weixin_id设置到student表中。--荣
+  课程管理、子课程管理。（添加课程和自课程，以及为自课程上传课件） 上传课件的时候，需要将每页ppt或word转为图片。--哲
 
-学生：
-  登录。
-  作业管理，（作业列表，作业详情）完成作业、查看成绩、提问、参与讨论。
+t_course(课程表)：c_id,c_name,c_pid,c_create_time,c_desc,f_id,download_num,heat_num
+t_file(文件表)：f_id,f_name,f_addr,f_image_id
+t_file_image(文件转图片表)：fi_id,f_image_id,fi_addr
+t_message(讨论表)：msg_id,msg_pid,msg_content,create_time,c_id,oper_role,oper_id
+
+【/front/toBinding?weixinId=】--荣
+【/front/binding?weixinId=&operRole=】--荣
+
+【/front/toCourse?cId=】--哲
+这个有一个h5界面，就是课程信息和自课程列表
+【/front/downFile?cId=】--哲
+
+【/front/lookOver?cId=】--荣
+【/front/submitReply?c_id=&msg_pid=&msg_content=】--荣
+【/front/getMessage?cId=】--荣
+
+学生（公众号，h5界面）：--荣
+  关注微信公众号，立刻推送绑定链接【/front/toBinding?weixinId=】，进行学号与公众号id的绑定【/front/binding?weixinId=&operRole=】。
+  发送菜单，返回
+  【菜单列表】
+   =发送1进行绑定=
+   =发送2查看个人信息=
+   =发送3获取课程列表=
+
+   1.返回绑定链接【/front/toBinding?weixinId=】，打开h5页面。
+        可以选择学生或者教师，填入工号或者学号。进行绑定【/front/binding?weixinId=】。
+   2.返回个人信息。学生或者教师的信息。【getUserInfo()。先到t_user表查找是否存在，不存在在去t_student表找】。
+   3.返回课程列表。【findCourseAll()。返回所有pid为0的课程。】
+	3.1.点击具体课程【/front/toCourse?cId=】，打开h5页面，展示课程详情以及子课程。下载量和热度等。【根据cId查找对应课程以及子课程，使用Course内放List<Course>】
+		3.1.1.点击下载，下载课件，下载量加1。【/front/downFile?cId=】【先进行t_course表的download_num加1】【开流进行下载】
+		3.1.2.点击查看，跳转子课程详情，热度加1。【/front/lookOver?cId=】【先进行t_course表的heat_num加1】【返回自课程详情，相对应的课件图片，此课程的讨论信息】
+	3.2.子课程详情，上面展示ppt和word，下面展示讨论
+		3.2.1.可进行回复。点击回复，弹出框，可进行回复。【弹出框，输入回复，确认后调用/front/submitReply?c_id=&msg_pid=&msg_content=】
+		3.2.2.后台ajax轮询请求接口，查询此课程的讨论信息。【/front/getMessage?cId=】【前台异步刷新讨论取】

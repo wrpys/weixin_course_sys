@@ -4,7 +4,7 @@ Navicat MySQL Data Transfer
 Source Server         : loc
 Source Server Version : 50528
 Source Host           : localhost:3306
-Source Database       : h5_work_sys
+Source Database       : weixin_course_sys
 
 Target Server Type    : MYSQL
 Target Server Version : 50528

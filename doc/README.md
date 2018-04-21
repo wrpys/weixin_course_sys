@@ -1,1 +1,1 @@
-# weixin_course_sys
+# weixin_course_sys 微信课程管理系统

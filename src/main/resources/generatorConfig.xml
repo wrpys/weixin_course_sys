@@ -14,7 +14,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/h5_work_sys"
+                        connectionURL="jdbc:mysql://localhost:3306/weixin_course_sys"
                         userId="root"
                         password="123456">
         </jdbcConnection>
