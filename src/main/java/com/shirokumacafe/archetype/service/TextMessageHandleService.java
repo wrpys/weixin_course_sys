@@ -1,12 +1,18 @@
 package com.shirokumacafe.archetype.service;
 
 import com.alibaba.fastjson.JSON;
+import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.common.utils.MessageUtil;
 import com.shirokumacafe.archetype.common.utils.PropertiesUtil;
+import com.shirokumacafe.archetype.entity.Student;
+import com.shirokumacafe.archetype.entity.ViewUser;
+import com.shirokumacafe.archetype.entity.ViewUserExample;
 import com.shirokumacafe.archetype.model.req.ReqTextMessage;
 import com.shirokumacafe.archetype.model.resp.Article;
 import com.shirokumacafe.archetype.model.resp.RespNewsMessage;
 import com.shirokumacafe.archetype.model.resp.RespTextMessage;
+import com.shirokumacafe.archetype.repository.StudentMapper;
+import com.shirokumacafe.archetype.repository.ViewUserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +37,10 @@ public class TextMessageHandleService {
 
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private StudentMapper studentMapper;
+    @Autowired
+    private ViewUserMapper viewUserMapper;
 
     public String handle(Map<String, String> reqMsg) {
         ReqTextMessage reqTextMessage = new ReqTextMessage();
@@ -78,7 +88,39 @@ public class TextMessageHandleService {
             respTextMessage.setToUserName(reqTextMessage.getFromUserName());
             respTextMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
             respTextMessage.setFuncFlag(0);
-            respTextMessage.setContent("<a href=\"https://wrpys.github.io/PhotoWall\">查看个人信息</a>");
+            StringBuffer sb = new StringBuffer();
+            // 先查看该微信号是否是教师
+            ViewUserExample example1 = new ViewUserExample();
+            ViewUserExample.Criteria criteria1 = example1.createCriteria();
+            criteria1.andWeixinIdEqualTo(reqTextMessage.getFromUserName());
+            List<ViewUser> users = viewUserMapper.selectByExample(example1);
+            // 是教师
+            if (users != null && !users.isEmpty()) {
+                ViewUser user = users.get(0);
+                sb.append("【教师个人信息】").append("\n");
+                sb.append("工号：").append(user.getLoginName()).append("\n");
+                sb.append("姓名：").append(user.getNickName()).append("\n");
+                sb.append("密码：").append(user.getPassword()).append("\n");
+            }
+            // 不是教师，就查看是否是学生
+            else {
+                Student params = new Student();
+                params.setWeixinId(reqTextMessage.getFromUserName());
+                List<Student> students = studentMapper.selectByParams(params);
+                // 是学生
+                if (students != null && !students.isEmpty()) {
+                    Student student = students.get(0);
+                    sb.append("【学生个人信息】").append("\n");
+                    sb.append("学号：").append(student.getsNo()).append("\n");
+                    sb.append("姓名：").append(student.getsName()).append("\n");
+                    sb.append("密码：").append(student.getsPassword()).append("\n");
+                }
+                // 不是学生 进行绑定提示
+                else {
+                    sb.append("此微信未进行绑定,发送1进行绑定.").append("\n");
+                }
+            }
+            respTextMessage.setContent(sb.toString());
             return MessageUtil.textMessageToXml(respTextMessage);
         } else if ("3".equals(reqTextMessage.getContent())) {
             RespNewsMessage newsMessage = new RespNewsMessage();

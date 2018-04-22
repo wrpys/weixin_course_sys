@@ -75,7 +75,7 @@
                     { title: '学号', width: 150, dataIndex: 'sNo'},
                     { title: '姓名', width: 150, dataIndex: 'sName'},
                     { title: '性别', width: 100, dataIndex: 'sSex',renderer:BUI.Grid.Format.enumRenderer(enumSex)},
-                    { title: '微信ID', width: 100, dataIndex: 'weixinId'}
+                    { title: '微信ID', width: 300, dataIndex: 'weixinId'}
                 ],
                 store = Search.createStore('${ctx}/student/list',{pageSize:10}),
                 editing = new BUI.Grid.Plugins.DialogEditing({

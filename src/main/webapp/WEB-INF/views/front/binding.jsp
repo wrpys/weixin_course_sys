@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>登录-作业系统</title>
+<title>绑定-课程系统</title>
 <meta name="mobile-agent" content="format=xhtml;">
 <meta name="applicable-devive" content="mobile">
 <meta content="yes" name="apple-mobile-web-app-capable">
@@ -16,30 +16,42 @@
     .login_hide{
         display: none;
     }
+    .td_value select {
+        width: 21rem;
+        height: 35px;
+        border-radius: 4px;
+        outline: 0px;
+        border: 1px solid #ccc;
+        padding-left: 10px;
+    }
 </style>
 <body>
 <section>
 	<div class="order_from" style="margin: 0rem 0 1rem 0;padding-top: 8rem;">
         <div class="tips" style="font-size: 5rem;height: 6rem;">作业系统</div>
-        <form id="form" method="post" style="padding: 4rem;" action="${ctx}/front/login" onsubmit="return validateFun();">
-            <p style="color: #FF0000;">${msg}</p>
+        <form id="form" method="post" style="padding: 4rem;" action="${ctx}/front/binding" onsubmit="return validateFun();">
+            <input type="hidden" name="weixinId" value="${weixinId}">
+            <p style="color: #FF0000;text-align: center;font-size: 1.8rem;">${msg}</p>
             <table>
                 <tbody>
                     <tr>
-                        <td class="td_name">学号:</td>
+                        <td class="td_name">角色:</td>
                         <td class="td_value">
-                            <input type="text" class="" name="sNo" value="" />
+                            <select name="operRole">
+                                <option value="1">学生</option>
+                                <option value="2">教师</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
-                        <td class="td_name">密码:</td>
+                        <td class="td_name">账号:</td>
                         <td class="td_value">
-                            <input type="password" class="" value="" name="sPassword">
+                            <input type="text" class="" name="account" value="" />
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" class="td_sub">
-                            <button class="btn_subimt" type="submit" onclick="">登录</button>
+                            <button class="btn_subimt" type="submit" onclick="">绑定</button>
                         </td>
                     </tr>
                 </tbody>
@@ -50,14 +62,10 @@
 <%@include file="footer.jsp" %>
 <script type="text/javascript">
     function validateFun() {
-        var sNo = $("#form input[name='sNo']").val();
-        var sPassword = $("#form input[name='sPassword']").val();
+        var operRole = $("#form select[name='sPassword']").val();
+        var sNo = $("#form input[name='account']").val();
         if(sNo == null || sNo == '') {
-            alert("请输入学号！");
-            return false;
-        }
-        if(sPassword == null || sPassword == '') {
-            alert("请输入密码！");
+            alert("请输入账号！");
             return false;
         }
     }

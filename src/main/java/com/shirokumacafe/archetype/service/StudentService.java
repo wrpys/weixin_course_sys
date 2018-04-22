@@ -7,6 +7,7 @@ import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Student;
 import com.shirokumacafe.archetype.repository.StudentMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +27,6 @@ public class StudentService {
 
     @Autowired
     private StudentMapper studentMapper;
-    @Autowired
-    private Users sessionUsers;
 
     /**
      * 增加学生  默认密码123456
@@ -85,17 +84,33 @@ public class StudentService {
 
     /*****************************h5前台**************************************************************/
 
-    public Map checkLogin(String sNo, String sPassword) {
-        List<Student> students = studentMapper.selectBySNo(sNo);
-        if (students == null || students.isEmpty()) {
-            return Responses.writeFailAndMsg("学号不存在.");
+    public Map binding(String weixinId, String account) {
+
+        Student params = new Student();
+        params.setWeixinId(weixinId);
+        List<Student> students1 = studentMapper.selectByParams(params);
+        if (students1 != null && !students1.isEmpty()) {
+            if (!students1.get(0).getsNo().equals(account)) {
+                return Responses.writeFailAndMsg("你的微信号【" + weixinId + "】已经绑定过学号，请联系管理员进行进行更换.");
+            }
         }
-        Student student = students.get(0);
-        if (!student.getsPassword().equals(sPassword)) {
-            return Responses.writeFailAndMsg("学号/密码错误.");
+
+        List<Student> students2 = studentMapper.selectBySNo(account);
+        if (students2 == null || students2.isEmpty()) {
+            return Responses.writeFailAndMsg("你填的学号不存在.");
         }
-        sessionUsers.setStudent(student);
-        return Responses.writeSuccess();
+        Student student = students2.get(0);
+        if (StringUtils.isNotEmpty(student.getWeixinId()) && !weixinId.equals(student.getWeixinId())) {
+            return Responses.writeFailAndMsg("你填的学号【" + account + "】已经绑定过其他微信号，请联系管理员进行进行更换.");
+        }
+
+        student.setWeixinId(weixinId);
+        int count = studentMapper.updateByPrimaryKeySelective(student);
+        if (count < 1) {
+            return Responses.writeFailAndMsg("修改失败，请重试.");
+        } else {
+            return Responses.writeSuccess();
+        }
     }
 
 }

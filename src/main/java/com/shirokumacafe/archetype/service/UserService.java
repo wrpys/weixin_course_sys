@@ -269,4 +269,39 @@ public class UserService {
     }
 
 
+    public Map binding(String weixinId, String account) {
+
+        ViewUserExample example1 = new ViewUserExample();
+        ViewUserExample.Criteria criteria1 = example1.createCriteria();
+        criteria1.andWeixinIdEqualTo(weixinId);
+        List<ViewUser> users1 = viewUserMapper.selectByExample(example1);
+        if (users1 != null && !users1.isEmpty()) {
+            if (!users1.get(0).getLoginName().equals(account)) {
+                return Responses.writeFailAndMsg("你的微信号【" + weixinId + "】已经绑定过工号，请联系管理员进行进行更换.");
+            }
+        }
+
+        ViewUserExample example2 = new ViewUserExample();
+        ViewUserExample.Criteria criteria2 = example2.createCriteria();
+        criteria2.andLoginNameEqualTo(account);
+        List<ViewUser> users2 = viewUserMapper.selectByExample(example2);
+        if (users2 == null || users2.isEmpty()) {
+            return Responses.writeFailAndMsg("你填的工号不存在.");
+        }
+        ViewUser viewUser = users2.get(0);
+        if (StringUtils.isNotEmpty(viewUser.getWeixinId()) && !weixinId.equals(viewUser.getWeixinId())) {
+            return Responses.writeFailAndMsg("你填的工号【" + account + "】已经绑定过其他微信号，请联系管理员进行进行更换.");
+        }
+
+        User user = new User();
+        user.setUserId(viewUser.getUserId());
+        user.setWeixinId(weixinId);
+        int count = userMapper.updateByPrimaryKeySelective(user);
+        if (count < 1) {
+            return Responses.writeFailAndMsg("修改失败，请重试.");
+        } else {
+            return Responses.writeSuccess();
+        }
+
+    }
 }

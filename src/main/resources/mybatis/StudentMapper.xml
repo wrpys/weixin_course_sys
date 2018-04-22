@@ -142,6 +142,9 @@
             <if test="sName!=null and sName!=''">
                 and t.s_name like CONCAT('%',#{sName},'%')
             </if>
+            <if test="weixinId!=null and weixinId!=''">
+                and t.weixin_id = #{weixinId}
+            </if>
         </where>
     </select>
 

@@ -1,6 +1,5 @@
 package com.shirokumacafe.archetype.web.api;
 
-import com.shirokumacafe.archetype.common.Users;
 import com.shirokumacafe.archetype.entity.Message;
 import com.shirokumacafe.archetype.service.MessageService;
 import com.shirokumacafe.archetype.service.StudentService;
@@ -24,8 +23,6 @@ public class FrontAction {
     private StudentService studentService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private Users sessionUsers;
     @Autowired
     private MessageService messageService;
 
@@ -51,17 +48,18 @@ public class FrontAction {
     public String binding(String weixinId, Integer operRole, String account, Model model) {
         Map result = null;
         if (operRole.intValue() == 1) {
-//            result = studentService.binding(weixinId, account);
+            result = studentService.binding(weixinId, account);
         } else if (operRole.intValue() == 2) {
-//            result = userService.binding(weixinId, account);
+            result = userService.binding(weixinId, account);
         }
         boolean isSucess = Boolean.valueOf(String.valueOf(result.get("success")));
         if (isSucess) {
-            model.addAttribute("msg", result.get("msg"));
+            model.addAttribute("msg", "绑定成功");
             return "front/success";
         } else {
+            model.addAttribute("weixinId", weixinId);
             model.addAttribute("msg", result.get("msg"));
-            return "front/failure";
+            return "front/binding";
         }
     }
 

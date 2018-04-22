@@ -21,6 +21,8 @@ public class User {
 
     private Date createTime;
 
+    private String weixinId;
+
     public Integer getUserId() {
         return userId;
     }
@@ -91,5 +93,13 @@ public class User {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getWeixinId() {
+        return weixinId;
+    }
+
+    public void setWeixinId(String weixinId) {
+        this.weixinId = weixinId;
     }
 }

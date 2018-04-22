@@ -180,6 +180,11 @@ public class ViewUserExample {
             return (Criteria) this;
         }
 
+        public Criteria andWeixinIdEqualTo(String value) {
+            addCriterion("weixin_id =", value, "weixinId");
+            return (Criteria) this;
+        }
+
         public Criteria andLoginNameNotEqualTo(String value) {
             addCriterion("login_name <>", value, "loginName");
             return (Criteria) this;

@@ -202,6 +202,10 @@ public class UserSqlProvider {
         if (record.getCreateTime() != null) {
             SET("create_time = #{createTime,jdbcType=TIMESTAMP}");
         }
+
+        if (record.getWeixinId() != null) {
+            SET("weixin_id = #{weixinId,jdbcType=VARCHAR}");
+        }
         
         WHERE("user_id = #{userId,jdbcType=INTEGER}");
         

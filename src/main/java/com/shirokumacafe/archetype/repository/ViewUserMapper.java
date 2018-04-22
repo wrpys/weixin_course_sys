@@ -42,6 +42,7 @@ public interface ViewUserMapper {
         @Result(column="state", property="state", jdbcType=JdbcType.INTEGER),
         @Result(column="create_id", property="createId", jdbcType=JdbcType.INTEGER),
         @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="weixin_id", property="weixinId", jdbcType=JdbcType.VARCHAR),
         @Result(column="role_name", property="roleName", jdbcType=JdbcType.VARCHAR),
         @Result(column="role_code", property="roleCode", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_name", property="createName", jdbcType=JdbcType.VARCHAR)
