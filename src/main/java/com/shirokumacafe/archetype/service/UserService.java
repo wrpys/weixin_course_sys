@@ -1,6 +1,18 @@
 package com.shirokumacafe.archetype.service;
 
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.shirokumacafe.archetype.common.Configs;
 import com.shirokumacafe.archetype.common.Users;
 import com.shirokumacafe.archetype.common.exception.ServiceException;
@@ -13,17 +25,6 @@ import com.shirokumacafe.archetype.entity.ViewUser;
 import com.shirokumacafe.archetype.entity.ViewUserExample;
 import com.shirokumacafe.archetype.repository.UserMapper;
 import com.shirokumacafe.archetype.repository.ViewUserMapper;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 用户管理Service

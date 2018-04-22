@@ -7,6 +7,8 @@ public interface FileMapper {
 
     int insert(File record);
 
+    int insertAndGetId(File record);
+    
     int insertSelective(File record);
 
     File selectByPrimaryKey(Integer fId);

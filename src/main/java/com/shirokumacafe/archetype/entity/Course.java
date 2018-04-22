@@ -1,7 +1,6 @@
 package com.shirokumacafe.archetype.entity;
 
 import java.util.Date;
-import java.util.List;
 
 public class Course {
     private Integer cId;
@@ -83,5 +82,4 @@ public class Course {
     public void setHeatNum(Integer heatNum) {
         this.heatNum = heatNum;
     }
-
 }

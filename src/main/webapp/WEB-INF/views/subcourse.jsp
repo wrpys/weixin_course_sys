@@ -14,7 +14,7 @@
         .leftDiv{width: 71%;height: 95%;overflow-y: scroll;}
         .rightDiv{width: 24%;height: 95%;margin-left: 1%;overflow-y: scroll;}
 
-        .panelHeight{height: 400px;overflow-y: scroll;}
+        .panelHeight{height: 180px;overflow-y: scroll;}
 
         .studentList{width: 100%;height:95%;list-style: none;overflow-y: scroll;}
         .studentList li{width: 100%;height: 30px;margin-top: 5px;border-bottom: 1px solid #ff0000;padding: 0 0 5px 10px;}
@@ -29,7 +29,7 @@
     <form id="searchForm" class="form-horizontal">
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label">课程名字：</label>
+                <label class="control-label">子课程名字：</label>
                 <div class="controls">
                     <input type="text" class="control-text" name="cName">
                 </div>
@@ -57,7 +57,7 @@
             <input type="hidden" name="cId">
             <div class="row">
                 <div class="control-group span8">
-                    <label class="control-label"><s>*</s>课程名称：</label>
+                    <label class="control-label"><s>*</s>子课程名称：</label>
                     <div class="controls">
                         <input name="cName" type="text"  data-rules="{required:true}" class="input-normal control-text">
                     </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="row">
                 <div class="control-group span8" style="height: 200px;">
-                    <label class="control-label"><s>*</s>课程描述：</label>
+                    <label class="control-label"><s>*</s>子课程描述：</label>
                     <div class="controls">
                         <textarea name="cDesc" data-rules="{required:true}" style="height: 150px;"></textarea>
                     </div>
@@ -73,6 +73,22 @@
             </div>
         </form>
     </div>
+    
+    <!-- 上传课件 -->
+    <%-- <div id="J_uoloadFileContent" class="hide">
+        <div class="panel panelHeight">
+           	<form id="uploadFile" action="${ctx}/course/uploadFile" method="post" enctype="multipart/form-data">
+			    选择一个文件:
+			    <input type="file" name="file" id="file" />
+			    <br/><br/>
+			    <button type="submit" id="submit" class="button button-primary">上传</button>
+			</form>
+        </div>
+    </div> --%>
+    <div id="J_uoloadFileContent" class="hide">
+        <iframe id="uploadFileManager" src="#" width="100%" height="100%" frameborder="0" style="border: none;"></iframe>
+    </div>
+    
 </div>
 <br><br><br><br>
 <script type="text/javascript">
@@ -84,6 +100,7 @@ var delTimeContent = [];
 var deleteTime;
 var CID;
 var CTID;
+var parentSearch = null;
 BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bui/overlay','bui/data','bui/grid','bui/calendar'],function (Search,List,Picker,Select,Calendar,Overlay,Data,Grid,Calendar) {
 	var Grid = Grid,
     Store = Data.Store;
@@ -101,18 +118,18 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
 
     var
             columns = [
-                /* { title: '课程号', width: 50, dataIndex: 'cId'}, */
                 { title: '课程名字', width: 200, dataIndex: 'cName'},
                 { title: '添加时间', width: 200, dataIndex: 'cCreateTime'},
-                { title: '课程描述', width: 80, dataIndex: 'cDesc'},
-                /* { title: '下载次数', width: 100, dataIndex: 'downloadNum'},
-                { title: '热度', width: 100, dataIndex: 'heatNum'}, */
+                { title: '课程描述', width: 100, dataIndex: 'cDesc'},
+                { title: '课件名字', width: 100, dataIndex: 'fName'},
+                { title: '下载次数', width: 100, dataIndex: 'downloadNum'},
+                { title: '热度', width: 100, dataIndex: 'heatNum'},
                 { title: '操作', width: 300, dataIndex: 'cId',renderer : function(value,obj){
-                    var returnStr = '<span class="grid-command subSource">查看子课程</span>&nbsp;&nbsp;';
+                    var returnStr = '<span class="grid-command uploadFile">上传课件</span>&nbsp;&nbsp;';
                     return returnStr;
                 }}
             ],
-            store = Search.createStore('${ctx}/course/list?cPid=0',{pageSize:15}),
+            store = Search.createStore('${ctx}/course/list?cPid=${cId}',{pageSize:15}),
             editing = new BUI.Grid.Plugins.DialogEditing({
                 contentId : 'content',
                 triggerCls : 'btn-edit',
@@ -159,6 +176,7 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
                 gridCfg : gridCfg
             }),
             grid = search.get('grid');
+    parentSearch = search;
     grid.set("emptyDataTpl",'<div class="centered"><img alt="Crying" src="${ctx}/img/merchandise/origonal/no_pic.png"><h2>没有数据哦</h2></div>');
 
     editing.on("editorshow",function(ev){
@@ -185,20 +203,38 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
     }
 
  /*****************************操作******************************************************/
+    var uploadFileDialog;
     grid.on('cellclick',function  (ev) {
         var record = ev.record, //点击行的记录
                 field = ev.field, //点击对应列的dataIndex
                 target = $(ev.domTarget); //点击的元素
         CID = record.cId;
-        if(target.hasClass('subSource')){
-        	
-        	 window.parent.tabTemp.addTab({
-                 id: 1000 + record.cId,
-                 title: '子课程管理',
-                 href: "${ctx}/course/toSubCourse?cId=" + record.cId
-             }, true);
+        if(target.hasClass('uploadFile')){
+            if(!uploadFileDialog){
+            	uploadFileDialog = createUploadFileDialog();
+            }
+            $("#uploadFileManager").attr("src", "${ctx}/course/toUpLoadFile?cId=" + record.cId);
+            uploadFileDialog.show();
+            $(".bui-stdmod-footer").hide();
         }
     });
+    
+  	//创建弹出框
+    function createUploadFileDialog(){
+        return new Overlay.Dialog({
+            title:'上传文件',
+            width:650,
+            height:250,
+            contentId:'J_uoloadFileContent',
+            success:function () {
+            	var me = this;
+                me.close();
+                alert("上传成功!");
+            }
+        });
+    }
+    
+    
 
     function delFunction(){
         var selections = grid.getSelection();
@@ -231,6 +267,7 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
 
     function submit(record,editor){
         console.log(record);
+        record.cPid = '${cId}';
         $.ajax({
             url : (record.cId==undefined||record.cId==null||record.cId=='')?'${ctx}/course/add':'${ctx}/course/update',
             dataType : 'json',

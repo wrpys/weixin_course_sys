@@ -14,4 +14,6 @@ public interface FileImageMapper {
     int updateByPrimaryKeySelective(FileImage record);
 
     int updateByPrimaryKey(FileImage record);
+    
+    FileImage selectByFid(Integer fId);
 }

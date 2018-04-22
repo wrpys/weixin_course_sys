@@ -28,6 +28,8 @@ public class CourseService {
      */
     public void add(Course course){
         course.setcCreateTime(new Date());
+        course.setDownloadNum(0);
+        course.setHeatNum(0);
     	courseMapper.insert(course);
     }
 
@@ -58,6 +60,8 @@ public class CourseService {
     public Page<Course> listCourse(Course course, Date startDate, Date endDate, Page<Course> page){
     	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
     	Map<String,Object> paramsMap = new HashMap<>();
+    	paramsMap.put("cId", course.getcId());
+    	paramsMap.put("cPid", course.getcPid());
     	paramsMap.put("cName", course.getcName());
     	paramsMap.put("startDate", startDate);
     	paramsMap.put("endDate", endDate);
