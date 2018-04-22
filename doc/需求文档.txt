@@ -19,7 +19,7 @@ t_message(讨论表)：msg_id,msg_pid,msg_content,create_time,c_id,oper_role,oper_id
 
 【/front/toCourse?cId=&weixinId=】--哲
 这个有一个h5界面，就是课程信息和自课程列表
-【/front/downFile?cId=】--哲
+【/front/downFile?cId=&fId=】--哲
 
 【/front/lookOver?cId=&weixinId=】--荣
 【/front/submitReply?c_id=&msg_pid=&msg_content=&weixinId=】--荣

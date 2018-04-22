@@ -1,6 +1,7 @@
 package com.shirokumacafe.archetype.web.api;
 
 import com.shirokumacafe.archetype.entity.Message;
+import com.shirokumacafe.archetype.service.CourseService;
 import com.shirokumacafe.archetype.service.MessageService;
 import com.shirokumacafe.archetype.service.StudentService;
 import com.shirokumacafe.archetype.service.UserService;
@@ -25,6 +26,8 @@ public class FrontAction {
     private UserService userService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private CourseService courseService;
 
     /**
      * 跳转到绑定页面
@@ -63,42 +66,51 @@ public class FrontAction {
         }
     }
 
-//    /**
-//     * 作业列表
-//     *
-//     * @return
-//     */
-//    @RequestMapping(value = "toWorkList", method = RequestMethod.GET)
-//    public String toWorkList(Page<WorkExt> page, Model model) {
-//        if (page.getPageIndex() == 0) {
-//            page.setPageIndex(0);
-//        }
-//        Page<WorkExt> resultPage = workService.listExtAll(page);
-//        resultPage.setTotalPage(resultPage.getResults());
-//        boolean isPre = true;
-//        boolean isNext = true;
-//        if (resultPage.getPageIndex() == 1) {
-//            isPre = false;
-//        }
-//        if (resultPage.getPageIndex() >= resultPage.getTotalPage()) {
-//            isNext = false;
-//        }
-//        model.addAttribute("isPre", isPre);
-//        model.addAttribute("isNext", isNext);
-//        model.addAttribute("page", resultPage);
-//        return "front/work_list";
-//    }
-
     /**
-     * 作业详情
+     * 课程详情
      *
+     * @param cId
+     * @param weixinId
+     * @param model
      * @return
      */
-//    @RequestMapping(value = "toWorkDetial", method = RequestMethod.GET)
-//    public String toWorkDetial(Integer wId, Model model) {
-//        workService.getWorkExt(wId, model);
-//        return "front/work_detial";
-//    }
+    @RequestMapping(value = "toCourse", method = RequestMethod.GET)
+    public String toCourse(Integer cId, String weixinId, Model model) {
+        model.addAttribute("weixinId", weixinId);
+        // 查cId的课程信息，以及子课程的信息（分开存放）
+//        model.addAttribute("course", course);
+//        model.addAttribute("subCourseList", subCourseList);
+        return "front/course";
+    }
+
+    /**
+     * 下载课件
+     *
+     * @param fId
+     */
+    @RequestMapping(value = "downFile", method = RequestMethod.GET)
+    public void downFile(Integer cId, Integer fId) {
+        // 将cId课程的下载量加1
+        // 开流下载fId文件
+        return;
+    }
+
+    /**
+     * 子课程详情
+     *
+     * @param cId
+     * @param weixinId
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "lookOver", method = RequestMethod.GET)
+    public String lookOver(Integer cId, String weixinId, Model model) {
+        model.addAttribute("weixinId", weixinId);
+        // 查cId的课程信息，以及讨论列表（分开存放）
+//        model.addAttribute("course", course);
+//        model.addAttribute("messages", messages);
+        return "front/course_details";
+    }
 
     /**
      * 参与讨论
@@ -172,5 +184,6 @@ public class FrontAction {
         messageService.addMessage(message);
         return "redirect:toMessage?wId=" + message.getwId();
     }
+
 
 }

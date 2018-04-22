@@ -7,6 +7,7 @@ import com.shirokumacafe.archetype.entity.Course;
 import com.shirokumacafe.archetype.entity.Student;
 import com.shirokumacafe.archetype.entity.ViewUser;
 import com.shirokumacafe.archetype.entity.ViewUserExample;
+import com.shirokumacafe.archetype.model.WeixinUserInfo;
 import com.shirokumacafe.archetype.model.req.ReqTextMessage;
 import com.shirokumacafe.archetype.model.resp.Article;
 import com.shirokumacafe.archetype.model.resp.RespNewsMessage;
@@ -45,6 +46,8 @@ public class TextMessageHandleService {
     private ViewUserMapper viewUserMapper;
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private FrontService frontService;
 
     public String handle(Map<String, String> reqMsg) {
         ReqTextMessage reqTextMessage = new ReqTextMessage();
@@ -93,37 +96,24 @@ public class TextMessageHandleService {
             respTextMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
             respTextMessage.setFuncFlag(0);
             StringBuffer sb = new StringBuffer();
-            // 先查看该微信号是否是教师
-            ViewUserExample example1 = new ViewUserExample();
-            ViewUserExample.Criteria criteria1 = example1.createCriteria();
-            criteria1.andWeixinIdEqualTo(reqTextMessage.getFromUserName());
-            List<ViewUser> users = viewUserMapper.selectByExample(example1);
-            // 是教师
-            if (users != null && !users.isEmpty()) {
-                ViewUser user = users.get(0);
-                sb.append("【教师个人信息】").append("\n");
-                sb.append("工号：").append(user.getLoginName()).append("\n");
-                sb.append("姓名：").append(user.getNickName()).append("\n");
-                sb.append("密码：").append(user.getPassword()).append("\n");
-            }
-            // 不是教师，就查看是否是学生
-            else {
-                Student params = new Student();
-                params.setWeixinId(reqTextMessage.getFromUserName());
-                List<Student> students = studentMapper.selectByParams(params);
-                // 是学生
-                if (students != null && !students.isEmpty()) {
-                    Student student = students.get(0);
+
+            WeixinUserInfo weixinUserInfo = frontService.getWeixinUserInfo(reqTextMessage.getFromUserName());
+            if (weixinUserInfo != null) {
+                if (1 == weixinUserInfo.getRole().intValue()) {
                     sb.append("【学生个人信息】").append("\n");
-                    sb.append("学号：").append(student.getsNo()).append("\n");
-                    sb.append("姓名：").append(student.getsName()).append("\n");
-                    sb.append("密码：").append(student.getsPassword()).append("\n");
+                    sb.append("学号：").append(weixinUserInfo.getAccount()).append("\n");
+                    sb.append("姓名：").append(weixinUserInfo.getUserName()).append("\n");
+                    sb.append("密码：").append(weixinUserInfo.getPassword()).append("\n");
+                } else {
+                    sb.append("【教师个人信息】").append("\n");
+                    sb.append("工号：").append(weixinUserInfo.getAccount()).append("\n");
+                    sb.append("姓名：").append(weixinUserInfo.getUserName()).append("\n");
+                    sb.append("密码：").append(weixinUserInfo.getPassword()).append("\n");
                 }
-                // 不是学生 进行绑定提示
-                else {
-                    sb.append("此微信未进行绑定,发送1进行绑定.").append("\n");
-                }
+            } else {
+                sb.append("此微信未进行绑定,发送1进行绑定.").append("\n");
             }
+
             respTextMessage.setContent(sb.toString());
             return MessageUtil.textMessageToXml(respTextMessage);
         } else if ("3".equals(reqTextMessage.getContent())) {
