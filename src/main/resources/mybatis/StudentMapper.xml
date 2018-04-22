@@ -10,9 +10,10 @@
         <result column="user_role" jdbcType="INTEGER" property="userRole"/>
         <result column="s_sex" jdbcType="BIT" property="sSex"/>
         <result column="clzss_id" jdbcType="INTEGER" property="clzssId"/>
+        <result column="weixin_id" jdbcType="VARCHAR" property="weixinId"/>
     </resultMap>
     <sql id="Base_Column_List">
-    s_id, s_no, s_name, s_password, salt, user_role, s_sex, clzss_id
+    s_id, s_no, s_name, s_password, salt, user_role, s_sex, clzss_id, weixin_id
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -20,16 +21,6 @@
         from t_student
         where s_id = #{sId,jdbcType=INTEGER}
     </select>
-
-   <select id="getWorkAnalysis" parameterType="com.shirokumacafe.archetype.entity.Work" resultType="java.util.Map">
-	select * from (select * from t_student t1 where t1.clzss_id = #{clzssId,jdbcType=INTEGER})t1
-	left join (select * from t_work_info t2 where t2.w_id = #{wId,jdbcType=INTEGER})t2
-	on t2.s_id= t1.s_id
-	left join t_clzss t3 on t3.id=t1.clzss_id
-	where t3.id= #{clzssId,jdbcType=INTEGER}
-	
-	
-  </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_student
@@ -122,6 +113,9 @@
             <if test="clzssId != null">
                 clzss_id = #{clzssId,jdbcType=INTEGER},
             </if>
+            <if test="weixinId != null and weixinId != ''">
+                weixin_id = #{weixinId,jdbcType=VARCHAR},
+            </if>
         </set>
         where s_id = #{sId,jdbcType=INTEGER}
     </update>
@@ -137,7 +131,7 @@
     where s_id = #{sId,jdbcType=INTEGER}
   </update>
 
-    <select id="selectByParams" resultType="com.shirokumacafe.archetype.entity.Student">
+    <select id="selectByParams" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_student t
@@ -147,27 +141,6 @@
             </if>
             <if test="sName!=null and sName!=''">
                 and t.s_name like CONCAT('%',#{sName},'%')
-            </if>
-            <if test="clzssId!=null">
-                and t.clzss_id=#{clzssId}
-            </if>
-        </where>
-    </select>
-
-    <select id="selectStudentExtByParams" resultType="com.shirokumacafe.archetype.entity.StudentExt">
-        select t.s_id as sId, t.s_no as sNo, t.s_name as sName, t.s_password as sPassword, t.salt as salt,
-        t.user_role as userRole , t.s_sex as sSex, t.clzss_id as clzssId,t1.grade as grade,t1.clzss as clzss
-        from t_student t
-        LEFT JOIN t_clzss t1 ON t.clzss_id=t1.id
-        <where>
-            <if test="sNo!=null and sNo!=''">
-                and t.s_no = #{sNo}
-            </if>
-            <if test="sName!=null and sName!=''">
-                and t.s_name like CONCAT('%',#{sName},'%')
-            </if>
-            <if test="clzssId!=null">
-                and t.clzss_id=#{clzssId}
             </if>
         </where>
     </select>

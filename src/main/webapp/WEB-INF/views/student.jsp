@@ -24,18 +24,6 @@
                     <input type="text" class="control-text" name="sName">
                 </div>
             </div>
-
-            <div class="control-group span8">
-                <label class="control-label">班级：</label>
-                <div class="controls bui-form-group-select">
-                    <select class="input-small" name="clzssId">
-                        <option value="" selected="selected">请选择</option>
-                        <c:forEach items="${clzssList}" var="clzss">
-                            <option value="${clzss.id}">${clzss.grade}-${clzss.clzss}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
             <div class="span3 offset2">
                 <button type="button" id="btnSearch" class="button button-primary">搜索</button>
             </div>
@@ -74,19 +62,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="control-group span8">
-                    <label class="control-label"><s>*</s>班级：</label>
-                    <div class="controls bui-form-group-select">
-                        <select class="input-small" name="clzssId" id="clzssId" >
-                            <option value="" selected="selected">请选择</option>
-                            <c:forEach items="${clzssList}" var="clzss">
-                                <option value="${clzss.id}">${clzss.grade}-${clzss.clzss}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
-            </div>
         </form>
     </div>
 
@@ -100,8 +75,7 @@
                     { title: '学号', width: 150, dataIndex: 'sNo'},
                     { title: '姓名', width: 150, dataIndex: 'sName'},
                     { title: '性别', width: 100, dataIndex: 'sSex',renderer:BUI.Grid.Format.enumRenderer(enumSex)},
-                    { title: '年级', width: 100, dataIndex: 'grade'},
-                    { title: '班级', width: 100, dataIndex: 'clzss'}
+                    { title: '微信ID', width: 100, dataIndex: 'weixinId'}
                 ],
                 store = Search.createStore('${ctx}/student/list',{pageSize:10}),
                 editing = new BUI.Grid.Plugins.DialogEditing({

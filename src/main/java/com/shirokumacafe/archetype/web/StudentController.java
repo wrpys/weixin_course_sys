@@ -3,8 +3,6 @@ package com.shirokumacafe.archetype.web;
 import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Student;
-import com.shirokumacafe.archetype.entity.StudentExt;
-import com.shirokumacafe.archetype.service.ClzssService;
 import com.shirokumacafe.archetype.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,19 +25,16 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
-    @Autowired
-    private ClzssService clzssService;
 
     @RequestMapping
     public String to(Model model) {
-        model.addAttribute("clzssList", clzssService.findAll());
         return "student";
     }
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    public String list(StudentExt studentExt, Page page) {
-        Page<StudentExt> studentPage = studentService.findPage(studentExt, page);
+    public String list(Student student, Page page) {
+        Page<Student> studentPage = studentService.findPage(student, page);
         return Responses.writeJson(studentPage);
     }
 

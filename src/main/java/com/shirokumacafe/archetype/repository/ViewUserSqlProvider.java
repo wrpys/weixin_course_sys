@@ -38,6 +38,7 @@ public class ViewUserSqlProvider {
         SELECT("state");
         SELECT("create_id");
         SELECT("create_time");
+        SELECT("weixin_id");
         SELECT("role_name");
         SELECT("role_code");
         SELECT("create_name");

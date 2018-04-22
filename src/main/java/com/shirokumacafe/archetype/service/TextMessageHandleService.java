@@ -2,14 +2,18 @@ package com.shirokumacafe.archetype.service;
 
 import com.alibaba.fastjson.JSON;
 import com.shirokumacafe.archetype.common.utils.MessageUtil;
+import com.shirokumacafe.archetype.common.utils.PropertiesUtil;
 import com.shirokumacafe.archetype.model.req.ReqTextMessage;
 import com.shirokumacafe.archetype.model.resp.Article;
 import com.shirokumacafe.archetype.model.resp.RespNewsMessage;
 import com.shirokumacafe.archetype.model.resp.RespTextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +29,14 @@ public class TextMessageHandleService {
 
     private static final Logger LOG = LoggerFactory.getLogger(TextMessageHandleService.class);
 
+    @Autowired
+    private HttpServletRequest request;
+
     public String handle(Map<String, String> reqMsg) {
         ReqTextMessage reqTextMessage = new ReqTextMessage();
         MessageUtil.mapToObject(reqMsg, reqTextMessage);
         LOG.info("reqTextMessage:" + JSON.toJSONString(reqTextMessage));
+        // 菜单
         if ("菜单".equals(reqTextMessage.getContent())) {
             RespTextMessage respTextMessage = new RespTextMessage();
             respTextMessage.setFromUserName(reqTextMessage.getToUserName());
@@ -36,14 +44,43 @@ public class TextMessageHandleService {
             respTextMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
             respTextMessage.setFuncFlag(0);
             StringBuffer sb = new StringBuffer();
-            sb.append("wrpys公众号：").append("\n");
-            sb.append("***功能列表***").append("\n");
-            sb.append("图文,获取图文列表").append("\n");
-            sb.append("文本链接,获取wrpys主页").append("\n");
-            sb.append("**********************").append("\n");
+            sb.append("【菜单列表】").append("\n");
+            sb.append("发送1进行绑定").append("\n");
+            sb.append("发送2查看个人信息").append("\n");
+            sb.append("发送3获取课程列表").append("\n");
             respTextMessage.setContent(sb.toString());
             return MessageUtil.textMessageToXml(respTextMessage);
-        } else if ("图文".equals(reqTextMessage.getContent())) {
+        }
+        // 进行绑定
+        else if ("1".equals(reqTextMessage.getContent())) {
+            RespTextMessage respTextMessage = new RespTextMessage();
+            respTextMessage.setFromUserName(reqTextMessage.getToUserName());
+            respTextMessage.setToUserName(reqTextMessage.getFromUserName());
+            respTextMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+            respTextMessage.setFuncFlag(0);
+            String content = "";
+            try {
+                String wwwRoot = PropertiesUtil.getProperties().getProperty("www.root");
+                String bindingPageUrl = wwwRoot + request.getContextPath() + "/front/toBinding?weixinId=" + reqTextMessage.getFromUserName();
+                LOG.info("===bindingPageUrl===" + bindingPageUrl);
+                content = "<a href=\"" + bindingPageUrl + "\">绑定系统账号</a>";
+            } catch (IOException e) {
+                LOG.error("读取文件异常。", e);
+                content = "服务异常，请稍后重试！";
+            }
+            respTextMessage.setContent(content);
+            return MessageUtil.textMessageToXml(respTextMessage);
+        }
+        // 查看个人信息
+        else if ("2".equals(reqTextMessage.getContent())) {
+            RespTextMessage respTextMessage = new RespTextMessage();
+            respTextMessage.setFromUserName(reqTextMessage.getToUserName());
+            respTextMessage.setToUserName(reqTextMessage.getFromUserName());
+            respTextMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+            respTextMessage.setFuncFlag(0);
+            respTextMessage.setContent("<a href=\"https://wrpys.github.io/PhotoWall\">查看个人信息</a>");
+            return MessageUtil.textMessageToXml(respTextMessage);
+        } else if ("3".equals(reqTextMessage.getContent())) {
             RespNewsMessage newsMessage = new RespNewsMessage();
             newsMessage.setFromUserName(reqTextMessage.getToUserName());
             newsMessage.setToUserName(reqTextMessage.getFromUserName());
@@ -90,14 +127,6 @@ public class TextMessageHandleService {
             newsMessage.setArticles(articles);
             newsMessage.setArticleCount(articles.size());
             return MessageUtil.newsMessageToXml(newsMessage);
-        } else if ("文本链接".equals(reqTextMessage.getContent())) {
-            RespTextMessage respTextMessage = new RespTextMessage();
-            respTextMessage.setFromUserName(reqTextMessage.getToUserName());
-            respTextMessage.setToUserName(reqTextMessage.getFromUserName());
-            respTextMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-            respTextMessage.setFuncFlag(0);
-            respTextMessage.setContent("<a href=\"https://wrpys.github.io/PhotoWall\">wrpys主页</a>");
-            return MessageUtil.textMessageToXml(respTextMessage);
         } else {
             RespTextMessage respTextMessage = new RespTextMessage();
             respTextMessage.setFromUserName(reqTextMessage.getToUserName());
@@ -105,11 +134,7 @@ public class TextMessageHandleService {
             respTextMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
             respTextMessage.setFuncFlag(0);
             StringBuffer sb = new StringBuffer();
-            sb.append("未知内容，请发送：").append("\n");
-            sb.append("**********************").append("\n");
-            sb.append("图文,获取图文列表").append("\n");
-            sb.append("文本链接,获取wrpys主页").append("\n");
-            sb.append("**********************").append("\n");
+            sb.append("未知内容，请发送【菜单】查看更多信息");
             respTextMessage.setContent(sb.toString());
             return MessageUtil.textMessageToXml(respTextMessage);
         }

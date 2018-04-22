@@ -1,11 +1,15 @@
 package com.shirokumacafe.archetype.service;
 
 import com.shirokumacafe.archetype.common.utils.MessageUtil;
+import com.shirokumacafe.archetype.common.utils.PropertiesUtil;
 import com.shirokumacafe.archetype.model.resp.RespTextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -20,6 +24,9 @@ public class EventMessageHandleService {
 
     private static final Logger LOG = LoggerFactory.getLogger(EventMessageHandleService.class);
 
+    @Autowired
+    private HttpServletRequest request;
+
     public String handle(Map<String, String> reqMsg) {
 
         // 事件类型
@@ -32,7 +39,17 @@ public class EventMessageHandleService {
             respTextMessage.setToUserName(reqMsg.get("FromUserName"));
             respTextMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
             respTextMessage.setFuncFlag(0);
-            respTextMessage.setContent("<a href=\"https://wrpys.github.io/PhotoWall\">谢谢您关注课程公众号，点击这条消息进行绑定，或发送【菜单】查看更多信息.</a>");
+            String content = "";
+            try {
+                String wwwRoot = PropertiesUtil.getProperties().getProperty("www.root");
+                String bindingPageUrl = wwwRoot + request.getContextPath() + "/front/toBinding?weixinId=" + reqMsg.get("FromUserName");
+                LOG.info("===bindingPageUrl===" + bindingPageUrl);
+                content = "<a href=\"" + bindingPageUrl + "\">谢谢您关注课程公众号，点击这条消息进行绑定，或发送【菜单】查看更多信息</a>";
+            } catch (IOException e) {
+                LOG.error("读取文件异常。", e);
+                content = "服务异常，请稍后重试！";
+            }
+            respTextMessage.setContent(content);
             return MessageUtil.textMessageToXml(respTextMessage);
 
         }

@@ -60,7 +60,7 @@
     <!-- JSR303 Validator定义 -->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-	<!-- production环境 -->
+    <!-- production环境 -->
  	<beans profile="production">
  		<context:property-placeholder ignore-unresolvable="true"
 			location="classpath*:/application.properties" />	

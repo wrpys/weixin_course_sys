@@ -179,31 +179,4 @@
     </where>
   </select>
 
-  <select id="selectQuestionMessageByParams" resultType="com.shirokumacafe.archetype.entity.QuestionMessage">
-    select t.msg_id as msgId, t.w_id as wId, t.msg_content as studentContent,t.create_time as studentCreateTime,t1.s_name as studentName,
-			 t2.msg_content as teacherContent,t2.create_time as teacherCreateTime,t3.nick_name as teacherName,t4.w_work_name as wWorkName
-    from (select a.* from t_message a where a.msg_type=1 and a.msg_pid=0) t
-    LEFT JOIN t_student t1 on t.oper_id=t1.s_id
-    LEFT JOIN t_message t2 on t.msg_id=t2.msg_pid
-    LEFT JOIN t_user t3 on t2.oper_id=t3.user_id
-    LEFT JOIN t_work t4 ON t.w_id=t4.w_id
-    <where>
-      <if test="studentId!=null and studentId!=''">
-        and t1.s_id=#{studentId}
-      </if>
-      <if test="studentName!=null and studentName!=''">
-        and t1.s_name LIKE CONCAT('%',#{studentName},'%')
-      </if>
-      <if test="wWorkName!=null and wWorkName!=''">
-        and t4.w_work_name LIKE CONCAT('%',#{wWorkName},'%')
-      </if>
-      <if test="teacherId!=null">
-        and t4.user_tch_id=#{teacherId}
-      </if>
-      <if test="wId!=null">
-        and t4.w_id=#{wId}
-      </if>
-    </where>
-  </select>
-
 </mapper>

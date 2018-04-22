@@ -1,11 +1,8 @@
 package com.shirokumacafe.archetype.service;
 
-import com.github.pagehelper.PageHelper;
 import com.shirokumacafe.archetype.common.Users;
-import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.entity.Message;
 import com.shirokumacafe.archetype.entity.MessageExt;
-import com.shirokumacafe.archetype.entity.QuestionMessage;
 import com.shirokumacafe.archetype.entity.Student;
 import com.shirokumacafe.archetype.entity.User;
 import com.shirokumacafe.archetype.repository.MessageMapper;
@@ -71,26 +68,6 @@ public class MessageService {
         messageExt.setOperRoleName(operRoleName);
         messageExt.setOperName(operName);
         return messageExt;
-    }
-
-    public Page<QuestionMessage> questionMessagePage(QuestionMessage questionMessage, Page page) {
-        questionMessage.setTeacherId(sessionUsers.getCurrentUser().getUserId());
-        com.github.pagehelper.Page pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
-        List<QuestionMessage> list = messageMapper.selectQuestionMessageByParams(questionMessage);
-        page.setRows(list);
-        page.setResults(Integer.valueOf(String.valueOf(pageHelper.getTotal())));
-        return page;
-    }
-
-    /**
-     * 学生端 提问
-     *
-     * @param questionMessage
-     * @return
-     */
-    public List<QuestionMessage> questionMessageList(QuestionMessage questionMessage) {
-        questionMessage.setStudentId(sessionUsers.getStudent().getsId());
-        return messageMapper.selectQuestionMessageByParams(questionMessage);
     }
 
     /**

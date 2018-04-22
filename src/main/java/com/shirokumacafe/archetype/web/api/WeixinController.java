@@ -1,10 +1,12 @@
 package com.shirokumacafe.archetype.web.api;
 
 import com.shirokumacafe.archetype.common.utils.CheckUtil;
+import com.shirokumacafe.archetype.common.utils.PropertiesUtil;
 import com.shirokumacafe.archetype.service.CoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,8 +32,6 @@ public class WeixinController {
     @Autowired
     private CoreService coreService;
 
-    private String token = "wrpys_weixin";
-
     /**
      * 确认请求来自微信服务器
      *
@@ -46,7 +46,7 @@ public class WeixinController {
         String echostr = request.getParameter("echostr");
         LOG.info("weixin.get===signature:" + signature + ",timestamp:" + timestamp + ",nonce:" + nonce + ",echostr:" + echostr);
         PrintWriter out = response.getWriter();
-        if (CheckUtil.checkSignature(signature, timestamp, nonce, token)) {
+        if (CheckUtil.checkSignature(signature, timestamp, nonce, PropertiesUtil.getProperties().getProperty("weixin.token"))) {
             out.print(echostr);
         }
         if (out != null) {

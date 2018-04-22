@@ -6,7 +6,6 @@ import com.shirokumacafe.archetype.common.Users;
 import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Student;
-import com.shirokumacafe.archetype.entity.StudentExt;
 import com.shirokumacafe.archetype.repository.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,13 +61,13 @@ public class StudentService {
     /**
      * 分页查找
      *
-     * @param studentExt
+     * @param student
      * @param page
      * @return
      */
-    public Page<StudentExt> findPage(StudentExt studentExt, Page page) {
+    public Page<Student> findPage(Student student, Page page) {
         com.github.pagehelper.Page pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
-        List<StudentExt> rows = studentMapper.selectStudentExtByParams(studentExt);
+        List<Student> rows = studentMapper.selectByParams(student);
         page.setRows(rows);
         page.setResults(Integer.valueOf(String.valueOf(pageHelper.getTotal())));
         return page;

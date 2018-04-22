@@ -17,6 +17,8 @@ public class Student {
 
     private Integer clzssId;
 
+    private String weixinId;
+
     public Integer getsId() {
         return sId;
     }
@@ -79,5 +81,13 @@ public class Student {
 
     public void setClzssId(Integer clzssId) {
         this.clzssId = clzssId;
+    }
+
+    public String getWeixinId() {
+        return weixinId;
+    }
+
+    public void setWeixinId(String weixinId) {
+        this.weixinId = weixinId;
     }
 }

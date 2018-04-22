@@ -21,6 +21,8 @@ public class ViewUser {
 
     private Date createTime;
 
+    private String weixinId;
+
     private String roleName;
 
     private String roleCode;
@@ -97,6 +99,14 @@ public class ViewUser {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getWeixinId() {
+        return weixinId;
+    }
+
+    public void setWeixinId(String weixinId) {
+        this.weixinId = weixinId;
     }
 
     public String getRoleName() {

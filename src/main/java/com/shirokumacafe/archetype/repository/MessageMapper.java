@@ -2,7 +2,6 @@ package com.shirokumacafe.archetype.repository;
 
 import com.shirokumacafe.archetype.entity.Message;
 import com.shirokumacafe.archetype.entity.MessageExt;
-import com.shirokumacafe.archetype.entity.QuestionMessage;
 
 import java.util.List;
 
@@ -20,8 +19,6 @@ public interface MessageMapper {
     int updateByPrimaryKey(Message record);
 
     MessageExt selectMessageExtByParams(MessageExt record);
-
-    List<QuestionMessage> selectQuestionMessageByParams(QuestionMessage questionMessage);
 
     List<MessageExt> selectMessageTeacherExtByParams(MessageExt messageExt);
 
