@@ -1,8 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<html>
 <head>
+    <%@include file="../layouts/default.jsp"%>
     <style>
+        .importBtn{display: none;}
         .timeLeftDiv,.timeRightDiv,.leftDiv,.rightDiv{float: left;margin: 0;padding: 5px;}
 
         .timeLeftDiv{width: 34%;height: 95%;overflow-y: scroll;}
@@ -26,7 +29,7 @@
     <form id="searchForm" class="form-horizontal">
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label">年级：</label>
+                <label class="control-label">课程名字：</label>
                 <div class="controls">
                     <input type="text" class="control-text" name="cName">
                 </div>
@@ -54,38 +57,17 @@
             <input type="hidden" name="cId">
             <div class="row">
                 <div class="control-group span8">
-                    <label class="control-label"><s>*</s>课程别名：</label>
+                    <label class="control-label"><s>*</s>课程名称：</label>
                     <div class="controls">
                         <input name="cName" type="text"  data-rules="{required:true}" class="input-normal control-text">
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="control-group span8">
-                    <label class="control-label"><s>*</s>教师：</label>
+                <div class="control-group span8" style="height: 200px;">
+                    <label class="control-label"><s>*</s>课程描述：</label>
                     <div class="controls">
-                        <select class="input-small" name="tId">
-                            <option value="" selected="selected">请选择</option>
-                            <c:forEach items="${users}" var="user">
-                                <option value="${user.userId}">${user.nickName}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="control-group span8">
-                    <label class="control-label"><s>*</s>上课地址：</label>
-                    <div class="controls bui-form-group-select">
-                        <select class="input-small" id="aaPid" onchange="getChild(this);">
-                            <option value="" selected="selected">教学楼</option>
-                            <c:forEach items="${attendAddrs}" var="attendAddr">
-                                <option value="${attendAddr.aaId}">${attendAddr.aaName}</option>
-                            </c:forEach>
-                        </select>&nbsp;&nbsp;
-                        <select class="input-small" value="" name="cAttendAddr" id="aaId" data-rules="{required:true}">
-                            <option value="" selected="selected">教室</option>
-                        </select>
+                        <textarea name="cDesc" data-rules="{required:true}" style="height: 150px;"></textarea>
                     </div>
                 </div>
             </div>
@@ -202,15 +184,16 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
 
     var
             columns = [
-                { title: '课程号', width: 50, dataIndex: 'cId'},
-                { title: '年级', width: 200, dataIndex: 'cName'},
-                { title: '添加时间', width: 200, dataIndex: 'cAttendTime'},
-                { title: '教师', width: 80, dataIndex: 'nickName'},
-                { title: '上课地址', width: 100, dataIndex: 'aaName'},
+                /* { title: '课程号', width: 50, dataIndex: 'cId'}, */
+                { title: '课程名字', width: 200, dataIndex: 'cName'},
+                { title: '添加时间', width: 200, dataIndex: 'cCreateTime'},
+                { title: '课程描述', width: 80, dataIndex: 'cDesc'},
+                { title: '下载次数', width: 100, dataIndex: 'downloadNum'},
+                { title: '热度', width: 100, dataIndex: 'heatNum'},
                 { title: '操作', width: 300, dataIndex: 'cId',renderer : function(value,obj){
-                    var returnStr = '<span class="grid-command addCourseTimeBtn">上课时间</span>&nbsp;&nbsp;';
-                        returnStr += '<span class="grid-command selCourseBtn">选课学生</span>&nbsp;&nbsp;';
-                        returnStr += '<span class="grid-command attendanceAndWork">出勤和作业提交</span>';
+                    var returnStr = '<span class="grid-command addCourseTimeBtn">查看子课程</span>&nbsp;&nbsp;';
+                        /* returnStr += '<span class="grid-command selCourseBtn">选课学生</span>&nbsp;&nbsp;';
+                        returnStr += '<span class="grid-command attendanceAndWork">出勤和作业提交</span>'; */
                     return returnStr;
                 }}
             ],
@@ -272,8 +255,9 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
     }
     function editFunction(){
         var selections = grid.getSelection();
-        if(selections.length==0){
+        if(selections.length > 1){
             BUI.Message.Alert("请选中一条记录！");
+            return;
         }
 
         editing.edit(selections[0]);

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shirokumacafe.archetype.repository.FileImageMapper">
+  <resultMap id="BaseResultMap" type="com.shirokumacafe.archetype.entity.FileImage">
+    <id column="fi_id" jdbcType="INTEGER" property="fiId" />
+    <result column="f_id" jdbcType="INTEGER" property="fId" />
+    <result column="fi_addr" jdbcType="VARCHAR" property="fiAddr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    fi_id, f_id, fi_addr
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_file_image
+    where fi_id = #{fiId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_file_image
+    where fi_id = #{fiId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.FileImage">
+    insert into t_file_image (f_id, fi_addr)
+    values (#{fId,jdbcType=INTEGER}, #{fiAddr,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.FileImage">
+    insert into t_file_image
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fiId != null">
+        fi_id,
+      </if>
+      <if test="fId != null">
+        f_id,
+      </if>
+      <if test="fiAddr != null">
+        fi_addr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fiId != null">
+        #{fiId,jdbcType=INTEGER},
+      </if>
+      <if test="fId != null">
+        #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="fiAddr != null">
+        #{fiAddr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shirokumacafe.archetype.entity.FileImage">
+    update t_file_image
+    <set>
+      <if test="fId != null">
+        f_id = #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="fiAddr != null">
+        fi_addr = #{fiAddr,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fi_id = #{fiId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shirokumacafe.archetype.entity.FileImage">
+    update t_file_image
+    set f_id = #{fId,jdbcType=INTEGER},
+      fi_addr = #{fiAddr,jdbcType=VARCHAR}
+    where fi_id = #{fiId,jdbcType=INTEGER}
+  </update>
+</mapper>
