@@ -1,94 +1,22 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : test
-Source Server Version : 50625
+Source Server         : loc
+Source Server Version : 50528
 Source Host           : localhost:3306
 Source Database       : weixin_course_sys
 
 Target Server Type    : MYSQL
-Target Server Version : 50625
+Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2018-04-22 17:08:42
+Date: 2018-04-22 17:15:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for t_answer
--- ----------------------------
-DROP TABLE IF EXISTS `t_answer`;
-CREATE TABLE `t_answer` (
-  `a_id` int(11) NOT NULL AUTO_INCREMENT,
-  `a_answer` varchar(255) DEFAULT NULL,
-  `a_correct` int(1) NOT NULL,
-  `q_id` int(11) NOT NULL,
-  PRIMARY KEY (`a_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_answer
--- ----------------------------
-INSERT INTO `t_answer` VALUES ('1', '苹果', '0', '1');
-INSERT INTO `t_answer` VALUES ('2', '橘子', '1', '1');
-INSERT INTO `t_answer` VALUES ('4', '正确答案是。。。', '1', '2');
-INSERT INTO `t_answer` VALUES ('5', '芦柑', '0', '3');
-INSERT INTO `t_answer` VALUES ('6', '橙子', '1', '3');
-
--- ----------------------------
--- Table structure for t_clzss
--- ----------------------------
-DROP TABLE IF EXISTS `t_clzss`;
-CREATE TABLE `t_clzss` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '班级主键id',
-  `grade` varchar(255) DEFAULT NULL,
-  `clzss` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_clzss
--- ----------------------------
-INSERT INTO `t_clzss` VALUES ('1', '2011', '3');
-INSERT INTO `t_clzss` VALUES ('2', '2', '1');
-INSERT INTO `t_clzss` VALUES ('3', '3', '1');
-INSERT INTO `t_clzss` VALUES ('4', '4', '1');
-INSERT INTO `t_clzss` VALUES ('5', '5', '1');
-INSERT INTO `t_clzss` VALUES ('6', '6', '1');
-INSERT INTO `t_clzss` VALUES ('7', '1', '2');
-INSERT INTO `t_clzss` VALUES ('8', '2', '2');
-INSERT INTO `t_clzss` VALUES ('9', '3', '2');
-INSERT INTO `t_clzss` VALUES ('10', '4', '2');
-INSERT INTO `t_clzss` VALUES ('11', '5', '2');
-INSERT INTO `t_clzss` VALUES ('12', '6', '2');
-INSERT INTO `t_clzss` VALUES ('13', '1', '3');
-INSERT INTO `t_clzss` VALUES ('14', '2', '3');
-INSERT INTO `t_clzss` VALUES ('15', '3', '3');
-INSERT INTO `t_clzss` VALUES ('16', '4', '3');
-INSERT INTO `t_clzss` VALUES ('17', '5', '3');
-INSERT INTO `t_clzss` VALUES ('18', '6', '3');
-INSERT INTO `t_clzss` VALUES ('19', '1', '4');
-INSERT INTO `t_clzss` VALUES ('20', '2', '4');
-INSERT INTO `t_clzss` VALUES ('21', '3', '4');
-INSERT INTO `t_clzss` VALUES ('22', '4', '4');
-INSERT INTO `t_clzss` VALUES ('23', '5', '4');
-INSERT INTO `t_clzss` VALUES ('24', '6', '4');
-INSERT INTO `t_clzss` VALUES ('25', '1', '5');
-INSERT INTO `t_clzss` VALUES ('26', '2', '5');
-INSERT INTO `t_clzss` VALUES ('27', '3', '5');
-INSERT INTO `t_clzss` VALUES ('28', '4', '5');
-INSERT INTO `t_clzss` VALUES ('29', '5', '5');
-INSERT INTO `t_clzss` VALUES ('30', '6', '5');
-INSERT INTO `t_clzss` VALUES ('31', '1', '6');
-INSERT INTO `t_clzss` VALUES ('32', '2', '6');
-INSERT INTO `t_clzss` VALUES ('33', '3', '6');
-INSERT INTO `t_clzss` VALUES ('34', '4', '6');
-INSERT INTO `t_clzss` VALUES ('35', '5', '6');
-INSERT INTO `t_clzss` VALUES ('36', '6', '6');
-
--- ----------------------------
--- Table structure for t_course
+-- Table structure for `t_course`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_course`;
 CREATE TABLE `t_course` (
@@ -110,7 +38,7 @@ INSERT INTO `t_course` VALUES ('3', '数学', null, '2018-04-22 14:57:16', '数�
 INSERT INTO `t_course` VALUES ('4', '文学', null, '2018-04-22 14:58:22', '文学', null, '0', '0');
 
 -- ----------------------------
--- Table structure for t_file
+-- Table structure for `t_file`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_file`;
 CREATE TABLE `t_file` (
@@ -125,7 +53,7 @@ CREATE TABLE `t_file` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for t_file_image
+-- Table structure for `t_file_image`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_file_image`;
 CREATE TABLE `t_file_image` (
@@ -140,7 +68,7 @@ CREATE TABLE `t_file_image` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for t_menu
+-- Table structure for `t_menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_menu`;
 CREATE TABLE `t_menu` (
@@ -152,7 +80,7 @@ CREATE TABLE `t_menu` (
   `sort` int(11) DEFAULT NULL,
   `state` int(11) DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_menu
@@ -168,7 +96,7 @@ INSERT INTO `t_menu` VALUES ('31', '1429321176178', '0', '父', '', null, '1');
 INSERT INTO `t_menu` VALUES ('39', 'course', '23', '课程管理', 'course', '1', '1');
 
 -- ----------------------------
--- Table structure for t_message
+-- Table structure for `t_message`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_message`;
 CREATE TABLE `t_message` (
@@ -245,33 +173,7 @@ INSERT INTO `t_message` VALUES ('57', '0', '2', '沟沟壑壑就斤斤计较', '
 INSERT INTO `t_message` VALUES ('58', '51', '2', '', '2018-04-20 22:19:33', '1', '1', '1');
 
 -- ----------------------------
--- Table structure for t_question
--- ----------------------------
-DROP TABLE IF EXISTS `t_question`;
-CREATE TABLE `t_question` (
-  `q_id` int(11) NOT NULL AUTO_INCREMENT,
-  `q_title` varchar(255) NOT NULL,
-  `q_type` int(1) NOT NULL,
-  PRIMARY KEY (`q_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_question
--- ----------------------------
-INSERT INTO `t_question` VALUES ('1', '你喜欢吃的水果？', '1');
-INSERT INTO `t_question` VALUES ('2', '你喜欢吃的水果2？', '2');
-INSERT INTO `t_question` VALUES ('3', '你喜欢吃的水果？3', '1');
-INSERT INTO `t_question` VALUES ('4', '你喜欢吃的水果？4', '1');
-INSERT INTO `t_question` VALUES ('5', '你喜欢吃的水果？5', '1');
-INSERT INTO `t_question` VALUES ('6', '你喜欢吃的水果？6', '1');
-INSERT INTO `t_question` VALUES ('7', '你喜欢吃的水果？7', '1');
-INSERT INTO `t_question` VALUES ('8', '你喜欢吃的水果？8', '1');
-INSERT INTO `t_question` VALUES ('9', '你喜欢吃的水果？9', '1');
-INSERT INTO `t_question` VALUES ('10', '你喜欢吃的水果？10', '1');
-INSERT INTO `t_question` VALUES ('11', '你喜欢吃的水果？11', '1');
-
--- ----------------------------
--- Table structure for t_role
+-- Table structure for `t_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role` (
@@ -298,7 +200,7 @@ INSERT INTO `t_role` VALUES ('2', 'teacher', '教师', null, '拥有一些信息
 INSERT INTO `t_role` VALUES ('3', 'student', '学生', null, '不允许进入后台。', '1', '1', null, '2015-03-05 11:23:56', null);
 
 -- ----------------------------
--- Table structure for t_role_permission
+-- Table structure for `t_role_permission`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role_permission`;
 CREATE TABLE `t_role_permission` (
@@ -322,7 +224,7 @@ INSERT INTO `t_role_permission` VALUES ('2', 'teacher:');
 INSERT INTO `t_role_permission` VALUES ('2', 'course:');
 
 -- ----------------------------
--- Table structure for t_student
+-- Table structure for `t_student`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_student`;
 CREATE TABLE `t_student` (
@@ -342,30 +244,10 @@ CREATE TABLE `t_student` (
 -- Records of t_student
 -- ----------------------------
 INSERT INTO `t_student` VALUES ('1', '211106402', '王荣坡', '123456', null, '3', '0', '1', 'owug5t3EYRqfV5uAnO3B6pOdKISI');
-INSERT INTO `t_student` VALUES ('31', '211106412', '余双', '', null, '3', '1', '1', null);
+INSERT INTO `t_student` VALUES ('31', '211106412', '余双', '', null, '3', '1', '1', 'owug5t_1Q7dYlFQLhfdgbKFitz_w');
 
 -- ----------------------------
--- Table structure for t_stu_question
--- ----------------------------
-DROP TABLE IF EXISTS `t_stu_question`;
-CREATE TABLE `t_stu_question` (
-  `sq_id` int(11) NOT NULL AUTO_INCREMENT,
-  `s_id` int(11) DEFAULT NULL COMMENT 'student_id',
-  `w_id` int(11) DEFAULT NULL COMMENT 'work_id',
-  `q_id` int(11) DEFAULT NULL COMMENT '问题ID',
-  `q_answer` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`sq_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_stu_question
--- ----------------------------
-INSERT INTO `t_stu_question` VALUES ('1', '1', '1', '1', '橘子');
-INSERT INTO `t_stu_question` VALUES ('2', '1', '1', '2', '正确答案是。。。');
-INSERT INTO `t_stu_question` VALUES ('3', '1', '1', '3', '橙子');
-
--- ----------------------------
--- Table structure for t_user
+-- Table structure for `t_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
@@ -392,67 +274,7 @@ INSERT INTO `t_user` VALUES ('2', 'jiaoshi', '教师', '123456', '', '2', '1', '
 INSERT INTO `t_user` VALUES ('3', 'jiaoshi2', '教师2', '123456', '', '2', '1', '1', '2018-04-20 21:26:07', '');
 
 -- ----------------------------
--- Table structure for t_work
--- ----------------------------
-DROP TABLE IF EXISTS `t_work`;
-CREATE TABLE `t_work` (
-  `w_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_tch_id` int(11) DEFAULT NULL,
-  `clzss_id` int(11) DEFAULT NULL,
-  `w_work_name` varchar(50) DEFAULT NULL,
-  `w_add_time` datetime DEFAULT NULL,
-  `w_work_requirement` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`w_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_work
--- ----------------------------
-INSERT INTO `t_work` VALUES ('1', '2', '1', '做一个网上商城的项目。', '2015-04-17 20:55:06', '使用SpringMVC');
-
--- ----------------------------
--- Table structure for t_work_info
--- ----------------------------
-DROP TABLE IF EXISTS `t_work_info`;
-CREATE TABLE `t_work_info` (
-  `wi_id` int(11) NOT NULL AUTO_INCREMENT,
-  `w_id` int(11) DEFAULT NULL,
-  `s_id` int(11) DEFAULT NULL,
-  `wi_add_time` datetime DEFAULT NULL,
-  `w_i_score` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`wi_id`),
-  KEY `FK_WORKINFO_WORK` (`w_id`),
-  KEY `FK_WORKINFO_STUDENT` (`s_id`),
-  CONSTRAINT `t_work_info_ibfk_1` FOREIGN KEY (`s_id`) REFERENCES `t_student` (`s_id`),
-  CONSTRAINT `t_work_info_ibfk_2` FOREIGN KEY (`w_id`) REFERENCES `t_work` (`w_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_work_info
--- ----------------------------
-INSERT INTO `t_work_info` VALUES ('1', '1', '1', '2015-04-17 20:56:12', '50');
-INSERT INTO `t_work_info` VALUES ('2', '1', '31', '2015-04-17 21:05:43', '50');
-
--- ----------------------------
--- Table structure for t_work_question
--- ----------------------------
-DROP TABLE IF EXISTS `t_work_question`;
-CREATE TABLE `t_work_question` (
-  `wq_id` int(11) NOT NULL AUTO_INCREMENT,
-  `w_id` int(11) DEFAULT NULL COMMENT '作业ID',
-  `q_id` int(11) DEFAULT NULL COMMENT '题目ID',
-  PRIMARY KEY (`wq_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_work_question
--- ----------------------------
-INSERT INTO `t_work_question` VALUES ('1', '1', '1');
-INSERT INTO `t_work_question` VALUES ('4', '1', '2');
-INSERT INTO `t_work_question` VALUES ('5', '1', '3');
-
--- ----------------------------
--- View structure for v_user
+-- View structure for `v_user`
 -- ----------------------------
 DROP VIEW IF EXISTS `v_user`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_user` AS select `t1`.`user_id` AS `user_id`,`t1`.`login_name` AS `login_name`,`t1`.`nick_name` AS `nick_name`,`t1`.`password` AS `password`,`t1`.`salt` AS `salt`,`t1`.`user_role` AS `user_role`,`t1`.`state` AS `state`,`t1`.`create_id` AS `create_id`,`t1`.`create_time` AS `create_time`,`t1`.`weixin_id` AS `weixin_id`,`t2`.`role_name` AS `role_name`,`t2`.`role_code` AS `role_code`,`t3`.`login_name` AS `create_name` from ((`t_user` `t1` left join `t_role` `t2` on((`t1`.`user_role` = `t2`.`role_id`))) left join `t_user` `t3` on((`t1`.`create_id` = `t3`.`user_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_user` AS select `t1`.`user_id` AS `user_id`,`t1`.`login_name` AS `login_name`,`t1`.`nick_name` AS `nick_name`,`t1`.`password` AS `password`,`t1`.`salt` AS `salt`,`t1`.`user_role` AS `user_role`,`t1`.`state` AS `state`,`t1`.`create_id` AS `create_id`,`t1`.`create_time` AS `create_time`,`t1`.`weixin_id` AS `weixin_id`,`t2`.`role_name` AS `role_name`,`t2`.`role_code` AS `role_code`,`t3`.`login_name` AS `create_name` from ((`t_user` `t1` left join `t_role` `t2` on((`t1`.`user_role` = `t2`.`role_id`))) left join `t_user` `t3` on((`t1`.`create_id` = `t3`.`user_id`))) ;

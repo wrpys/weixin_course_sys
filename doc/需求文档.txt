@@ -17,12 +17,12 @@ t_message(讨论表)：msg_id,msg_pid,msg_content,create_time,c_id,oper_role,oper_id
 【/front/toBinding?weixinId=】--荣
 【/front/binding?weixinId=&operRole=】--荣
 
-【/front/toCourse?cId=】--哲
+【/front/toCourse?cId=&weixinId=】--哲
 这个有一个h5界面，就是课程信息和自课程列表
 【/front/downFile?cId=】--哲
 
-【/front/lookOver?cId=】--荣
-【/front/submitReply?c_id=&msg_pid=&msg_content=】--荣
+【/front/lookOver?cId=&weixinId=】--荣
+【/front/submitReply?c_id=&msg_pid=&msg_content=&weixinId=】--荣
 【/front/getMessage?cId=】--荣
 
 学生（公众号，h5界面）：--荣
@@ -34,12 +34,12 @@ t_message(讨论表)：msg_id,msg_pid,msg_content,create_time,c_id,oper_role,oper_id
    =发送3获取课程列表=
 
    1.返回绑定链接【/front/toBinding?weixinId=】，打开h5页面。
-        可以选择学生或者教师，填入工号或者学号。进行绑定【/front/binding?weixinId=】。
+        可以选择学生或者教师，填入工号或者学号。进行绑定【/front/binding?weixinId=&operRole=】。
    2.返回个人信息。学生或者教师的信息。【getUserInfo()。先到t_user表查找是否存在，不存在在去t_student表找】。
    3.返回课程列表。【findCourseAll()。返回所有pid为0的课程。】
-	3.1.点击具体课程【/front/toCourse?cId=】，打开h5页面，展示课程详情以及子课程。下载量和热度等。【根据cId查找对应课程以及子课程，使用Course内放List<Course>】
+	3.1.点击具体课程【/front/toCourse?cId=&weixinId=】，打开h5页面，展示课程详情以及子课程。下载量和热度等。【根据cId查找对应课程以及子课程，使用Course内放List<Course>】
 		3.1.1.点击下载，下载课件，下载量加1。【/front/downFile?cId=】【先进行t_course表的download_num加1】【开流进行下载】
-		3.1.2.点击查看，跳转子课程详情，热度加1。【/front/lookOver?cId=】【先进行t_course表的heat_num加1】【返回自课程详情，相对应的课件图片，此课程的讨论信息】
+		3.1.2.点击查看，跳转子课程详情，热度加1。【/front/lookOver?cId=&weixinId=】【先进行t_course表的heat_num加1】【返回自课程详情，相对应的课件图片，此课程的讨论信息】
 	3.2.子课程详情，上面展示ppt和word，下面展示讨论
-		3.2.1.可进行回复。点击回复，弹出框，可进行回复。【弹出框，输入回复，确认后调用/front/submitReply?c_id=&msg_pid=&msg_content=】
-		3.2.2.后台ajax轮询请求接口，查询此课程的讨论信息。【/front/getMessage?cId=】【前台异步刷新讨论取】
+		3.2.1.可进行回复。点击回复，弹出框，可进行回复。【弹出框，输入回复，确认后调用/front/submitReply?c_id=&msg_pid=&msg_content=&weixinId=】
+		3.2.2.后台ajax轮询请求接口，查询此课程的讨论信息。【/front/getMessage?cId=&weixinId=】【前台异步刷新讨论取】

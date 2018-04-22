@@ -28,7 +28,7 @@
 <body>
 <section>
 	<div class="order_from" style="margin: 0rem 0 1rem 0;padding-top: 8rem;">
-        <div class="tips" style="font-size: 5rem;height: 6rem;">作业系统</div>
+        <div class="tips" style="font-size: 5rem;height: 6rem;">课程系统</div>
         <form id="form" method="post" style="padding: 4rem;" action="${ctx}/front/binding" onsubmit="return validateFun();">
             <input type="hidden" name="weixinId" value="${weixinId}">
             <p style="color: #FF0000;text-align: center;font-size: 1.8rem;">${msg}</p>
