@@ -1,10 +1,9 @@
 package com.shirokumacafe.archetype.service;
 
-import com.shirokumacafe.archetype.common.Users;
+import com.alibaba.fastjson.JSON;
 import com.shirokumacafe.archetype.entity.Message;
 import com.shirokumacafe.archetype.entity.MessageExt;
-import com.shirokumacafe.archetype.entity.Student;
-import com.shirokumacafe.archetype.entity.User;
+import com.shirokumacafe.archetype.model.WeixinUserInfo;
 import com.shirokumacafe.archetype.repository.MessageMapper;
 import com.shirokumacafe.archetype.repository.StudentMapper;
 import com.shirokumacafe.archetype.repository.UserMapper;
@@ -25,13 +24,9 @@ public class MessageService {
 
     public static final Integer DEFAULT_PARENT_ID = 0;
 
-    // 消息类型
-    public static final Integer MSG_TYPE_QUESTION = 1;
-    public static final Integer MSG_TYPE_DISCUSS = 2;
-
     // 消息发送者的角色
-    public static final Integer OPER_ROLE_TEACHER = 2;
     public static final Integer OPER_ROLE_STUDENT = 1;
+    public static final Integer OPER_ROLE_TEACHER = 2;
 
     @Autowired
     private MessageMapper messageMapper;
@@ -40,74 +35,64 @@ public class MessageService {
     @Autowired
     private StudentMapper studentMapper;
     @Autowired
-    private Users sessionUsers;
+    private FrontService frontService;
 
-    public MessageExt addMessage(Message message) {
+    public MessageExt addMessage(Message message, String weixinId) {
+        WeixinUserInfo weixinUserInfo = frontService.getWeixinUserInfo(weixinId);
+        message.setOperId(weixinUserInfo.getUserId());
         String operRoleName = "";
-        String operName = "";
-        if (OPER_ROLE_TEACHER.intValue() == message.getOperRole().intValue()) {
-            message.setOperId(sessionUsers.getCurrentUser().getUserId());
+        if (OPER_ROLE_TEACHER.intValue() == weixinUserInfo.getRole().intValue()) {
             operRoleName = "老师";
-            operName = sessionUsers.getCurrentUser().getNickName();
         } else if (OPER_ROLE_STUDENT.intValue() == message.getOperRole().intValue()) {
-            message.setOperId(sessionUsers.getStudent().getsId());
             operRoleName = "学生";
-            operName = sessionUsers.getStudent().getsName();
         }
         message.setCreateTime(new Date());
         messageMapper.insertSelective(message);
         MessageExt messageExt = new MessageExt();
         messageExt.setMsgId(message.getMsgId());
         messageExt.setMsgPid(message.getMsgPid());
-        messageExt.setMsgType(message.getMsgType());
         messageExt.setOperRole(message.getOperRole());
         messageExt.setOperId(message.getOperId());
-        messageExt.setwId(message.getwId());
+        messageExt.setcId(message.getcId());
         messageExt.setMsgContent(message.getMsgContent());
         messageExt.setCreateTime(message.getCreateTime());
         messageExt.setOperRoleName(operRoleName);
-        messageExt.setOperName(operName);
+        messageExt.setOperName(weixinUserInfo.getUserName());
         return messageExt;
     }
 
     /**
      * 构造讨论列表
      *
-     * @param messageExt
+     * @param cId
      * @return
      */
-    public List<MessageExt> findDiscussMessage(MessageExt messageExt) {
-        messageExt.setMsgType(MSG_TYPE_DISCUSS);
+    public List<MessageExt> findDiscussMessage(Integer cId) {
+        MessageExt messageExt = new MessageExt();
+        messageExt.setcId(cId);
         messageExt.setMsgPid(DEFAULT_PARENT_ID);
-        List<MessageExt> discussMessageList = messageMapper.selectMessageStudentExtByParams(messageExt);
+        List<MessageExt> discussMessageList = messageMapper.selectMessageExtByParams(messageExt);
         if (!CollectionUtils.isEmpty(discussMessageList)) {
             for (int i = 0, len = discussMessageList.size(); i < len; i++) {
                 this.buildDiscussMessage(discussMessageList.get(i));
             }
         }
+        System.out.println("===discussMessageList===" + JSON.toJSONString(discussMessageList));
         return discussMessageList;
     }
 
     private void buildDiscussMessage(MessageExt messageExt) {
         MessageExt params = new MessageExt();
-        params.setwId(messageExt.getwId());
-        params.setMsgType(MSG_TYPE_DISCUSS);
+        params.setcId(messageExt.getcId());
         params.setMsgPid(messageExt.getMsgId());
-        MessageExt m = messageMapper.selectMessageExtByParams(params);
-        if (m == null) {
+        List<MessageExt> mes = messageMapper.selectMessageExtByParams(params);
+        if (mes == null || mes.isEmpty()) {
             return;
         }
-        if (OPER_ROLE_TEACHER.intValue() == m.getOperRole().intValue()) {
-            m.setOperRoleName("老师");
-            User user = userMapper.selectByPrimaryKey(m.getOperId());
-            m.setOperName(user.getNickName());
-        } else if (OPER_ROLE_STUDENT.intValue() == m.getOperRole().intValue()) {
-            m.setOperRoleName("学生");
-            Student student = studentMapper.selectByPrimaryKey(m.getOperId());
-            m.setOperName(student.getsName());
+        messageExt.setMessageExts(mes);
+        for (int i = 0, len = mes.size(); i < len; i++) {
+            this.buildDiscussMessage(mes.get(i));
         }
-        messageExt.setMessageExt(m);
-        this.buildDiscussMessage(m);
     }
 
 }

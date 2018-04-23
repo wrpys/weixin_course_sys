@@ -8,8 +8,6 @@ public class MessageExt extends Message {
 
     private String operName;
 
-    private MessageExt messageExt;
-
     private List<MessageExt> messageExts;
 
     public String getOperRoleName() {
@@ -26,14 +24,6 @@ public class MessageExt extends Message {
 
     public void setOperName(String operName) {
         this.operName = operName;
-    }
-
-    public MessageExt getMessageExt() {
-        return messageExt;
-    }
-
-    public void setMessageExt(MessageExt messageExt) {
-        this.messageExt = messageExt;
     }
 
     public List<MessageExt> getMessageExts() {

@@ -1,5 +1,6 @@
 package com.shirokumacafe.archetype.web.api;
 
+import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Message;
 import com.shirokumacafe.archetype.service.CourseService;
 import com.shirokumacafe.archetype.service.MessageService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
 
@@ -108,81 +110,33 @@ public class FrontAction {
         model.addAttribute("weixinId", weixinId);
         // 查cId的课程信息，以及讨论列表（分开存放）
 //        model.addAttribute("course", course);
-//        model.addAttribute("messages", messages);
+        model.addAttribute("messageList", Responses.writeJson(messageService.findDiscussMessage(cId)));
         return "front/course_details";
     }
 
     /**
-     * 参与讨论
+     * 获取讨论列表
      *
+     * @param cId
      * @return
      */
-//    @RequestMapping(value = "toMessage", method = RequestMethod.GET)
-//    public String toMessage(Integer wId, Model model) {
-//        workService.getWorkExt(wId, model);
-//        MessageExt messageExt = new MessageExt();
-//        messageExt.setwId(wId);
-//        List<MessageExt> messageExts = messageService.findDiscussMessage(messageExt);
-//        if (messageExts == null || messageExts.isEmpty()) {
-//            model.addAttribute("isDis", false);
-//        } else {
-//            model.addAttribute("isDis", true);
-//            for (int i = 0; i < messageExts.size(); i++) {
-//                List<MessageExt> ms = new ArrayList<>();
-//                getMessage(messageExts.get(i), ms);
-//                if (!ms.isEmpty()) {
-//                    messageExts.get(i).setMessageExts(ms);
-//                }
-//            }
-//            model.addAttribute("messageExts", messageExts);
-//        }
-//        return "front/message";
-//    }
-
-//    private void getMessage(MessageExt messageExt, List<MessageExt> ms) {
-//        if (messageExt.getMessageExt() != null) {
-//            ms.add(messageExt.getMessageExt());
-//            getMessage(messageExt.getMessageExt(), ms);
-//        } else {
-//            return;
-//        }
-//    }
-
-    /**
-     * 讨论页面
-     *
-     * @return
-     */
-    @RequestMapping(value = "toDiscussQuestionPage", method = RequestMethod.GET)
-    public String toDiscussQuestionPage(Integer wId, Model model) {
-        model.addAttribute("wId", wId);
-        return "front/discuss_question";
-    }
-
-    /**
-     * 答复页面
-     *
-     * @return
-     */
-    @RequestMapping(value = "toReplyPage", method = RequestMethod.GET)
-    public String toReplyPage(Integer wId, Integer msgId, String msgContent, Model model) {
-        model.addAttribute("wId", wId);
-        model.addAttribute("msgId", msgId);
-        model.addAttribute("msgContent", msgContent);
-        return "front/message_reply";
+    @RequestMapping(value = "getMessage", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public String getMessage(Integer cId) {
+        return Responses.writeJson(messageService.findDiscussMessage(cId));
     }
 
     /**
      * 提交回复
      *
+     * @param message
+     * @param weixinId
      * @return
      */
     @RequestMapping(value = "submitReply", method = RequestMethod.POST)
-    public String submitReply(Message message, Model model) {
-        message.setMsgType(MessageService.MSG_TYPE_DISCUSS);
-        message.setOperRole(MessageService.OPER_ROLE_STUDENT);
-        messageService.addMessage(message);
-        return "redirect:toMessage?wId=" + message.getwId();
+    @ResponseBody
+    public String submitReply(Message message, String weixinId) {
+        return Responses.writeJson(messageService.addMessage(message, weixinId));
     }
 
 

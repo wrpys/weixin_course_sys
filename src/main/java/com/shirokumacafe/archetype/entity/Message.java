@@ -7,13 +7,11 @@ public class Message {
 
     private Integer msgPid;
 
-    private Integer msgType;
-
     private String msgContent;
 
     private Date createTime;
 
-    private Integer wId;
+    private Integer cId;
 
     private Integer operRole;
 
@@ -40,7 +38,7 @@ public class Message {
     }
 
     public void setMsgContent(String msgContent) {
-        this.msgContent = msgContent == null ? null : msgContent.trim();
+        this.msgContent = msgContent;
     }
 
     public Date getCreateTime() {
@@ -51,12 +49,12 @@ public class Message {
         this.createTime = createTime;
     }
 
-    public Integer getwId() {
-        return wId;
+    public Integer getcId() {
+        return cId;
     }
 
-    public void setwId(Integer wId) {
-        this.wId = wId;
+    public void setcId(Integer cId) {
+        this.cId = cId;
     }
 
     public Integer getOperRole() {
@@ -73,13 +71,5 @@ public class Message {
 
     public void setOperId(Integer operId) {
         this.operId = operId;
-    }
-
-    public Integer getMsgType() {
-        return msgType;
-    }
-
-    public void setMsgType(Integer msgType) {
-        this.msgType = msgType;
     }
 }
