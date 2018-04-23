@@ -70,8 +70,14 @@ public class CourseService {
         page.setResults((int) pageHelper.getTotal());
         return page;
     }
-    
-    
-    
+
+    /**
+     * 根据课程ID 获取课程
+     * @param cId
+     * @return
+     */
+    public Course getCourseByCId(Integer cId) {
+        return courseMapper.selectByPrimaryKey(cId);
+    }
 
 }
