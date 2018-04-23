@@ -108,14 +108,13 @@ public class FrontAction {
     @RequestMapping(value = "lookOver", method = RequestMethod.GET)
     public String lookOver(Integer cId, String weixinId, Model model) {
         model.addAttribute("weixinId", weixinId);
-        // 查cId的课程信息，以及讨论列表（分开存放）
-//        model.addAttribute("course", course);
+        model.addAttribute("course", courseService.getCourseByCId(cId));
         model.addAttribute("messageList", Responses.writeJson(messageService.findDiscussMessage(cId)));
         return "front/course_details";
     }
 
     /**
-     * 获取讨论列表
+     * 获取讨论列表 异步刷新讨论信息
      *
      * @param cId
      * @return
