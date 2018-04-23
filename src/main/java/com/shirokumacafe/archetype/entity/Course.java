@@ -1,6 +1,7 @@
 package com.shirokumacafe.archetype.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Course {
     private Integer cId;
@@ -18,6 +19,10 @@ public class Course {
     private Integer downloadNum;
 
     private Integer heatNum;
+
+    private String cPName;
+
+    List<String> fileImageList;
     
     public Integer getcId() {
         return cId;
@@ -81,5 +86,21 @@ public class Course {
 
     public void setHeatNum(Integer heatNum) {
         this.heatNum = heatNum;
+    }
+
+    public String getcPName() {
+        return cPName;
+    }
+
+    public void setcPName(String cPName) {
+        this.cPName = cPName;
+    }
+
+    public List<String> getFileImageList() {
+        return fileImageList;
+    }
+
+    public void setFileImageList(List<String> fileImageList) {
+        this.fileImageList = fileImageList;
     }
 }

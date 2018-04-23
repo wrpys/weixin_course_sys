@@ -63,6 +63,7 @@
             <mvc:exclude-mapping path="/front/**"/>
             <mvc:exclude-mapping path="/weixin/**"/>
             <mvc:exclude-mapping path="/static/**"/>
+            <mvc:exclude-mapping path="/file/**"/>
             <mvc:exclude-mapping path="/WEB-INF/views/**"/>
             <mvc:exclude-mapping path="/WEB-INF/layouts/**"/>
             <mvc:exclude-mapping path="/WEB-INF/tags/**"/>

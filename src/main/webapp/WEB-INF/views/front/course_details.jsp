@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-    <title>课程详情-课程系统</title>
-    <meta name="keywords" content="作业详情-作业系统">
-    <meta name="description" content="作业详情-作业系统">
+    <title>${course.cPName}-${course.cName}</title>
+    <meta name="keywords" content="讨论详情">
+    <meta name="description" content="讨论详情">
     <meta name="mobile-agent" content="format=xhtml;">
     <meta name="applicable-devive" content="mobile">
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="telephone=no" name="format-detection">
     <%@include file="inc.jsp" %>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/static/front/css/swiper-3.3.1.min.css" />
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/front/work/work_detial.css"/>
 <style>
 .mome div {
@@ -127,10 +128,17 @@
 </header>
 
 <section>
-    <div class="mome">
-        <h2>基本信息</h2>
-        <p class="work_item">高数-第一课</p>
-        <label style="float: right;">布置时间：2018-04-22</label>
+    <!--图片轮播-->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <c:forEach items="${course.fileImageList}" var="fi">
+                <div class="swiper-slide">
+                    <img src="<%=request.getContextPath()%>${fi}" />
+                </div>
+            </c:forEach>
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
     </div>
     <div class="mome">
         <h2>讨论区</h2>
@@ -143,6 +151,16 @@
 <div id="backTop"></div>
 <%@include file="course_details_footer.jsp" %>
 <script type="text/javascript">
+    
+    $(function () {
+        //图片轮播
+        var mySwiper = new Swiper('.swiper-container', {
+            loop: true,
+            // 如果需要分页器
+            pagination: '.swiper-pagination'
+        });
+    })
+    
     var messageList = eval('(${messageList})');
     buildDiscussContent(messageList);
 
@@ -205,6 +223,26 @@
     
     function submitReply() {
         
+    }
+
+    // 提交
+    function submit(type, data) {
+        $.ajax({
+            url : "${ctx}/front/clickLike",
+            async : false,
+            type : 'POST',
+            dataType : "json",
+            data : {
+                comboId : comboId
+            },
+            success : function(data) {
+                if (data){
+                    var spanObj = me.find("span");
+                    var num = parseInt(spanObj.html());
+                    spanObj.html(++num);
+                }
+            }
+        });
     }
 
 </script>

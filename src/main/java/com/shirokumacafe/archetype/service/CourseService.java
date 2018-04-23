@@ -1,16 +1,22 @@
 package com.shirokumacafe.archetype.service;
 
+import com.github.pagehelper.PageHelper;
+import com.shirokumacafe.archetype.common.mybatis.Page;
+import com.shirokumacafe.archetype.entity.Course;
+import com.shirokumacafe.archetype.entity.FileImage;
+import com.shirokumacafe.archetype.repository.CourseMapper;
+import com.shirokumacafe.archetype.repository.FileImageMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import com.github.pagehelper.PageHelper;
-import com.shirokumacafe.archetype.common.mybatis.Page;
-import com.shirokumacafe.archetype.entity.Course;
-import com.shirokumacafe.archetype.repository.CourseMapper;
 
 /**
  * 课程
@@ -21,6 +27,8 @@ public class CourseService {
 
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private FileImageMapper fileImageMapper;
 
     /**
      * 添加
@@ -72,12 +80,26 @@ public class CourseService {
     }
 
     /**
-     * 根据课程ID 获取课程
+     * 根据课程ID 获取课程和图片
      * @param cId
      * @return
      */
-    public Course getCourseByCId(Integer cId) {
-        return courseMapper.selectByPrimaryKey(cId);
+    public Course getCourseAndImageByCId(Integer cId) {
+        Course course = courseMapper.selectByPrimaryKey(cId);
+        course.setcPName(courseMapper.selectByPrimaryKey(course.getcPid()).getcName());
+        FileImage fileImage = fileImageMapper.selectByFid(course.getfId());
+        File file = new File(fileImage.getFiAddr());
+        if (file.exists()) {
+            File[] files = file.listFiles();
+            List<String> fileImageList = new ArrayList<>();
+            for (int i = 0; i < files.length; i++) {
+                String[] fileNames = files[i].getAbsolutePath().split("file");
+                fileImageList.add("/file" + fileNames[1]);
+            }
+            Collections.sort(fileImageList);
+            course.setFileImageList(fileImageList);
+        }
+        return course;
     }
 
 }

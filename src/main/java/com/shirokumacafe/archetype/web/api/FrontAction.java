@@ -108,7 +108,7 @@ public class FrontAction {
     @RequestMapping(value = "lookOver", method = RequestMethod.GET)
     public String lookOver(Integer cId, String weixinId, Model model) {
         model.addAttribute("weixinId", weixinId);
-        model.addAttribute("course", courseService.getCourseByCId(cId));
+        model.addAttribute("course", courseService.getCourseAndImageByCId(cId));
         model.addAttribute("messageList", Responses.writeJson(messageService.findDiscussMessage(cId)));
         return "front/course_details";
     }
