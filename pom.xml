@@ -296,8 +296,10 @@
             <groupId>org.icepdf</groupId>
             <artifactId>icepdf-core</artifactId>
             <version>4.1.1</version>
+            <scope>system</scope>
+            <!--本地jar的路径,相对或者绝对都可以-->
+            <systemPath>${project.basedir}/lib/icepdf-core-4.1.1.jar</systemPath>
         </dependency>
-
 
     </dependencies>
 
