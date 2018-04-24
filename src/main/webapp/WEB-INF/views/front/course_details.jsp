@@ -120,6 +120,18 @@
     font-size: 1.5rem;
     color: #0F75E2;;
 }
+.load {
+    margin-left: auto;
+    margin-right: auto;
+    width: 5rem;
+    height: 5rem;
+    display: block;
+}
+.load-content{
+    display: none;
+    width: 100%;
+    height: 5rem;
+}
 </style>
 </head>
 <body>
@@ -144,6 +156,9 @@
         </div>
         <!-- 如果需要分页器 -->
         <div class="swiper-pagination"></div>
+    </div>
+    <div class="load-content">
+        <img class="load" src="${ctx}/static/images/load.gif">
     </div>
     <div class="mome">
         <h2>讨论区<a class="refresh" onclick="refreshMessage();">刷新</a></h2>
@@ -253,6 +268,7 @@
 
     // 刷新讨论区
     function refreshMessage() {
+        $(".load-content").show();
         $.ajax({
             url : "${ctx}/front/getMessage",
             type : 'GET',
@@ -260,6 +276,7 @@
             data : {cId: cId},
             success : function(data) {
                 buildDiscussContent(data);
+                $(".load-content").hide();
             }
         });
     }
