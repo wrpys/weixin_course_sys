@@ -12,12 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 课程
@@ -66,7 +61,7 @@ public class CourseService {
      * @param page
      * @return
      */
-    public Page<Course> listCourse(Course course, Date startDate, Date endDate, Page<Course> page){
+    public Page<CourseExt> listCourse(Course course, Date startDate, Date endDate, Page<CourseExt> page){
     	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
     	Map<String,Object> paramsMap = new HashMap<>();
     	paramsMap.put("cId", course.getcId());
@@ -74,7 +69,7 @@ public class CourseService {
     	paramsMap.put("cName", course.getcName());
     	paramsMap.put("startDate", startDate);
     	paramsMap.put("endDate", endDate);
-        List<Course> courseList = courseMapper.listByParams(paramsMap);
+        List<CourseExt> courseList = courseMapper.listByParams(paramsMap);
         page.setRows(courseList);
         page.setResults((int) pageHelper.getTotal());
         return page;
