@@ -28,7 +28,7 @@
     <ul>
         <c:forEach items="${subCourseList}" var="course" varStatus="status">
             <li>
-                    <%--<a href="${ctx}/front/toWorkDetial?wId=${course.wId}" class="packageListItem">/a>--%><
+                    <%--<a href="${ctx}/front/toWorkDetial?wId=${course.wId}" class="packageListItem">/a>--%>
                     <label>${status.index}</label>
                     <p class="work_item">${course.cName}</p>
                     <label style="float: right;"><fmt:formatDate value="${course.cCreateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></label>
