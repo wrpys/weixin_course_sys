@@ -3,8 +3,9 @@ package com.shirokumacafe.archetype.service;
 import com.alibaba.fastjson.JSON;
 import com.shirokumacafe.archetype.common.utils.MessageUtil;
 import com.shirokumacafe.archetype.common.utils.PropertiesUtil;
-import com.shirokumacafe.archetype.entity.Course;
-import com.shirokumacafe.archetype.entity.CourseExt;
+import com.shirokumacafe.archetype.entity.Student;
+import com.shirokumacafe.archetype.entity.ViewUser;
+import com.shirokumacafe.archetype.entity.ViewUserExample;
 import com.shirokumacafe.archetype.model.WeixinUserInfo;
 import com.shirokumacafe.archetype.model.req.ReqTextMessage;
 import com.shirokumacafe.archetype.model.resp.Article;
@@ -115,8 +116,9 @@ public class TextMessageHandleService {
             respTextMessage.setContent(sb.toString());
             return MessageUtil.textMessageToXml(respTextMessage);
         } else if ("3".equals(reqTextMessage.getContent())) {
-
-            List<CourseExt> courseList = courseMapper.listByParams(new HashMap<String, Object>());
+            Map<String, Object> params = new HashMap<>();
+            params.put("cPid", 0);
+            List<CourseExt> courseList = courseMapper.listByParams(params);
             RespTextMessage respTextMessage = new RespTextMessage();
             respTextMessage.setFromUserName(reqTextMessage.getToUserName());
             respTextMessage.setToUserName(reqTextMessage.getFromUserName());

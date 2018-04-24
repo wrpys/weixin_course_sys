@@ -66,7 +66,7 @@ public class CourseService {
      * @param page
      * @return
      */
-    public Page<CourseExt> listCourse(Course course, Date startDate, Date endDate, Page<CourseExt> page){
+    public Page<Course> listCourse(Course course, Date startDate, Date endDate, Page<Course> page){
     	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
     	Map<String,Object> paramsMap = new HashMap<>();
     	paramsMap.put("cId", course.getcId());
@@ -74,7 +74,7 @@ public class CourseService {
     	paramsMap.put("cName", course.getcName());
     	paramsMap.put("startDate", startDate);
     	paramsMap.put("endDate", endDate);
-        List<CourseExt> courseList = courseMapper.listByParams(paramsMap);
+        List<Course> courseList = courseMapper.listByParams(paramsMap);
         page.setRows(courseList);
         page.setResults((int) pageHelper.getTotal());
         return page;
@@ -87,6 +87,8 @@ public class CourseService {
      */
     public Course getCourseAndImageByCId(Integer cId) {
         Course course = courseMapper.selectByPrimaryKey(cId);
+        course.setHeatNum(course.getHeatNum() + 1);
+        courseMapper.updateByPrimaryKeySelective(course);
         course.setcPName(courseMapper.selectByPrimaryKey(course.getcPid()).getcName());
         FileImage fileImage = fileImageMapper.selectByFid(course.getfId());
         File file = new File(fileImage.getFiAddr());

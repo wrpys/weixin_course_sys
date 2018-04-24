@@ -138,6 +138,7 @@
                 and t1.msg_pid=#{msgPid}
             </if>
         </where>
+        order by t1.create_time desc
     </select>
 
 </mapper>
