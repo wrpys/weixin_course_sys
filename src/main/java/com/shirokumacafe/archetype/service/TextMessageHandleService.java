@@ -3,6 +3,7 @@ package com.shirokumacafe.archetype.service;
 import com.alibaba.fastjson.JSON;
 import com.shirokumacafe.archetype.common.utils.MessageUtil;
 import com.shirokumacafe.archetype.common.utils.PropertiesUtil;
+import com.shirokumacafe.archetype.entity.CourseExt;
 import com.shirokumacafe.archetype.entity.Student;
 import com.shirokumacafe.archetype.entity.ViewUser;
 import com.shirokumacafe.archetype.entity.ViewUserExample;
