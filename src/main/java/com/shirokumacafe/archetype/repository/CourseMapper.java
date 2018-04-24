@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.shirokumacafe.archetype.entity.Course;
+import com.shirokumacafe.archetype.entity.CourseExt;
 
 public interface CourseMapper {
     int deleteByPrimaryKey(Integer cId);
@@ -20,6 +21,7 @@ public interface CourseMapper {
 
 	void deleteCourseList(List<Integer> ids);
 
-	List<Course> listByParams(Map<String, Object> paramsMap);
+	List<CourseExt> listByParams(Map<String, Object> paramsMap);
 
+    List<Course> getSubCourseListByCid(Integer cId);
 }

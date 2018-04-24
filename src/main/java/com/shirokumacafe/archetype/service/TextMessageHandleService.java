@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.shirokumacafe.archetype.common.utils.MessageUtil;
 import com.shirokumacafe.archetype.common.utils.PropertiesUtil;
 import com.shirokumacafe.archetype.entity.Course;
-import com.shirokumacafe.archetype.entity.Student;
-import com.shirokumacafe.archetype.entity.ViewUser;
-import com.shirokumacafe.archetype.entity.ViewUserExample;
+import com.shirokumacafe.archetype.entity.CourseExt;
 import com.shirokumacafe.archetype.model.WeixinUserInfo;
 import com.shirokumacafe.archetype.model.req.ReqTextMessage;
 import com.shirokumacafe.archetype.model.resp.Article;
@@ -118,7 +116,7 @@ public class TextMessageHandleService {
             return MessageUtil.textMessageToXml(respTextMessage);
         } else if ("3".equals(reqTextMessage.getContent())) {
 
-            List<Course> courseList = courseMapper.listByParams(new HashMap<String, Object>());
+            List<CourseExt> courseList = courseMapper.listByParams(new HashMap<String, Object>());
             RespTextMessage respTextMessage = new RespTextMessage();
             respTextMessage.setFromUserName(reqTextMessage.getToUserName());
             respTextMessage.setToUserName(reqTextMessage.getFromUserName());
@@ -148,7 +146,7 @@ public class TextMessageHandleService {
 
             for (int i = 0; i < courseList.size(); i++) {
                 Article article = new Article();
-                Course course = courseList.get(i);
+                CourseExt course = courseList.get(i);
                 article.setTitle(course.getcName());
                 article.setUrl(contentPath + "/front/toCourse?cId=" + course.getcId() + "&weixinId=" + reqTextMessage.getFromUserName());
                 articles.add(article);

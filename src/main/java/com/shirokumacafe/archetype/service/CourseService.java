@@ -3,6 +3,7 @@ package com.shirokumacafe.archetype.service;
 import com.github.pagehelper.PageHelper;
 import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.entity.Course;
+import com.shirokumacafe.archetype.entity.CourseExt;
 import com.shirokumacafe.archetype.entity.FileImage;
 import com.shirokumacafe.archetype.repository.CourseMapper;
 import com.shirokumacafe.archetype.repository.FileImageMapper;
@@ -65,7 +66,7 @@ public class CourseService {
      * @param page
      * @return
      */
-    public Page<Course> listCourse(Course course, Date startDate, Date endDate, Page<Course> page){
+    public Page<CourseExt> listCourse(Course course, Date startDate, Date endDate, Page<CourseExt> page){
     	com.github.pagehelper.Page<?> pageHelper = PageHelper.startPage(page.getPageIndex(), page.getLimit());
     	Map<String,Object> paramsMap = new HashMap<>();
     	paramsMap.put("cId", course.getcId());
@@ -73,7 +74,7 @@ public class CourseService {
     	paramsMap.put("cName", course.getcName());
     	paramsMap.put("startDate", startDate);
     	paramsMap.put("endDate", endDate);
-        List<Course> courseList = courseMapper.listByParams(paramsMap);
+        List<CourseExt> courseList = courseMapper.listByParams(paramsMap);
         page.setRows(courseList);
         page.setResults((int) pageHelper.getTotal());
         return page;
@@ -102,4 +103,12 @@ public class CourseService {
         return course;
     }
 
+    /**
+     * 将cId当做c_pid获取子课程列表
+     * @param cId
+     * @return
+     */
+    public List<Course> getSubCourseListByCid(Integer cId) {
+        return courseMapper.getSubCourseListByCid(cId);
+    }
 }

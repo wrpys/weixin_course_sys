@@ -1,6 +1,7 @@
 package com.shirokumacafe.archetype.web.api;
 
 import com.shirokumacafe.archetype.common.utilities.Responses;
+import com.shirokumacafe.archetype.entity.Course;
 import com.shirokumacafe.archetype.entity.Message;
 import com.shirokumacafe.archetype.service.CourseService;
 import com.shirokumacafe.archetype.service.MessageService;
@@ -13,13 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * 前台入口
  */
 @Controller
-@RequestMapping(value = "/front")
+    @RequestMapping(value = "/front")
 public class FrontAction {
 
     @Autowired
@@ -80,9 +82,9 @@ public class FrontAction {
     public String toCourse(Integer cId, String weixinId, Model model) {
         model.addAttribute("weixinId", weixinId);
         // 查cId的课程信息，以及子课程的信息（分开存放）
-//        model.addAttribute("course", course);
-//        model.addAttribute("subCourseList", subCourseList);
-        return "front/course";
+        List<Course> subCourseList = courseService.getSubCourseListByCid(cId);
+        model.addAttribute("subCourseList", subCourseList);
+        return "front/subcourse_list";
     }
 
     /**
@@ -90,11 +92,39 @@ public class FrontAction {
      *
      * @param fId
      */
-    @RequestMapping(value = "downFile", method = RequestMethod.GET)
+    @RequestMapping(value = "downLoadFile", method = RequestMethod.GET)
     public void downFile(Integer cId, Integer fId) {
         // 将cId课程的下载量加1
+        /*WorkInfo workInfo = workService.getWorkInfoByWiId(wiId);
+        String realPath = System.getProperty("j2ee.root") + workInfo.getWiFileAddr();
+        File file = new File(realPath);
+        if (!file.exists()) {
+            response.sendError(404, "File not found!");
+            return null;
+        }
+        response.reset();
+        response.setContentType("application/x-msdownload");
+        response.setHeader("Content-Disposition","attachment; filename=" + new String(workInfo.getWiFileName().getBytes(),"ISO-8859-1"));
+        byte[] buf = new byte[1024];
+        int len = 0;
+        BufferedInputStream br = null;
+        OutputStream out = null;
+        br = new BufferedInputStream(new FileInputStream(file));
+        out = response.getOutputStream();
+        while ((len = br.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        out.flush();
+        if (br != null) {
+            br.close();
+            br = null;
+        }
+        if (out != null) {
+            out.close();
+            out = null;
+        }
         // 开流下载fId文件
-        return;
+        return;*/
     }
 
     /**
