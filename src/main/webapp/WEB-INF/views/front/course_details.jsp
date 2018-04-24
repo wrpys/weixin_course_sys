@@ -115,6 +115,11 @@
     border: 1px solid #ccc;
     float: left;
 }
+.refresh{
+    float: right;
+    font-size: 1.5rem;
+    color: #0F75E2;;
+}
 </style>
 </head>
 <body>
@@ -141,21 +146,21 @@
         <div class="swiper-pagination"></div>
     </div>
     <div class="mome">
-        <h2>讨论区</h2>
+        <h2>讨论区<a class="refresh" onclick="refreshMessage();">刷新</a></h2>
         <div id="discuss-content">
 
         </div>
     </div>
 </section>
 <!--app下载 底部飘浮 -->
-<div id="backTop"></div>
+<div id="backTop" style="bottom: 6.7rem;"></div>
 <input type="hidden" name="msgType" id="msgType" value="1">
 <input type="hidden" name="msgPid" id="msgPid" value="0">
 <input type="hidden" name="weixinId" id="weixinId" value="${weixinId}">
 <input type="hidden" name="cId" id="cId" value="${course.cId}">
 <%@include file="course_details_footer.jsp" %>
 <script type="text/javascript">
-    
+    var cId = "${course.cId}";
     $(function () {
         //图片轮播
         var mySwiper = new Swiper('.swiper-container', {
@@ -170,6 +175,7 @@
 
     function buildDiscussContent(messageList) {
         var discussContent = $("#discuss-content");
+        discussContent.empty();
         if (messageList && messageList.length > 0) {
             discussContent.append('<ul id="discuss-ul" class="discuss-ul"></ul>');
             var ulDom = $("#discuss-ul");
@@ -245,6 +251,19 @@
         submit(msgType, data);
     });
 
+    // 刷新讨论区
+    function refreshMessage() {
+        $.ajax({
+            url : "${ctx}/front/getMessage",
+            type : 'GET',
+            dataType : "json",
+            data : {cId: cId},
+            success : function(data) {
+                buildDiscussContent(data);
+            }
+        });
+    }
+
     // 提交
     function submit(type, data) {
         if (type == "2") {
@@ -268,6 +287,7 @@
                 $("#msgPid").val(0);
                 $("#msgContent").val("");
                 console.log(data);
+                refreshMessage();
                 if (type == "1") {
 
                 } else if (type == "2") {

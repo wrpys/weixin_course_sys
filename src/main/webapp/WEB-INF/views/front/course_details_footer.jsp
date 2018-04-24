@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <footer>
-	<nav class="bottom_menu" style="background: #B7D2E7;height: 4rem;">
+	<nav class="bottom_menu" style="background: #B7D2E7;height: 4rem;z-index: 99999999;">
 		<label>发言：</label><input type="text" name="msgContent" id="msgContent" > <button class="btn" id="submitBtn">发送</button>
 	</nav>
 	<h3>经营许可证：闽ICP备XXXXXXXXXXXXXXXXX号</h3>
