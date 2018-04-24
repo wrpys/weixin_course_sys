@@ -24,9 +24,9 @@
     values (#{fName,jdbcType=VARCHAR}, #{fAddr,jdbcType=VARCHAR})
   </insert>
   
-   <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="fId" parameterType="com.shirokumacafe.archetype.entity.File">  
-      insert into t_file (f_name, f_addr)
-      values (#{fName,jdbcType=VARCHAR}, #{fAddr,jdbcType=VARCHAR})
+   <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="fId" parameterType="com.shirokumacafe.archetype.entity.File">
+      insert into t_file (f_id,f_name, f_addr)
+      values (#{fId,jdbcType=INTEGER},#{fName,jdbcType=VARCHAR}, #{fAddr,jdbcType=VARCHAR})
    </insert> 
    
   <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.File">

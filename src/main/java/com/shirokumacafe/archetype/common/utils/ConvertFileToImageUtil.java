@@ -74,8 +74,6 @@ public class ConvertFileToImageUtil {
 				// 判断路径是否存在，如果不存在就创建一个
 				if (!filepath.exists()) {
 					filepath.mkdirs();
-				}else {
-					delAllFile(filepath.toString());
 				}
 				orignalPPTFileInputStream=new FileInputStream(orignalPPTFileName);
 			} catch (FileNotFoundException e) {
@@ -143,7 +141,7 @@ public class ConvertFileToImageUtil {
 				  * 设置图片的存放路径和图片格式，注意生成的文件路径为绝对路径，最终获得各个图像文件所对应的输出流的对象
 				  */
 				 try {
-					 String imgName=(i+1)+"_"+UUID.randomUUID().toString()+"."+imageFormatNameString;
+					 String imgName=System.currentTimeMillis()+"."+imageFormatNameString;
 					 imgNamesList.add(imgName);//将图片名称添加的集合中
 					 orignalPPTFileOutStream=new FileOutputStream(targetImageFileDir+imgName);
 //					orignalPPTFileOutStream=new FileOutputStream(targetImageFileDir+(i+1)+"_"+UUID.randomUUID().toString()+"."+imageFormatNameString);
@@ -214,8 +212,6 @@ public class ConvertFileToImageUtil {
 				// 判断路径是否存在，如果不存在就创建一个
 				if (!filepath.exists()) {
 					filepath.mkdirs();
-				}else {
-					delAllFile(filepath.toString());
 				}
 				orignalPPTFileInputStream=new FileInputStream(orignalPPTFileName);
 			} catch (FileNotFoundException e) {
@@ -279,7 +275,7 @@ public class ConvertFileToImageUtil {
 				  */
 				 try {
 					 
-					 String imgName=(i+1)+"_"+UUID.randomUUID().toString()+"."+imageFormatNameString;
+					 String imgName=System.currentTimeMillis()+"."+imageFormatNameString;
 					 imgNamesList.add(imgName);//将图片名称添加的集合中
 					 orignalPPTFileOutStream=new FileOutputStream(targetImageFileDir+imgName);
 				} catch (FileNotFoundException e) {
@@ -325,7 +321,7 @@ public class ConvertFileToImageUtil {
      * 将pdf转换成图片
      * 
      * @param pdfPath
-     * @param imagePath
+     * @param imgDirPath
      * @return 返回转换后图片的名字
      * @throws Exception
      */
@@ -405,7 +401,7 @@ public class ConvertFileToImageUtil {
     
     
 	public static void main(String[] args) throws Exception {
-		String pdfPath = "C:\\Users\\Administrator\\Desktop\\test.pdf";
+		/*String pdfPath = "C:\\Users\\Administrator\\Desktop\\test.pdf";
 		String imgDirPath = "C:\\Users\\Administrator\\Desktop\\ppt\\pptimg\\";
 		pdf2Imgs(pdfPath, imgDirPath, "czx");
 		//PPT调用示例  
@@ -419,7 +415,9 @@ public class ConvertFileToImageUtil {
 			for (String imgName : imgNames) {
 				System.out.println(imgName);
 			}
-		}
+		}*/
+		File file = new File("E:\\java\\apache-tomcat-7.0.65\\webapps\\archetype\\file\\3\\4\\LSTM.ppt");
+		file.delete();
 		
 	}
 }
