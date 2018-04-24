@@ -42,8 +42,10 @@ public class MessageService {
         message.setOperId(weixinUserInfo.getUserId());
         String operRoleName = "";
         if (OPER_ROLE_TEACHER.intValue() == weixinUserInfo.getRole().intValue()) {
+            message.setOperRole(OPER_ROLE_TEACHER.intValue());
             operRoleName = "老师";
-        } else if (OPER_ROLE_STUDENT.intValue() == message.getOperRole().intValue()) {
+        } else if (OPER_ROLE_STUDENT.intValue() == weixinUserInfo.getRole().intValue()) {
+            message.setOperRole(OPER_ROLE_STUDENT.intValue());
             operRoleName = "学生";
         }
         message.setCreateTime(new Date());
