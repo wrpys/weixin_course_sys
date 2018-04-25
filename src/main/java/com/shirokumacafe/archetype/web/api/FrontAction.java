@@ -3,10 +3,7 @@ package com.shirokumacafe.archetype.web.api;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Course;
 import com.shirokumacafe.archetype.entity.Message;
-import com.shirokumacafe.archetype.service.CourseService;
-import com.shirokumacafe.archetype.service.MessageService;
-import com.shirokumacafe.archetype.service.StudentService;
-import com.shirokumacafe.archetype.service.UserService;
+import com.shirokumacafe.archetype.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +31,8 @@ public class FrontAction {
     private MessageService messageService;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private FileService fileService;
 
     /**
      * 跳转到绑定页面
@@ -95,38 +96,56 @@ public class FrontAction {
      * @param fId
      */
     @RequestMapping(value = "downLoadFile", method = RequestMethod.GET)
-    public void downFile(Integer cId, Integer fId) {
+    public void downFile(Integer cId, Integer fId, HttpServletResponse response) {
         // 将cId课程的下载量加1
-        /*WorkInfo workInfo = workService.getWorkInfoByWiId(wiId);
-        String realPath = System.getProperty("j2ee.root") + workInfo.getWiFileAddr();
+        Course course = courseService.getCourseByCid(cId);
+        course.setDownloadNum(course.getDownloadNum()+1);
+        courseService.update(course);
+
+        com.shirokumacafe.archetype.entity.File exitFile = fileService.getFileById(fId);
+        String realPath = exitFile.getfAddr() + exitFile.getfName();
         File file = new File(realPath);
-        if (!file.exists()) {
-            response.sendError(404, "File not found!");
-            return null;
-        }
-        response.reset();
-        response.setContentType("application/x-msdownload");
-        response.setHeader("Content-Disposition","attachment; filename=" + new String(workInfo.getWiFileName().getBytes(),"ISO-8859-1"));
-        byte[] buf = new byte[1024];
-        int len = 0;
+
         BufferedInputStream br = null;
         OutputStream out = null;
-        br = new BufferedInputStream(new FileInputStream(file));
-        out = response.getOutputStream();
-        while ((len = br.read(buf)) > 0) {
-            out.write(buf, 0, len);
-        }
-        out.flush();
-        if (br != null) {
-            br.close();
+        try {
+            if (!file.exists()) {
+                response.sendError(404, "File not found!");
+                return;
+            }
+            response.reset();
+            response.setContentType("application/x-msdownload");
+            response.setHeader("Content-Disposition","attachment; filename=" + new String(exitFile.getfName().getBytes(),"ISO-8859-1"));
+            byte[] buf = new byte[1024];
+            int len = 0;
             br = null;
-        }
-        if (out != null) {
-            out.close();
             out = null;
+            br = new BufferedInputStream(new FileInputStream(file));
+            out = response.getOutputStream();
+            while ((len = br.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (br != null) {
+                try {
+                    br.close();
+                    br = null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                    out = null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        // 开流下载fId文件
-        return;*/
     }
 
     /**

@@ -23,7 +23,7 @@ public class Course {
     private String cPName;
 
     List<String> fileImageList;
-    
+
     public Integer getcId() {
         return cId;
     }

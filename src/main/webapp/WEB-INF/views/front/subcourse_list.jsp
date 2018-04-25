@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-    <title>子课程列表-作业系统</title>
+    <title>${parentCourseName}-作业系统</title>
     <meta name="keywords" content="子课程列表-作业系统">
     <meta name="description" content="子课程列表-作业系统">
     <meta name="mobile-agent" content="format=xhtml;">
@@ -29,6 +29,8 @@
             height: 4rem;
             line-height: 4rem;
             text-align: center;
+            font-size: 1.5rem;
+            font-weight: 500;
         }
         a{
             display: inline-block;
@@ -42,9 +44,8 @@
 <body>
 <header>
     <div class="top_title">
-        <a href="/" class="back"></a>
         <div class="title">
-            ${parentCourseName}
+            子课程列表
         </div>
     </div>
 </header>
@@ -63,11 +64,11 @@
                         <fmt:formatDate value="${course.cCreateTime}" pattern="yyyy-MM-dd" />
                     </li>
                     <li class="li" style="width: 20%;">
-                        <p style="height: 2rem;line-height: 2rem">下载量：${course.downloadNum}</p>
-                        <p style="height: 2rem;line-height: 2rem">热度：${course.heatNum}</p>
+                        <p style="height: 2rem;line-height: 2rem;font-size: 1rem;">下载量：${course.downloadNum}</p>
+                        <p style="height: 2rem;line-height: 2rem;font-size: 1rem;">热度：${course.heatNum}</p>
                     </li>
                     <li class="li" style="width: 18%;border: 0;">
-                        <a style="height: 4rem;padding-top: 0.5rem;" href="${ctx}/front/downLoadFile?fId=${course.fId}&cId=${course.cId}">
+                        <a style="height: 4rem;padding-top: 0.5rem;margin-right: 0.5rem;" href="${ctx}/front/downLoadFile?fId=${course.fId}&cId=${course.cId}">
                             <img src="${ctx}/static/images/download.png"/>
                         </a>
                         <a style="height: 4rem;padding-top: 0.5rem;" href="${ctx}/front/lookOver?weixinId=${weixinId}&cId=${course.cId}">

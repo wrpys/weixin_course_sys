@@ -33,6 +33,13 @@ public class FileService {
 	
 	@Autowired
 	private CourseMapper courseMapper;
+
+
+	public com.shirokumacafe.archetype.entity.File getFileById(Integer fId){
+		return fileMapper.selectByPrimaryKey(fId);
+	}
+
+
 	/**
 	 * 上传文件
 	 * @param request
