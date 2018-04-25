@@ -92,7 +92,9 @@ public class CourseService {
             List<String> fileImageList = new ArrayList<>();
             for (int i = 0; i < files.length; i++) {
                 String[] fileNames = files[i].getAbsolutePath().split("file");
-                fileImageList.add("/file" + fileNames[1]);
+                if (fileNames[1].indexOf("jpg") != -1) {
+                    fileImageList.add("/file" + fileNames[1]);
+                }
             }
             Collections.sort(fileImageList);
             course.setFileImageList(fileImageList);
