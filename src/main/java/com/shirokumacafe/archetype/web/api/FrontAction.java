@@ -3,7 +3,11 @@ package com.shirokumacafe.archetype.web.api;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Course;
 import com.shirokumacafe.archetype.entity.Message;
-import com.shirokumacafe.archetype.service.*;
+import com.shirokumacafe.archetype.service.CourseService;
+import com.shirokumacafe.archetype.service.FileService;
+import com.shirokumacafe.archetype.service.MessageService;
+import com.shirokumacafe.archetype.service.StudentService;
+import com.shirokumacafe.archetype.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +29,10 @@ import java.util.Map;
  * 前台入口
  */
 @Controller
-    @RequestMapping(value = "/front")
+@RequestMapping(value = "/front")
 public class FrontAction {
+
+    private Map<String, Long> session = new HashMap<>();
 
     @Autowired
     private StudentService studentService;
@@ -96,16 +107,10 @@ public class FrontAction {
      * @param fId
      */
     @RequestMapping(value = "downLoadFile", method = RequestMethod.GET)
-    public void downFile(Integer cId, Integer fId, HttpServletResponse response) {
-        // 将cId课程的下载量加1
-        Course course = courseService.getCourseByCid(cId);
-        course.setDownloadNum(course.getDownloadNum()+1);
-        courseService.update(course);
-
+    public void downFile(Integer cId, Integer fId, String weixinId, HttpServletResponse response) {
         com.shirokumacafe.archetype.entity.File exitFile = fileService.getFileById(fId);
         String realPath = exitFile.getfAddr() + exitFile.getfName();
         File file = new File(realPath);
-
         BufferedInputStream br = null;
         OutputStream out = null;
         try {
@@ -115,7 +120,7 @@ public class FrontAction {
             }
             response.reset();
             response.setContentType("application/x-msdownload");
-            response.setHeader("Content-Disposition","attachment; filename=" + new String(exitFile.getfName().getBytes(),"ISO-8859-1"));
+            response.setHeader("Content-Disposition", "attachment; filename=" + new String(exitFile.getfName().getBytes(), "ISO-8859-1"));
             byte[] buf = new byte[1024];
             int len = 0;
             br = null;
@@ -126,9 +131,16 @@ public class FrontAction {
                 out.write(buf, 0, len);
             }
             out.flush();
+            Long firstDate = session.get("weixinId");
+            if (firstDate == null || (firstDate != null && (System.currentTimeMillis() - firstDate.longValue()) > 30 * 60 * 1000)) {
+                session.put("weixinId", System.currentTimeMillis());
+                Course course = courseService.getCourseByCid(cId);
+                course.setDownloadNum(course.getDownloadNum() + 1);
+                courseService.update(course);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (br != null) {
                 try {
                     br.close();

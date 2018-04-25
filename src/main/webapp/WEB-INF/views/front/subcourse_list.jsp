@@ -68,7 +68,7 @@
                         <p style="height: 2rem;line-height: 2rem;font-size: 1rem;">热度：${course.heatNum}</p>
                     </li>
                     <li class="li" style="width: 18%;border: 0;">
-                        <a style="height: 4rem;padding-top: 0.5rem;margin-right: 0.5rem;" href="${ctx}/front/downLoadFile?fId=${course.fId}&cId=${course.cId}">
+                        <a style="height: 4rem;padding-top: 0.5rem;margin-right: 0.5rem;" href="${ctx}/front/downLoadFile?fId=${course.fId}&cId=${course.cId}&weixinId=${weixinId}">
                             <img src="${ctx}/static/images/download.png"/>
                         </a>
                         <a style="height: 4rem;padding-top: 0.5rem;" href="${ctx}/front/lookOver?weixinId=${weixinId}&cId=${course.cId}">
@@ -76,22 +76,6 @@
                         </a>
                     </li>
                 </ul>
-                    <%--<a href="${ctx}/front/toWorkDetial?wId=${course.wId}" class="packageListItem">/a>--%>
-                    <%--<label class="firstStyle">${status.index}</label>--%>
-                    <%--<label class="firstStyle" style="width: 5rem;">${course.cName}</label>--%>
-                    <%--<label class="firstStyle" style="width: 6rem;"><fmt:formatDate value="${course.cCreateTime}" pattern="yyyy-MM-dd" /></label>--%>
-                    <%--<label style="width: 5rem;display: inline-block;">--%>
-                        <%--<p style="height: 2rem;line-height: 2rem">下载量：${course.downloadNum}</p>--%>
-                        <%--<p style="height: 2rem;line-height: 2rem">热度：${course.heatNum}</p>--%>
-                    <%--</label>--%>
-                    <%--<label style="width: 6rem;float: right;padding-top: 0.5rem;">--%>
-                        <%--<a href="${ctx}/front/downLoadFile?fId=${course.fId}&cId=${course.cId}">--%>
-                            <%--<img src="${ctx}/static/images/download.png"/>--%>
-                        <%--</a>--%>
-                        <%--<a href="${ctx}/front/lookOver?weixinId=${weixinId}&cId=${course.cId}">--%>
-                            <%--<img src="${ctx}/static/images/play.png"/>--%>
-                        <%--</a>--%>
-                    <%--</label>--%>
             </li>
         </c:forEach>
     </ul>
