@@ -108,4 +108,12 @@ public class CourseService {
     public List<Course> getSubCourseListByCid(Integer cId) {
         return courseMapper.getSubCourseListByCid(cId);
     }
+
+    /**
+     * 根据主键ID获取course
+     * @return
+     */
+    public Course getCourseByCid(Integer cId){
+        return courseMapper.selectByPrimaryKey(cId);
+    }
 }

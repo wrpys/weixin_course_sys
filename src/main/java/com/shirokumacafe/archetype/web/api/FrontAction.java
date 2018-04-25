@@ -83,7 +83,9 @@ public class FrontAction {
         model.addAttribute("weixinId", weixinId);
         // 查cId的课程信息，以及子课程的信息（分开存放）
         List<Course> subCourseList = courseService.getSubCourseListByCid(cId);
+        Course parentCourse = courseService.getCourseByCid(cId);
         model.addAttribute("subCourseList", subCourseList);
+        model.addAttribute("parentCourseName", parentCourse.getcName());
         return "front/subcourse_list";
     }
 
