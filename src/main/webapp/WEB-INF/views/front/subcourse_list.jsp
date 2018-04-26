@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-    <title>${parentCourseName}-作业系统</title>
-    <meta name="keywords" content="子课程列表-作业系统">
-    <meta name="description" content="子课程列表-作业系统">
+    <title>${parentCourseName}-课程系统</title>
+    <meta name="keywords" content="子课程列表-课程系统">
+    <meta name="description" content="子课程列表-课程系统">
     <meta name="mobile-agent" content="format=xhtml;">
     <meta name="applicable-devive" content="mobile">
     <meta content="yes" name="apple-mobile-web-app-capable">

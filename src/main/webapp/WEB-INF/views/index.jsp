@@ -18,7 +18,7 @@
 
 <body>
 <div class="main">
-    作业系统首页
+    课程系统首页
 </div>
 </body>
 </html>

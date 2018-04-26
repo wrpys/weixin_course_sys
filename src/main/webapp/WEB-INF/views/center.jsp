@@ -9,7 +9,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>作业系统 后台管理</title>
+    <title>课程系统 后台管理</title>
     <%@include file="../layouts/default.jsp"%>
     <link rel="stylesheet" href="${ctx}/static/styles/main.css">
 </head>
@@ -80,7 +80,7 @@
                     },
                     xclass: 'controller',
                     content: '<div class="header">' +
-                            '<div class="dl-title"><span>作业系统 后台管理</span></div>' +
+                            '<div class="dl-title"><span>课程系统 后台管理</span></div>' +
                             '<div class="dl-log">欢迎您，<span class="dl-log-user"><%=user.getNickName()%></span>' +
                             '<a class="dl-log-quit btn-edit" title="修改密码" id="changePass">[修改密码]</a>' +
                             '<a href="${ctx}/logout" title="退出系统" class="dl-log-quit">[退出]</a></div></div>'
