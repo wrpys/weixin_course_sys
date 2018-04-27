@@ -86,6 +86,9 @@ public class CourseService {
         courseMapper.updateByPrimaryKeySelective(course);
         course.setcPName(courseMapper.selectByPrimaryKey(course.getcPid()).getcName());
         FileImage fileImage = fileImageMapper.selectByFid(course.getfId());
+        if(null == fileImage){
+            return course;
+        }
         File file = new File(fileImage.getFiAddr());
         if (file.exists()) {
             File[] files = file.listFiles();
