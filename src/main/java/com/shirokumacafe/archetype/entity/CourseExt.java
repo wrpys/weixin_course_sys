@@ -20,6 +20,12 @@ public class CourseExt {
 
 	private Integer heatNum;
 
+	private Integer userId;
+
+	private Integer likeNum;
+
+	private String userName;
+
 	// 子课程课件名字查询时候返回
 	private String fName;
 
@@ -89,6 +95,30 @@ public class CourseExt {
 
 	public String getfName() {
 		return fName;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public Integer getLikeNum() {
+		return likeNum;
+	}
+
+	public void setLikeNum(Integer likeNum) {
+		this.likeNum = likeNum;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public void setfName(String fName) {

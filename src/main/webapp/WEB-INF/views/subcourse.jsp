@@ -34,14 +34,6 @@
                     <input type="text" class="control-text" name="cName">
                 </div>
             </div>
-            <div class="control-group span12">
-                <label class="control-label">添加时间：</label>
-                <div class="controls">
-                    <input type="text" class="calendar-time" name="startDate">
-                    <span> - </span>
-                    <input type="text" class="calendar-time" name="endDate">
-                </div>
-            </div>
             <div class="span3 offset2">
                 <button type="button" id="btnSearch" class="button button-primary">搜索</button>
             </div>
@@ -118,13 +110,14 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
 
     var
             columns = [
-                { title: '课程名字', width: 200, dataIndex: 'cName'},
-                { title: '添加时间', width: 200, dataIndex: 'cCreateTime'},
-                { title: '课程描述', width: 100, dataIndex: 'cDesc'},
-                { title: '课件名字', width: 100, dataIndex: 'fName'},
-                { title: '下载次数', width: 100, dataIndex: 'downloadNum'},
-                { title: '热度', width: 100, dataIndex: 'heatNum'},
-                { title: '操作', width: 300, dataIndex: 'cId',renderer : function(value,obj){
+                { title: '课程名字', width: 120, dataIndex: 'cName'},
+                { title: '教师', width: 90, dataIndex: 'userName'},
+                { title: '添加时间', width: 180, dataIndex: 'cCreateTime'},
+                { title: '课程描述', width: 200, dataIndex: 'cDesc'},
+                { title: '课件名字', width: 200, dataIndex: 'fName'},
+                { title: '下载次数', width: 80, dataIndex: 'downloadNum'},
+                { title: '热度', width: 80, dataIndex: 'heatNum'},
+                { title: '操作', width: 100, dataIndex: 'cId',renderer : function(value,obj){
                     var returnStr = '<span class="grid-command uploadFile">上传课件</span>&nbsp;&nbsp;';
                     return returnStr;
                 }}

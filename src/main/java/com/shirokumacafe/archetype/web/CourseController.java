@@ -1,13 +1,11 @@
 package com.shirokumacafe.archetype.web;
 
-import com.shirokumacafe.archetype.common.Configs;
 import com.shirokumacafe.archetype.common.mybatis.Page;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Course;
 import com.shirokumacafe.archetype.entity.CourseExt;
 import com.shirokumacafe.archetype.service.CourseService;
 import com.shirokumacafe.archetype.service.FileService;
-import com.shirokumacafe.archetype.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +30,10 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
     @Autowired
-    private UserService userService;
-    @Autowired
     private FileService fileService;
 
     @RequestMapping
     public String to(Model model) {
-        model.addAttribute("users", userService.getUsersByRoleId(Configs.CUSTOMER_TEACHER));
         return "course";
     }
 
@@ -79,8 +74,8 @@ public class CourseController {
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    public String list(Course course, Date startDate, Date endDate, Page<CourseExt> page) {
-        Page<CourseExt> viewCoursePage = courseService.listCourse(course, startDate, endDate, page);
+    public String list(Course course, Page<CourseExt> page) {
+        Page<CourseExt> viewCoursePage = courseService.listCourse(course, page);
         return Responses.writeJson(viewCoursePage);
     }
 

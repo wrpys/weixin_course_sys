@@ -102,6 +102,25 @@ public class FrontAction {
     }
 
     /**
+     * 课程详情-旧
+     *
+     * @param cId
+     * @param weixinId
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "toCourseOld", method = RequestMethod.GET)
+    public String toCourseOld(Integer cId, String weixinId, Model model) {
+        model.addAttribute("weixinId", weixinId);
+        // 查cId的课程信息，以及子课程的信息（分开存放）
+        List<Course> subCourseList = courseService.getSubCourseListByCid(cId);
+        Course parentCourse = courseService.getCourseByCid(cId);
+        model.addAttribute("subCourseList", subCourseList);
+        model.addAttribute("parentCourseName", parentCourse.getcName());
+        return "front/subcourse_list_old";
+    }
+
+    /**
      * 下载课件
      *
      * @param fId
@@ -174,6 +193,22 @@ public class FrontAction {
         model.addAttribute("course", courseService.getCourseAndImageByCId(cId));
         model.addAttribute("messageList", Responses.writeJson(messageService.findDiscussMessage(cId)));
         return "front/course_details";
+    }
+
+    /**
+     * 子课程详情-旧
+     *
+     * @param cId
+     * @param weixinId
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "lookOverOld", method = RequestMethod.GET)
+    public String lookOverOld(Integer cId, String weixinId, Model model) {
+        model.addAttribute("weixinId", weixinId);
+        model.addAttribute("course", courseService.getCourseAndImageByCId(cId));
+        model.addAttribute("messageList", Responses.writeJson(messageService.findDiscussMessage(cId)));
+        return "front/course_details_old";
     }
 
     /**

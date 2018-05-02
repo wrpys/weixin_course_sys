@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>绑定-课程系统</title>
+<title>绑定</title>
 <meta name="mobile-agent" content="format=xhtml;">
 <meta name="applicable-devive" content="mobile">
 <meta content="yes" name="apple-mobile-web-app-capable">
@@ -25,9 +25,9 @@
         padding-left: 10px;
     }
 </style>
-<body>
+<body style="background: #E3F0F0;">
 <section>
-	<div class="order_from" style="margin: 0rem 0 1rem 0;padding-top: 8rem;">
+	<div class="order_from" style="margin: 0rem 0 1rem 0;padding-top: 8rem;background: #E3F0F0;">
         <div class="tips" style="font-size: 5rem;height: 6rem;">课程系统</div>
         <form id="form" method="post" style="padding: 4rem;" action="${ctx}/front/binding" onsubmit="return validateFun();">
             <input type="hidden" name="weixinId" value="${weixinId}">

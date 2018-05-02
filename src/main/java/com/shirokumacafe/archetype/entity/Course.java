@@ -20,6 +20,12 @@ public class Course {
 
     private Integer heatNum;
 
+    private Integer userId;
+
+    private Integer likeNum;
+
+    private String userName;
+
     private String cPName;
 
     List<String> fileImageList;
@@ -102,5 +108,29 @@ public class Course {
 
     public void setFileImageList(List<String> fileImageList) {
         this.fileImageList = fileImageList;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-    <title>${parentCourseName}-课程系统</title>
-    <meta name="keywords" content="子课程列表-课程系统">
-    <meta name="description" content="子课程列表-课程系统">
+    <title>${parentCourseName}</title>
     <meta name="mobile-agent" content="format=xhtml;">
     <meta name="applicable-devive" content="mobile">
     <meta content="yes" name="apple-mobile-web-app-capable">
@@ -15,19 +13,24 @@
     <%@include file="inc.jsp" %>
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/front/work/work_list.css"/>
     <style>
-        .item{
-            height: 4rem;
-            width: 100%;
-            border-bottom: 1px solid #ddd;
-            background: #ffffff;
-            margin-top: 0.5rem;
+        body {
+            background: #E3F0F0;
         }
-
+        .item{
+            height: 4.5rem;
+            width: 99%;
+            border-top: 1.5px solid #A9C4D6;
+            border-bottom: 1.5px solid #A9C4D6;
+            border-right: 1.5px dashed #AECADF;
+            border-left: 1.5px dashed #AECADF;
+            background: #C1DCED;
+            margin-top: 1rem;
+        }
         .li{
             float: left;
-            border-right: 1px solid #DDD;
-            height: 4rem;
-            line-height: 4rem;
+            border-right: 1.5px dashed #AECADF;
+            height: 4.5rem;
+            line-height: 4.5rem;
             text-align: center;
             font-size: 1.5rem;
             font-weight: 500;
@@ -36,43 +39,39 @@
             display: inline-block;
         }
         img{
-            height: 2rem;
-            width:  2rem;
+            height: 2.2rem;
+            width:  2.2rem;
         }
     </style>
 </head>
 <body>
-<header>
-    <div class="top_title">
-        <div class="title">
-            子课程列表
-        </div>
-    </div>
-</header>
 <section>
-    <ul>
+    <ul class="ul-content">
         <c:forEach items="${subCourseList}" var="course" varStatus="status">
             <li class="item">
                 <ul>
-                    <li class="li" style="width: 8%;">
-                        ${status.index}
+                    <li class="li" style="width: 10%;">
+                        ${status.index + 1}
                     </li>
-                    <li class="li" style="width: 25%;">
+                    <li class="li" style="width: 27%;">
                         ${course.cName}
                     </li>
-                    <li class="li" style="width: 25%;">
-                        <fmt:formatDate value="${course.cCreateTime}" pattern="yyyy-MM-dd" />
+                    <li class="li" style="width: 20%;">
+                        <p style="height: 2.25rem;line-height: 2.25rem;font-size: 1.1rem;">${course.userName}</p>
+                        <p style="height: 2.25rem;line-height: 2.25rem;font-size: 1.1rem;"><fmt:formatDate value="${course.cCreateTime}" pattern="yyyy.MM.dd" /></p>
                     </li>
                     <li class="li" style="width: 20%;">
-                        <p style="height: 2rem;line-height: 2rem;font-size: 1rem;">下载量：${course.downloadNum}</p>
-                        <p style="height: 2rem;line-height: 2rem;font-size: 1rem;">热度：${course.heatNum}</p>
+                        <p style="height: 2.25rem;line-height: 2.25rem;font-size: 1.1rem;">下载量：${course.downloadNum}</p>
+                        <p style="height: 2.25rem;line-height: 2.25rem;font-size: 1.1rem;">热度：${course.heatNum}</p>
                     </li>
-                    <li class="li" style="width: 18%;border: 0;">
-                        <a style="height: 4rem;padding-top: 0.5rem;margin-right: 0.5rem;" href="${ctx}/front/downLoadFile?fId=${course.fId}&cId=${course.cId}&weixinId=${weixinId}">
-                            <img src="${ctx}/static/images/download.png"/>
+                    <li class="li" style="width: 10%;">
+                        <a style="height: 4rem;padding-top: 0.65rem;" href="${ctx}/front/downLoadFile?fId=${course.fId}&cId=${course.cId}&weixinId=${weixinId}">
+                            <img src="${ctx}/static/front/images/icons/down.png"/>
                         </a>
-                        <a style="height: 4rem;padding-top: 0.5rem;" href="${ctx}/front/lookOver?weixinId=${weixinId}&cId=${course.cId}">
-                            <img src="${ctx}/static/images/play.png"/>
+                    </li>
+                    <li class="li" style="width: 10%;border: 0;">
+                        <a style="height: 4rem;padding-top: 0.65rem;" href="${ctx}/front/lookOver?weixinId=${weixinId}&cId=${course.cId}">
+                            <img src="${ctx}/static/front/images/icons/look.png"/>
                         </a>
                     </li>
                 </ul>

@@ -6,6 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <title>${course.cPName}-${course.cName}</title>
+    <meta name="keywords" content="讨论详情">
+    <meta name="description" content="讨论详情">
     <meta name="mobile-agent" content="format=xhtml;">
     <meta name="applicable-devive" content="mobile">
     <meta content="yes" name="apple-mobile-web-app-capable">
@@ -14,9 +16,6 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/front/css/swiper-3.3.1.min.css" />
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/front/work/work_detial.css"/>
 <style>
-body {
-    background: #E3F0F0;
-}
 .mome div {
     text-align: left;
     padding: 0;
@@ -26,7 +25,7 @@ body {
 }
 .discuss-li{
     float: left;
-    border-top: 1px dashed #C6C7DB;
+    border-top: 1px solid #DDD;
     margin-bottom: 0.5rem;
     padding-top: 0.5rem;
     width: 100%;
@@ -56,21 +55,17 @@ body {
     font-weight: bold;
     display: inline-block;
     float: left;
-    font-size: 1.3rem;
  }
 .time {
-    color: #72788B;
+    color: #cccccc;
     display: inline-block;
     float: left;
     margin-left: 1rem;
-    font-size: 1.2rem;
 }
 .replay {
     display: inline-block;
     float: right;
-    color: #2C313E;
-    font-size: 1.2rem;
-    margin-right: 1rem;
+    color: #0F75E2;
 }
 .sub-discuss-ul{
     float: left;
@@ -97,27 +92,25 @@ body {
     font-size: 1.7rem;
     text-align: center;
     vertical-align: middle;
-    float: left;
+    float: right;
     display: block;
     border: 0;
-    margin-top: 1.2rem;
-    margin-left: 1rem;;
+    margin-top: 0.6rem;
+    margin-right: 1rem;;
     width: 16%;
 }
 .bottom_menu label{
-    width: 15%;
-    font-size: 1.5rem;
-    height: 5rem;
-    line-height: 5rem;
+    width: 16%;
+    font-size: 2rem;
+    line-height: 4rem;
     float: left;
     margin-left: 1rem;
-    color: #010715;
 }
 .bottom_menu input{
-    width: 55%;
+    width: 60%;
     /*width: 20rem;*/
     height: 3rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     outline: 0px;
     border: 1px solid #ccc;
     float: left;
@@ -139,60 +132,14 @@ body {
     width: 100%;
     height: 5rem;
 }
-
-.replay_content {
-    font-size: 1.2rem;
-    color: #3E4B6A;
-}
-
-.base-info{
-    height: 2.8rem;
-    width: 100%;
-}
-.base-info label{
-    height: 2.8rem;
-    line-height: 2.8rem;
-    color: #808E9F;
-    font-size: 1.3rem;
-    margin-left: 2rem;
-}
-.base-info a {
-    width: 2rem;
-    height: 2rem;
-    display: block;
-    float: right;
-    margin-right: 2rem;
-    margin-top: 0.8rem;
-}
-.base-info img {
-    width: 2rem;
-    height: 2rem;
-}
-
-.order {
-    height: 3rem;
-    line-height: 3rem;
-    text-align: center;
-    font-size: 2rem;
-}
-.order .line {
-    display: inline-block;
-    width: 40%;
-    border-top: 1px solid #6C7791 ;
-    margin-bottom: 0.28rem;
-}
-.order .txt {
-    color: #323A51;
-    vertical-align: middle;
-}
 </style>
 </head>
 <body>
-<header style="background: #E3F0F0;">
+<header>
     <div class="top_title">
         <a class="back"></a>
         <div class="title">
-            课程详情
+            讨论详情
         </div>
     </div>
 </header>
@@ -210,26 +157,13 @@ body {
         <!-- 如果需要分页器 -->
         <div class="swiper-pagination"></div>
     </div>
-    <div class="base-info">
-        <label>${course.userName}</label>
-        <label><fmt:formatDate value="${course.cCreateTime}" pattern="yyyy.MM.dd" /></label>
-        <a>
-            <img src="${ctx}/static/front/images/icons/liked.png">
-        </a>
-        <a>
-            <img src="${ctx}/static/front/images/icons/unlike.png">
-        </a>
-    </div>
-    <div class="order" onclick="refreshMessage();">
-        <span class="line"></span>
-        <span class="txt">讨论区</span>
-        <span class="line"></span>
-    </div>
     <div class="load-content">
         <img class="load" src="${ctx}/static/images/load.gif">
     </div>
-    <div class="mome" style="background: #E3F0F0;border-top: 0;padding: 0 0.5rem;margin-bottom: 7rem;">
+    <div class="mome">
+        <h2>讨论区<a class="refresh" onclick="refreshMessage();">刷新</a></h2>
         <div id="discuss-content">
+
         </div>
     </div>
 </section>
@@ -249,13 +183,6 @@ body {
             // 如果需要分页器
             pagination: '.swiper-pagination'
         });
-        $('#msgContent').bind('input propertychange', function() {
-            if(!$(this).val()) {
-                $("#msgType").val(1);
-                $("#msgPid").val(0);
-            }
-        });
-        setInterval(refreshMessage, 10000)
     })
     
     var messageList = eval('(${messageList})');
@@ -288,14 +215,14 @@ body {
     // 构造li
     function buildDiscussLi(parentMsg, msg) {
         var _html = [];
-        _html.push('<div class="content"><div class="user-info"><img src="${ctx}/static/front/images/icons/stu.png"></div>');
+        _html.push('<div class="content"><div class="user-info"><img src="${ctx}/static/touxiang/user.jpg"></div>');
         _html.push('<div class="msg-content"><p class="info">');
         _html.push('<label class="username">' + msg.operName + '(' + msg.operRoleName + ')</label><label class="time">' + msg.createTime + '</label>');
         _html.push('<a class="replay" msg_id="'+msg.msgId+'" oper_name="' + msg.operName +'" onclick="toSubmitReply(this);">回复</a></p>');
         if (parentMsg) {
-            _html.push('<p class="replay_content">@' + parentMsg.operName + '：' + msg.msgContent +  '</p></div></div>');
+            _html.push('<p>@' + parentMsg.operName + '：' + msg.msgContent +  '</p></div></div>');
         } else {
-            _html.push('<p class="replay_content">'+ msg.msgContent +  '</p></div></div>');
+            _html.push('<p>'+ msg.msgContent +  '</p></div></div>');
         }
         return _html.join("");
     }
@@ -376,7 +303,13 @@ body {
                 $("#msgType").val(1);
                 $("#msgPid").val(0);
                 $("#msgContent").val("");
+                console.log(data);
                 refreshMessage();
+                if (type == "1") {
+
+                } else if (type == "2") {
+
+                }
             }
         });
     }

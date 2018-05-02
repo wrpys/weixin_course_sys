@@ -10,9 +10,11 @@
     <result column="f_id" jdbcType="INTEGER" property="fId" />
     <result column="download_num" jdbcType="INTEGER" property="downloadNum" />
     <result column="heat_num" jdbcType="INTEGER" property="heatNum" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="like_num" jdbcType="INTEGER" property="likeNum" />
   </resultMap>
   <sql id="Base_Column_List">
-    c_id, c_name, c_pid, c_create_time, c_desc, f_id, download_num, heat_num
+    c_id, c_name, c_pid, c_create_time, c_desc, f_id, download_num, heat_num, user_id, like_num
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,9 +25,12 @@
 
   <select id="listByParams" parameterType="java.util.Map" resultType="com.shirokumacafe.archetype.entity.CourseExt">
     select t1.c_id as cId, t1.c_name as cName, t1.c_pid as cPid, t1.c_create_time as cCreateTime, 
-    	t1.c_desc as cDesc, t1.f_id as fId, t1.download_num as downloadNum, t1.heat_num as heatNum,t2.f_name as fName
+    	t1.c_desc as cDesc, t1.f_id as fId, t1.download_num as downloadNum, t1.heat_num as heatNum,
+        t1.user_id as userId, t1.like_num as likeNum,
+        t2.f_name as fName,t3.nick_name as userName
     from t_course t1 
     left join t_file t2 on t1.f_id = t2.f_id
+    left join t_user t3 on t1.user_id = t3.user_id
     where 1=1 
     <!-- 查询主课程用的条件 -->
     <if test="cPid==0">
@@ -34,17 +39,6 @@
      <if test="cName != null and cName!='' ">
        and t1.c_name like CONCAT('%',#{cName},'%')
      </if>
-     <if test="startDate != null and startDate != ''">
-     	<![CDATA[
-			and t1.c_create_time >= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%S')
-	  	]]>
-	  </if>
-	  <if test="endDate != null and endDate != ''">
-	  	<![CDATA[
-			and t1.c_create_time <= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%S')
-		]]>
-	  </if>
-     
    	<!-- 查询子课程用的条件 -->
     <if test="cPid !=0 and cPid != null and cPid!='' ">
        and t1.c_pid = #{cPid}
@@ -67,11 +61,13 @@
   </select>
 
 
-  <select id="getSubCourseListByCid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from t_course t
-    where t.c_pid = #{cId,jdbcType=INTEGER}
+  <select id="getSubCourseListByCid" parameterType="java.lang.Integer" resultType="com.shirokumacafe.archetype.entity.Course">
+    select t1.c_id as cId, t1.c_name as cName, t1.c_pid as cPid, t1.c_create_time as cCreateTime,
+    	t1.c_desc as cDesc, t1.f_id as fId, t1.download_num as downloadNum, t1.heat_num as heatNum,
+        t1.user_id as userId, t1.like_num as likeNum,t3.nick_name as userName
+    from t_course t1
+    left join t_user t3 on t1.user_id = t3.user_id
+    where t1.c_pid = #{cId,jdbcType=INTEGER}
   </select>
 
 
@@ -95,10 +91,10 @@
   <insert id="insert" parameterType="com.shirokumacafe.archetype.entity.Course">
     insert into t_course (c_name, c_pid, 
       c_create_time, c_desc, f_id, 
-      download_num, heat_num)
+      download_num, heat_num, user_id)
     values (#{cName,jdbcType=VARCHAR}, #{cPid,jdbcType=INTEGER}, 
       #{cCreateTime,jdbcType=TIMESTAMP}, #{cDesc,jdbcType=VARCHAR}, #{fId,jdbcType=INTEGER}, 
-      #{downloadNum,jdbcType=INTEGER}, #{heatNum,jdbcType=INTEGER})
+      #{downloadNum,jdbcType=INTEGER}, #{heatNum,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.Course">
     insert into t_course
