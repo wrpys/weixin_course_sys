@@ -70,8 +70,16 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shirokumacafe.archetype.entity.FileImage">
     update t_file_image
-    set f_id = #{fId,jdbcType=INTEGER},
-      fi_addr = #{fiAddr,jdbcType=VARCHAR}
+    <set>
+      <if test="fId != null">
+        f_id = #{fId,jdbcType=VARCHAR},
+      </if>
+      <if test="fiAddr != null">
+        fi_addr = #{fiAddr,jdbcType=VARCHAR},
+      </if>
+    </set>
     where fi_id = #{fiId,jdbcType=INTEGER}
+
+
   </update>
 </mapper>

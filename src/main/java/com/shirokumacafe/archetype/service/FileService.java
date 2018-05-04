@@ -77,6 +77,7 @@ public class FileService {
 				fileEntity.setfName(filename);
 				fileEntity.setfAddr(filePath);
 				fId = subCourse.getfId();
+				fileEntity.setfId(fId);
 				fileMapper.updateByPrimaryKeySelective(fileEntity);
 			}
 			Course course = new Course();
@@ -98,11 +99,14 @@ public class FileService {
 			}
 			// 查看文件对应的图片是否存在
 			FileImage exitFileImage = fileImageMapper.selectByFid(fId);
+			FileImage fi = new FileImage();
+			fi.setfId(fId);
+			fi.setFiAddr(filePath);
 			if (null == exitFileImage) {
-				FileImage fi = new FileImage();
-				fi.setfId(fId);
-				fi.setFiAddr(filePath);
 				fileImageMapper.insertSelective(fi);
+			}else{
+				fi.setFiId(exitFileImage.getFiId());
+				fileImageMapper.updateByPrimaryKey(fi);
 			}
 		}
 	}
