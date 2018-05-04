@@ -213,12 +213,12 @@ body {
     <div class="base-info">
         <label>${course.userName}</label>
         <label><fmt:formatDate value="${course.cCreateTime}" pattern="yyyy.MM.dd" /></label>
-        <a>
-            <img src="${ctx}/static/front/images/icons/liked.png">
-        </a>
-        <a>
-            <img src="${ctx}/static/front/images/icons/unlike.png">
-        </a>
+        <%--<a>--%>
+            <%--<img src="${ctx}/static/front/images/icons/liked.png">--%>
+        <%--</a>--%>
+        <%--<a>--%>
+            <%--<img src="${ctx}/static/front/images/icons/unlike.png">--%>
+        <%--</a>--%>
     </div>
     <div class="order" onclick="refreshMessage();">
         <span class="line"></span>
@@ -255,7 +255,7 @@ body {
                 $("#msgPid").val(0);
             }
         });
-        setInterval(refreshMessage, 10000)
+//        setInterval(refreshMessage, 10000)
     })
     
     var messageList = eval('(${messageList})');

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shirokumacafe.archetype.repository.LikeCourseMapper">
+    <resultMap id="BaseResultMap" type="com.shirokumacafe.archetype.entity.LikeCourse">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="s_id" property="sId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="c_id" property="cId" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, s_id, user_id, c_id
+  </sql>
+    <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_like_course
+        <where>
+            <if test="cId!=null">
+                and c_id = #{cId}
+            </if>
+            <if test="sId!=null">
+                and s_id = #{sId}
+            </if>
+            <if test="userId!=null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByParams" parameterType="java.lang.Integer">
+        delete from t_like_course
+        <where>
+            <if test="cId!=null">
+                and c_id = #{cId}
+            </if>
+            <if test="sId!=null">
+                and s_id = #{sId}
+            </if>
+            <if test="userId!=null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </delete>
+    <insert id="insertSelective" parameterType="com.shirokumacafe.archetype.entity.LikeCourse">
+        insert into t_like_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="sId != null">
+                s_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="cId != null">
+                c_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="sId != null">
+                #{sId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="cId != null">
+                #{cId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
