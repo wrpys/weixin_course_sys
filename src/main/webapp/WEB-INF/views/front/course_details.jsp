@@ -288,7 +288,15 @@ body {
     // 构造li
     function buildDiscussLi(parentMsg, msg) {
         var _html = [];
-        _html.push('<div class="content"><div class="user-info"><img src="${ctx}/static/front/images/icons/stu.png"></div>');
+        var icon = msg.chatHeadAddr;
+        if(!icon) {
+            if(2==msg.operRole) {
+                icon = "/static/front/images/icons/tea.png";
+            } else {
+                icon = "/static/front/images/icons/stu.png";
+            }
+        }
+        _html.push('<div class="content"><div class="user-info"><img src="${ctx}' + icon + '"></div>');
         _html.push('<div class="msg-content"><p class="info">');
         _html.push('<label class="username">' + msg.operName + '(' + msg.operRoleName + ')</label><label class="time">' + msg.createTime + '</label>');
         _html.push('<a class="replay" msg_id="'+msg.msgId+'" oper_name="' + msg.operName +'" onclick="toSubmitReply(this);">回复</a></p>');

@@ -19,6 +19,8 @@ public class Student {
 
     private String weixinId;
 
+    private String chatHeadAddr;
+
     public Integer getsId() {
         return sId;
     }
@@ -89,5 +91,13 @@ public class Student {
 
     public void setWeixinId(String weixinId) {
         this.weixinId = weixinId;
+    }
+
+    public String getChatHeadAddr() {
+        return chatHeadAddr;
+    }
+
+    public void setChatHeadAddr(String chatHeadAddr) {
+        this.chatHeadAddr = chatHeadAddr;
     }
 }

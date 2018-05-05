@@ -98,12 +98,12 @@
               var
               enumState = {"1":"正常","0":"禁用"},
               columns = [
-                { title: '账户名称', width: 150, dataIndex: 'loginName'},
+                { title: '账户名称', width: 120, dataIndex: 'loginName'},
                 { title: '昵称', width: 100, dataIndex: 'nickName'},
-                { title: '微信ID', width: 300, dataIndex: 'weixinId'},
+                { title: '微信ID', width: 280, dataIndex: 'weixinId'},
                 { title: '角色', width: 100, dataIndex: 'roleName'},
                 { title: '状态', width: 100, dataIndex: 'state',renderer:BUI.Grid.Format.enumRenderer(enumState)},
-                { title: '创建时间', width: 150, dataIndex: 'createTime'},
+                { title: '创建时间', width: 180, dataIndex: 'createTime'},
                 { title: '创建人', width: 100, dataIndex: 'createName'}
               ],
                 store = Search.createStore('${ctx}/user/list',{pageSize:15}),
@@ -137,13 +137,15 @@
                                 listeners : {
                                     'click' : editFunction
                                 }
-                            },{
-                                btnCls: 'button button-small',
-                                text: '<i class="icon-remove"></i>启用/禁用',
-                                listeners : {
-                                    'click' : changeFunction
-                                }
-                            },{
+                            },
+//                            {
+//                                btnCls: 'button button-small',
+//                                text: '<i class="icon-remove"></i>启用/禁用',
+//                                listeners : {
+//                                    'click' : changeFunction
+//                                }
+//                            },
+                            {
                                 btnCls: 'button button-small',
                                 text: '<i class="icon-repeat"></i>重置密码',
                                 listeners : {

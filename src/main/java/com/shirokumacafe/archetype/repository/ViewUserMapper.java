@@ -45,7 +45,8 @@ public interface ViewUserMapper {
         @Result(column="weixin_id", property="weixinId", jdbcType=JdbcType.VARCHAR),
         @Result(column="role_name", property="roleName", jdbcType=JdbcType.VARCHAR),
         @Result(column="role_code", property="roleCode", jdbcType=JdbcType.VARCHAR),
-        @Result(column="create_name", property="createName", jdbcType=JdbcType.VARCHAR)
+        @Result(column="create_name", property="createName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="chat_head_addr", property="chatHeadAddr", jdbcType=JdbcType.VARCHAR)
     })
     List<ViewUser> selectByExample(ViewUserExample example);
 }

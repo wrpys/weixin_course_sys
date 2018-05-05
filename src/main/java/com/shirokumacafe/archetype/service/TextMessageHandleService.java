@@ -90,31 +90,23 @@ public class TextMessageHandleService {
         }
         // 查看个人信息
         else if ("2".equals(reqTextMessage.getContent())) {
+
             RespTextMessage respTextMessage = new RespTextMessage();
             respTextMessage.setFromUserName(reqTextMessage.getToUserName());
             respTextMessage.setToUserName(reqTextMessage.getFromUserName());
             respTextMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
             respTextMessage.setFuncFlag(0);
-            StringBuffer sb = new StringBuffer();
-
-            WeixinUserInfo weixinUserInfo = frontService.getWeixinUserInfo(reqTextMessage.getFromUserName());
-            if (weixinUserInfo != null) {
-                if (1 == weixinUserInfo.getRole().intValue()) {
-                    sb.append("【学生个人信息】").append("\n");
-                    sb.append("学号：").append(weixinUserInfo.getAccount()).append("\n");
-                    sb.append("姓名：").append(weixinUserInfo.getUserName()).append("\n");
-                    sb.append("密码：").append(weixinUserInfo.getPassword()).append("\n");
-                } else {
-                    sb.append("【教师个人信息】").append("\n");
-                    sb.append("工号：").append(weixinUserInfo.getAccount()).append("\n");
-                    sb.append("姓名：").append(weixinUserInfo.getUserName()).append("\n");
-                    sb.append("密码：").append(weixinUserInfo.getPassword()).append("\n");
-                }
-            } else {
-                sb.append("此微信未进行绑定,发送1进行绑定.").append("\n");
+            String content = "";
+            try {
+                String wwwRoot = PropertiesUtil.getProperties().getProperty("www.root");
+                String myInfoPageUrl = wwwRoot + request.getContextPath() + "/front/myInfo?weixinId=" + reqTextMessage.getFromUserName();
+                LOG.info("===myInfoPageUrl===" + myInfoPageUrl);
+                content = "<a href=\"" + myInfoPageUrl + "\">查看个人信息</a>";
+            } catch (IOException e) {
+                LOG.error("读取文件异常。", e);
+                content = "服务异常，请稍后重试！";
             }
-
-            respTextMessage.setContent(sb.toString());
+            respTextMessage.setContent(content);
             return MessageUtil.textMessageToXml(respTextMessage);
         } else if ("3".equals(reqTextMessage.getContent())) {
             Map<String, Object> params = new HashMap<>();

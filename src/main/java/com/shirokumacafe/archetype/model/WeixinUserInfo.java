@@ -32,6 +32,10 @@ public class WeixinUserInfo {
      * 密码
      */
     private String password;
+    /**
+     * 头像地址
+     */
+    private String chatHeadAddr;
 
     public String getWeixinId() {
         return weixinId;
@@ -79,5 +83,13 @@ public class WeixinUserInfo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getChatHeadAddr() {
+        return chatHeadAddr;
+    }
+
+    public void setChatHeadAddr(String chatHeadAddr) {
+        this.chatHeadAddr = chatHeadAddr;
     }
 }

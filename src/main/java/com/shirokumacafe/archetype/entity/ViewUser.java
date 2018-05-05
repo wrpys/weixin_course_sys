@@ -29,6 +29,8 @@ public class ViewUser {
 
     private String createName;
 
+    private String chatHeadAddr;
+
     public Integer getUserId() {
         return userId;
     }
@@ -131,5 +133,13 @@ public class ViewUser {
 
     public void setCreateName(String createName) {
         this.createName = createName == null ? null : createName.trim();
+    }
+
+    public String getChatHeadAddr() {
+        return chatHeadAddr;
+    }
+
+    public void setChatHeadAddr(String chatHeadAddr) {
+        this.chatHeadAddr = chatHeadAddr;
     }
 }

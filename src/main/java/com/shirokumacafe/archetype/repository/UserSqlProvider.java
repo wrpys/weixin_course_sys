@@ -206,6 +206,10 @@ public class UserSqlProvider {
         if (record.getWeixinId() != null) {
             SET("weixin_id = #{weixinId,jdbcType=VARCHAR}");
         }
+
+        if (record.getChatHeadAddr() != null) {
+            SET("chat_head_addr = #{chatHeadAddr,jdbcType=VARCHAR}");
+        }
         
         WHERE("user_id = #{userId,jdbcType=INTEGER}");
         

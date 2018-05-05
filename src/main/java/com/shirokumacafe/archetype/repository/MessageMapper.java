@@ -20,4 +20,6 @@ public interface MessageMapper {
 
     List<MessageExt> selectMessageExtByParams(MessageExt messageExt);
 
+    List<MessageExt> selectMyInfoMessageExtByParams(MessageExt messageExt);
+
 }

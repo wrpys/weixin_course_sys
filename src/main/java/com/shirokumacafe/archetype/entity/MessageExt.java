@@ -8,6 +8,8 @@ public class MessageExt extends Message {
 
     private String operName;
 
+    private String chatHeadAddr;
+
     private List<MessageExt> messageExts;
 
     public String getOperRoleName() {
@@ -24,6 +26,14 @@ public class MessageExt extends Message {
 
     public void setOperName(String operName) {
         this.operName = operName;
+    }
+
+    public String getChatHeadAddr() {
+        return chatHeadAddr;
+    }
+
+    public void setChatHeadAddr(String chatHeadAddr) {
+        this.chatHeadAddr = chatHeadAddr;
     }
 
     public List<MessageExt> getMessageExts() {

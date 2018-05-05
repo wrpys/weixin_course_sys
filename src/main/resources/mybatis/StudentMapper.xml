@@ -11,9 +11,10 @@
         <result column="s_sex" jdbcType="BIT" property="sSex"/>
         <result column="clzss_id" jdbcType="INTEGER" property="clzssId"/>
         <result column="weixin_id" jdbcType="VARCHAR" property="weixinId"/>
+        <result column="chat_head_addr" jdbcType="VARCHAR" property="chatHeadAddr"/>
     </resultMap>
     <sql id="Base_Column_List">
-    s_id, s_no, s_name, s_password, salt, user_role, s_sex, clzss_id, weixin_id
+    s_id, s_no, s_name, s_password, salt, user_role, s_sex, clzss_id, weixin_id, chat_head_addr
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -115,6 +116,9 @@
             </if>
             <if test="weixinId != null and weixinId != ''">
                 weixin_id = #{weixinId,jdbcType=VARCHAR},
+            </if>
+            <if test="chatHeadAddr != null and chatHeadAddr != ''">
+                chat_head_addr = #{chatHeadAddr,jdbcType=VARCHAR},
             </if>
         </set>
         where s_id = #{sId,jdbcType=INTEGER}

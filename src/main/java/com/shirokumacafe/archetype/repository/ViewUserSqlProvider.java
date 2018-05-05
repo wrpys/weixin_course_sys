@@ -42,6 +42,7 @@ public class ViewUserSqlProvider {
         SELECT("role_name");
         SELECT("role_code");
         SELECT("create_name");
+        SELECT("chat_head_addr");
         FROM("v_user");
         applyWhere(example, false);
         

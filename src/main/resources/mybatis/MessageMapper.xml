@@ -126,7 +126,11 @@
         CASE t1.oper_role
         WHEN 2 THEN '教师'
         WHEN 1 THEN '学生'
-        END as operRoleName
+        END as operRoleName,
+        CASE t1.oper_role
+        WHEN 2 THEN t2.chat_head_addr
+        WHEN 1 THEN t3.chat_head_addr
+        END as chatHeadAddr
         from t_message t1
         LEFT JOIN t_user t2 on t1.oper_id=t2.user_id
         LEFT JOIN t_student t3 on t1.oper_id=t3.s_id
@@ -138,6 +142,31 @@
                 and t1.msg_pid=#{msgPid}
             </if>
         </where>
+        order by t1.create_time desc
+    </select>
+
+    <select id="selectMyInfoMessageExtByParams" resultType="com.shirokumacafe.archetype.entity.MessageExt">
+        select
+        t1.msg_id as msgId,t1.msg_pid as msgPid,t1.msg_content as msgContent,
+        t1.create_time as createTime,t1.c_id as cId,t1.oper_role as operRole,t1.oper_id as operId,
+        CASE t1.oper_role
+        WHEN 2 THEN t2.nick_name
+        WHEN 1 THEN t3.s_name
+        END as operName,
+        CASE t1.oper_role
+        WHEN 2 THEN '教师'
+        WHEN 1 THEN '学生'
+        END as operRoleName,
+		CASE t1.oper_role
+        WHEN 2 THEN t2.chat_head_addr
+        WHEN 1 THEN t3.chat_head_addr
+        END as chatHeadAddr
+        from (
+        select a.* from t_message a where a.msg_pid in(select m.msg_id from t_message m where m.oper_role = #{operRole} and m.oper_id=#{operId})
+        and ((a.oper_role = 1 and a.oper_id!=#{operId}) OR (a.oper_role=2 and a.oper_id!=#{operId}))
+        ) t1
+        LEFT JOIN t_user t2 on t1.oper_id=t2.user_id
+        LEFT JOIN t_student t3 on t1.oper_id=t3.s_id
         order by t1.create_time desc
     </select>
 

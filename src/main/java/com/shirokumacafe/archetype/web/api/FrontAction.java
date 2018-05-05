@@ -3,23 +3,32 @@ package com.shirokumacafe.archetype.web.api;
 import com.shirokumacafe.archetype.common.utilities.Responses;
 import com.shirokumacafe.archetype.entity.Course;
 import com.shirokumacafe.archetype.entity.Message;
+import com.shirokumacafe.archetype.model.WeixinUserInfo;
 import com.shirokumacafe.archetype.service.CourseService;
 import com.shirokumacafe.archetype.service.FileService;
+import com.shirokumacafe.archetype.service.FrontService;
 import com.shirokumacafe.archetype.service.MessageService;
 import com.shirokumacafe.archetype.service.StudentService;
 import com.shirokumacafe.archetype.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +53,8 @@ public class FrontAction {
     private CourseService courseService;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private FrontService frontService;
 
     /**
      * 跳转到绑定页面
@@ -73,13 +84,62 @@ public class FrontAction {
         }
         boolean isSucess = Boolean.valueOf(String.valueOf(result.get("success")));
         if (isSucess) {
-            model.addAttribute("msg", "绑定成功");
-            return "front/success";
+            return "redirect:myInfo?weixinId=" + weixinId;
         } else {
             model.addAttribute("weixinId", weixinId);
             model.addAttribute("msg", result.get("msg"));
             return "front/binding";
         }
+    }
+
+    /**
+     * 个人信息
+     * @param weixinId 微信ID
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "myInfo", method = RequestMethod.GET)
+    public String myInfo(String weixinId, Model model) {
+        WeixinUserInfo weixinUserInfo = frontService.getWeixinUserInfo(weixinId);
+        if (weixinUserInfo == null) {
+            return "redirect:toBinding?weixinId=" + weixinId;
+        }
+        if (StringUtils.isEmpty(weixinUserInfo.getChatHeadAddr())) {
+            if (2 == weixinUserInfo.getRole()) {
+                weixinUserInfo.setChatHeadAddr("/static/front/images/icons/tea.png");
+            } else {
+                weixinUserInfo.setChatHeadAddr("/static/front/images/icons/stu.png");
+            }
+        }
+        model.addAttribute("myInfo", weixinUserInfo);
+        model.addAttribute("messages", messageService.getMyInfoMessage(weixinUserInfo));
+        return "front/my_info";
+    }
+
+    /**
+     * 上传头像
+     */
+    @RequestMapping(value = "uploadFile")
+    public String uploadFile(@RequestParam("chatHeadAddr") CommonsMultipartFile file, HttpServletRequest request, Model model) throws Exception {
+        String filename = file.getOriginalFilename();
+        String subName[] = filename.split("\\.");
+        String path = request.getServletContext().getRealPath("/file/");
+        File fileTmp = new File(path);
+        if(!fileTmp.exists()) {
+            fileTmp.mkdir();
+        }
+        fileTmp = new File(path + "icon/");
+        if(!fileTmp.exists()) {
+            fileTmp.mkdir();
+        }
+        String icon = "icon/" + request.getParameter("account") + "_" + System.currentTimeMillis() + "." + subName[1];
+        file.transferTo(new File(path + icon));
+
+        Integer r = Integer.valueOf(request.getParameter("role"));
+        Integer id = Integer.valueOf(request.getParameter("userId"));
+        icon = "/file/" + icon;
+        frontService.updateIcon(r, id, icon);
+        return "redirect:myInfo?weixinId=" + request.getParameter("weixinId");
     }
 
     /**
@@ -99,25 +159,6 @@ public class FrontAction {
         model.addAttribute("subCourseList", subCourseList);
         model.addAttribute("parentCourseName", parentCourse.getcName());
         return "front/subcourse_list";
-    }
-
-    /**
-     * 课程详情-旧
-     *
-     * @param cId
-     * @param weixinId
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "toCourseOld", method = RequestMethod.GET)
-    public String toCourseOld(Integer cId, String weixinId, Model model) {
-        model.addAttribute("weixinId", weixinId);
-        // 查cId的课程信息，以及子课程的信息（分开存放）
-        List<Course> subCourseList = courseService.getSubCourseListByCid(cId);
-        Course parentCourse = courseService.getCourseByCid(cId);
-        model.addAttribute("subCourseList", subCourseList);
-        model.addAttribute("parentCourseName", parentCourse.getcName());
-        return "front/subcourse_list_old";
     }
 
     /**
@@ -193,22 +234,6 @@ public class FrontAction {
         model.addAttribute("course", courseService.getCourseAndImageByCId(cId));
         model.addAttribute("messageList", Responses.writeJson(messageService.findDiscussMessage(cId)));
         return "front/course_details";
-    }
-
-    /**
-     * 子课程详情-旧
-     *
-     * @param cId
-     * @param weixinId
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "lookOverOld", method = RequestMethod.GET)
-    public String lookOverOld(Integer cId, String weixinId, Model model) {
-        model.addAttribute("weixinId", weixinId);
-        model.addAttribute("course", courseService.getCourseAndImageByCId(cId));
-        model.addAttribute("messageList", Responses.writeJson(messageService.findDiscussMessage(cId)));
-        return "front/course_details_old";
     }
 
     /**

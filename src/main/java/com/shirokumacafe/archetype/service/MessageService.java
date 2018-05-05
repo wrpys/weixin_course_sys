@@ -7,6 +7,7 @@ import com.shirokumacafe.archetype.model.WeixinUserInfo;
 import com.shirokumacafe.archetype.repository.MessageMapper;
 import com.shirokumacafe.archetype.repository.StudentMapper;
 import com.shirokumacafe.archetype.repository.UserMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,4 +98,20 @@ public class MessageService {
         }
     }
 
+    public List<MessageExt> getMyInfoMessage(WeixinUserInfo weixinUserInfo) {
+        MessageExt messageExt = new MessageExt();
+        messageExt.setOperRole(weixinUserInfo.getRole());
+        messageExt.setOperId(weixinUserInfo.getUserId());
+        List<MessageExt> messageExts = messageMapper.selectMyInfoMessageExtByParams(messageExt);
+        for (int i=0;i<messageExts.size();i++){
+            if (StringUtils.isEmpty(messageExts.get(i).getChatHeadAddr())) {
+                if (2 == messageExts.get(i).getOperRole()) {
+                    messageExts.get(i).setChatHeadAddr("/static/front/images/icons/tea.png");
+                } else {
+                    messageExts.get(i).setChatHeadAddr("/static/front/images/icons/stu.png");
+                }
+            }
+        }
+        return messageExts;
+    }
 }

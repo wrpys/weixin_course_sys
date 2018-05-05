@@ -1,13 +1,16 @@
 package com.shirokumacafe.archetype.service;
 
 import com.shirokumacafe.archetype.entity.Student;
+import com.shirokumacafe.archetype.entity.User;
 import com.shirokumacafe.archetype.entity.ViewUser;
 import com.shirokumacafe.archetype.entity.ViewUserExample;
 import com.shirokumacafe.archetype.model.WeixinUserInfo;
 import com.shirokumacafe.archetype.repository.StudentMapper;
+import com.shirokumacafe.archetype.repository.UserMapper;
 import com.shirokumacafe.archetype.repository.ViewUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +27,8 @@ public class FrontService {
     private StudentMapper studentMapper;
     @Autowired
     private ViewUserMapper viewUserMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 根据微信ID获取对应的用户信息
@@ -40,7 +45,7 @@ public class FrontService {
         // 是教师
         if (users != null && !users.isEmpty()) {
             ViewUser user = users.get(0);
-            return buildWeixinUserInfo(weixinId, 2, user.getUserId(), user.getLoginName(), user.getNickName(), user.getPassword());
+            return buildWeixinUserInfo(weixinId, 2, user.getUserId(), user.getLoginName(), user.getNickName(), user.getPassword(), user.getChatHeadAddr());
         }
         // 不是教师，就查看是否是学生
         else {
@@ -50,7 +55,7 @@ public class FrontService {
             // 是学生
             if (students != null && !students.isEmpty()) {
                 Student student = students.get(0);
-                return buildWeixinUserInfo(weixinId, 1, student.getsId(), student.getsNo(), student.getsName(), student.getsPassword());
+                return buildWeixinUserInfo(weixinId, 1, student.getsId(), student.getsNo(), student.getsName(), student.getsPassword(), student.getChatHeadAddr());
             }
             // 不是学生 进行绑定提示
             else {
@@ -70,7 +75,7 @@ public class FrontService {
      * @return
      */
     private WeixinUserInfo buildWeixinUserInfo(String weixinId, Integer role, Integer userId,
-                                               String account, String userName, String password) {
+                                               String account, String userName, String password, String chatHeadAddr) {
         WeixinUserInfo weixinUserInfo = new WeixinUserInfo();
         weixinUserInfo.setWeixinId(weixinId);
         weixinUserInfo.setRole(role);
@@ -78,7 +83,23 @@ public class FrontService {
         weixinUserInfo.setAccount(account);
         weixinUserInfo.setUserName(userName);
         weixinUserInfo.setPassword(password);
+        weixinUserInfo.setChatHeadAddr(chatHeadAddr);
         return weixinUserInfo;
+    }
+
+    @Transactional
+    public void updateIcon(Integer role, Integer userId, String icon) {
+        if (role == 1) {
+            Student student = new Student();
+            student.setsId(userId);
+            student.setChatHeadAddr(icon);
+            studentMapper.updateByPrimaryKeySelective(student);
+        } else {
+            User user = new User();
+            user.setUserId(userId);
+            user.setChatHeadAddr(icon);
+            userMapper.updateByPrimaryKeySelective(user);
+        }
     }
 
 }
