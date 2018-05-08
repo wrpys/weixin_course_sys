@@ -38,14 +38,27 @@
         a{
             display: inline-block;
         }
-        img{
+        .ul-content img{
             height: 2.2rem;
             width:  2.2rem;
+        }
+        .no_course {
+            width: 30%;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            margin-top: 40%;
+        }
+        .no_course_title {
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 <body>
 <section>
+    <c:if test="${not empty subCourseList}">
     <ul class="ul-content">
         <c:forEach items="${subCourseList}" var="course" varStatus="status">
             <li class="item">
@@ -65,9 +78,14 @@
                         <p style="height: 2.25rem;line-height: 2.25rem;font-size: 1.1rem;">热度：${course.heatNum}</p>
                     </li>
                     <li class="li" style="width: 10%;">
+                        <c:if test="${not empty course.fId}">
                         <a style="height: 4rem;padding-top: 0.65rem;" href="${ctx}/front/downLoadFile?fId=${course.fId}&cId=${course.cId}&weixinId=${weixinId}">
                             <img src="${ctx}/static/front/images/icons/down.png"/>
                         </a>
+                        </c:if>
+                        <c:if test="${empty course.fId}">
+                            无
+                        </c:if>
                     </li>
                     <li class="li" style="width: 10%;border: 0;">
                         <a style="height: 4rem;padding-top: 0.65rem;" href="${ctx}/front/lookOver?weixinId=${weixinId}&cId=${course.cId}">
@@ -78,6 +96,11 @@
             </li>
         </c:forEach>
     </ul>
+    </c:if>
+    <c:if test="${empty subCourseList}">
+        <img class="no_course" src="${ctx}/static/front/images/no_course.png">
+        <p class="no_course_title">暂无课程</p>
+    </c:if>
 
 </section>
 <!--app下载 底部飘浮 -->

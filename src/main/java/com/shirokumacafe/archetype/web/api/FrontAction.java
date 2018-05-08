@@ -61,8 +61,13 @@ public class FrontAction {
      */
     @RequestMapping(value = "toBinding", method = RequestMethod.GET)
     public String toBinding(String weixinId, Model model) {
-        model.addAttribute("weixinId", weixinId);
-        return "front/binding";
+        WeixinUserInfo weixinUserInfo = frontService.getWeixinUserInfo(weixinId);
+        if (weixinUserInfo == null) {
+            model.addAttribute("weixinId", weixinId);
+            return "front/binding";
+        } else {
+            return "redirect:myInfo?weixinId=" + weixinId;
+        }
     }
 
     /**
@@ -76,6 +81,10 @@ public class FrontAction {
      */
     @RequestMapping(value = "binding", method = RequestMethod.POST)
     public String binding(String weixinId, Integer operRole, String account, Model model) {
+        WeixinUserInfo weixinUserInfo = frontService.getWeixinUserInfo(weixinId);
+        if (weixinUserInfo != null) {
+            return "redirect:myInfo?weixinId=" + weixinId;
+        }
         Map result = null;
         if (operRole.intValue() == 1) {
             result = studentService.binding(weixinId, account);
@@ -152,6 +161,10 @@ public class FrontAction {
      */
     @RequestMapping(value = "toCourse", method = RequestMethod.GET)
     public String toCourse(Integer cId, String weixinId, Model model) {
+        WeixinUserInfo weixinUserInfo = frontService.getWeixinUserInfo(weixinId);
+        if (weixinUserInfo == null) {
+            return "redirect:toBinding?weixinId=" + weixinId;
+        }
         model.addAttribute("weixinId", weixinId);
         // 查cId的课程信息，以及子课程的信息（分开存放）
         List<Course> subCourseList = courseService.getSubCourseListByCid(cId);
@@ -230,6 +243,10 @@ public class FrontAction {
      */
     @RequestMapping(value = "lookOver", method = RequestMethod.GET)
     public String lookOver(Integer cId, String weixinId, Model model) {
+        WeixinUserInfo weixinUserInfo = frontService.getWeixinUserInfo(weixinId);
+        if (weixinUserInfo == null) {
+            return "redirect:toBinding?weixinId=" + weixinId;
+        }
         model.addAttribute("weixinId", weixinId);
         model.addAttribute("course", courseService.getCourseAndImageByCId(cId));
         model.addAttribute("messageList", Responses.writeJson(messageService.findDiscussMessage(cId)));

@@ -73,12 +73,10 @@ public class StudentService {
     }
 
     /**
-     * 批量重置密码
+     * 解绑微信
      */
-    public void resetPassword(Integer sId) {
-        Student student = new Student();
-        student.setsId(sId);
-        student.setsPassword(Configs.DEFAULT_PASSWORD);
+    public void unbinding(Student student) {
+        student.setWeixinId("");
         studentMapper.updateByPrimaryKeySelective(student);
     }
 

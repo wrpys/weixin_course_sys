@@ -138,13 +138,13 @@
                                     'click' : editFunction
                                 }
                             },
-//                            {
-//                                btnCls: 'button button-small',
-//                                text: '<i class="icon-remove"></i>启用/禁用',
-//                                listeners : {
-//                                    'click' : changeFunction
-//                                }
-//                            },
+                            {
+                                btnCls: 'button button-small',
+                                text: '<i class="icon-remove"></i>解绑微信',
+                                listeners : {
+                                    'click' : unbindingFunction
+                                }
+                            },
                             {
                                 btnCls: 'button button-small',
                                 text: '<i class="icon-repeat"></i>重置密码',
@@ -178,26 +178,26 @@
 
             }
 
-            function changeFunction(){
+            function unbindingFunction(){
                 var selections = grid.getSelection();
                 if(selections.length==1){
                     var selected = selections[0];
-                    var confirmStr = "确认要启用该用户？";
-                    if(selected.state==1){
-                        confirmStr = "确认要禁用该用户？";
+                    if(!selected.weixinId){
+                        BUI.Message.Alert('该用户未绑定微信账号！');
+                        return;
                     }
-                    BUI.Message.Confirm(confirmStr,function(){
+                    BUI.Message.Confirm('确认解绑微信账号吗？',function(){
                         $.ajax({
-                            url : '${ctx}/user/changeState',
+                            url : '${ctx}/user/unbinding',
                             type:'post',
                             dataType : 'json',
-                            data : selected,
+                            data : {userId: selected.userId},
                             success : function(data){
                                 if(data.success){
                                     search.load();
-                                    BUI.Message.Alert('修改成功！');
+                                    BUI.Message.Alert('解绑成功！');
                                 }else{
-                                    BUI.Message.Alert('修改失败！');
+                                    BUI.Message.Alert('解绑失败！');
                                 }
                             }
                         });

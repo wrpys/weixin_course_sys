@@ -374,6 +374,10 @@ body {
                 data.msgContent = ms[1];
             }
         }
+        if(!data.msgContent) {
+            alert("请输入内容！");
+            return ;
+        }
         $.ajax({
             url : "${ctx}/front/submitReply",
             async : false,

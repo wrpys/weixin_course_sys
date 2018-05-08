@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2018-05-05 14:53:11
+Date: 2018-05-08 21:53:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,7 +31,7 @@ CREATE TABLE `t_course` (
   `user_id` int(11) DEFAULT NULL,
   `like_num` int(11) DEFAULT '0',
   PRIMARY KEY (`c_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_course
@@ -41,15 +41,17 @@ INSERT INTO `t_course` VALUES ('4', 'java ee', null, '2018-04-22 14:58:22', 'jav
 INSERT INTO `t_course` VALUES ('5', '安卓', null, '2018-04-22 17:28:39', '安卓', null, '0', '0', '2', '0');
 INSERT INTO `t_course` VALUES ('6', 'web开发', null, '2018-04-22 17:28:47', 'web开发', null, '0', '0', '2', '0');
 INSERT INTO `t_course` VALUES ('7', '数字逻辑', null, '2018-04-22 17:29:00', '数字逻辑', null, '0', '0', '2', '0');
-INSERT INTO `t_course` VALUES ('8', '计算机组成原理', null, '2018-04-22 17:29:10', '计算机组成原理', null, '0', '0', '2', '0');
-INSERT INTO `t_course` VALUES ('9', '第一课', '3', '2018-04-23 22:29:46', '第一课', '9', '7', '256', '2', '0');
-INSERT INTO `t_course` VALUES ('10', '第二课', '3', '2018-04-23 22:30:00', '第二课', null, '5', '0', '2', '0');
-INSERT INTO `t_course` VALUES ('11', '第三课', '3', '2018-04-23 22:30:11', '第三课', null, '6', '0', '2', '0');
-INSERT INTO `t_course` VALUES ('12', '第四课', '3', '2018-04-23 22:30:18', '第四课', null, '0', '0', '2', '0');
-INSERT INTO `t_course` VALUES ('13', '第五课', '3', '2018-04-23 22:30:27', '第五课', null, '24', '0', '2', '0');
+INSERT INTO `t_course` VALUES ('9', '第一课', '3', '2018-04-23 22:29:46', '第一课', '9', '7', '290', '2', '0');
+INSERT INTO `t_course` VALUES ('10', '第二课', '3', '2018-04-23 22:30:00', '第二课', null, '5', '11', '2', '0');
+INSERT INTO `t_course` VALUES ('11', '第三课', '3', '2018-04-23 22:30:11', '第三课', null, '6', '6', '2', '0');
+INSERT INTO `t_course` VALUES ('12', '第四课', '3', '2018-04-23 22:30:18', '第四课', null, '0', '3', '2', '0');
+INSERT INTO `t_course` VALUES ('13', '第五课', '3', '2018-04-23 22:30:27', '第五课', null, '24', '1', '2', '0');
 INSERT INTO `t_course` VALUES ('14', '第一课', '4', '2018-04-24 23:52:31', '第一课', null, '0', '4', '2', '0');
-INSERT INTO `t_course` VALUES ('16', '测试课程', null, '2018-05-02 20:31:59', '测试课程', null, '0', '0', '2', '0');
-INSERT INTO `t_course` VALUES ('17', '第六课', '3', '2018-05-02 20:35:01', '第六课', null, '0', '0', '3', '0');
+INSERT INTO `t_course` VALUES ('17', '第六课', '3', '2018-05-02 20:35:01', '第六课', null, '0', '3', '2', '0');
+INSERT INTO `t_course` VALUES ('20', '第一课', '18', '2018-05-07 20:57:12', '第一章', null, '0', '0', '2', '0');
+INSERT INTO `t_course` VALUES ('22', '教师2添加', null, '2018-05-08 20:01:23', '教师2添加', null, '0', '0', '3', '0');
+INSERT INTO `t_course` VALUES ('23', '教师2第一课', '22', '2018-05-08 20:01:32', '教师2第一课', null, '0', '0', '3', '0');
+INSERT INTO `t_course` VALUES ('24', '教师2第二课', '22', '2018-05-08 20:01:39', '教师2第二课', null, '0', '0', '3', '0');
 
 -- ----------------------------
 -- Table structure for `t_file`
@@ -124,7 +126,7 @@ CREATE TABLE `t_message` (
   `oper_role` int(1) NOT NULL COMMENT '发送角色，1:老师，2:学生',
   `oper_id` int(11) NOT NULL COMMENT '发送者ID',
   PRIMARY KEY (`msg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_message
@@ -147,6 +149,25 @@ INSERT INTO `t_message` VALUES ('115', '113', 'jiaoshi-huifu', '2018-05-04 22:43
 INSERT INTO `t_message` VALUES ('116', '0', '', '2018-05-05 00:29:20', '9', '1', '1');
 INSERT INTO `t_message` VALUES ('117', '0', '你好？', '2018-05-05 14:44:40', '9', '1', '1');
 INSERT INTO `t_message` VALUES ('118', '117', '可以', '2018-05-05 14:44:47', '9', '1', '1');
+INSERT INTO `t_message` VALUES ('119', '0', '嘎嘎嘎嘎嘎', '2018-05-07 21:16:44', '10', '1', '32');
+INSERT INTO `t_message` VALUES ('120', '0', '这节课讲的什么呀？', '2018-05-07 21:28:05', '11', '1', '32');
+INSERT INTO `t_message` VALUES ('121', '120', '不知道哦！', '2018-05-07 21:28:23', '11', '1', '32');
+INSERT INTO `t_message` VALUES ('122', '0', '', '2018-05-07 21:28:24', '11', '1', '32');
+INSERT INTO `t_message` VALUES ('123', '0', '高数课吗？', '2018-05-07 21:28:45', '11', '1', '32');
+INSERT INTO `t_message` VALUES ('124', '0', '难不难啊？', '2018-05-07 21:31:04', '11', '1', '32');
+INSERT INTO `t_message` VALUES ('125', '0', '', '2018-05-07 21:31:09', '11', '1', '32');
+INSERT INTO `t_message` VALUES ('126', '114', '加油！', '2018-05-07 21:32:56', '9', '1', '32');
+INSERT INTO `t_message` VALUES ('127', '0', '好难啊！', '2018-05-07 21:33:25', '9', '1', '32');
+INSERT INTO `t_message` VALUES ('128', '0', '', '2018-05-07 21:33:26', '9', '1', '32');
+INSERT INTO `t_message` VALUES ('129', '0', '', '2018-05-08 19:41:00', '9', '1', '1');
+INSERT INTO `t_message` VALUES ('130', '0', '可以吗？', '2018-05-08 19:55:00', '9', '1', '1');
+INSERT INTO `t_message` VALUES ('131', '127', '我回复你了', '2018-05-08 20:18:45', '9', '1', '1');
+INSERT INTO `t_message` VALUES ('132', '0', '说实话，听不懂', '2018-05-08 20:25:00', '9', '1', '32');
+INSERT INTO `t_message` VALUES ('133', '126', '回复你了？', '2018-05-08 20:25:57', '9', '1', '1');
+INSERT INTO `t_message` VALUES ('134', '130', '什么可以？', '2018-05-08 21:30:49', '9', '2', '4');
+INSERT INTO `t_message` VALUES ('135', '134', '没什么……', '2018-05-08 21:31:16', '9', '1', '1');
+INSERT INTO `t_message` VALUES ('136', '135', '额', '2018-05-08 21:31:37', '9', '2', '4');
+INSERT INTO `t_message` VALUES ('137', '136', '额什么？', '2018-05-08 21:32:38', '9', '1', '1');
 
 -- ----------------------------
 -- Table structure for `t_role`
@@ -220,9 +241,9 @@ CREATE TABLE `t_student` (
 -- ----------------------------
 -- Records of t_student
 -- ----------------------------
-INSERT INTO `t_student` VALUES ('1', '211106402', '张三', '123456', '', '3', '0', '1', 'owug5t3EYRqfV5uAnO3B6pOdKISI', '/file/icon/211106402_1525502656079.jpg');
-INSERT INTO `t_student` VALUES ('31', '211106412', '李四', '', '', '3', '1', '1', 'owug5t_1Q7dYlFQLhfdgbKFitz_w', '');
-INSERT INTO `t_student` VALUES ('32', '2018001', 'chen', '123456', '', '3', '1', null, null, '');
+INSERT INTO `t_student` VALUES ('1', '211106402', '张三', '123456', '', '3', '0', null, '', '/file/icon/211106402_1525583142009.jpg');
+INSERT INTO `t_student` VALUES ('31', '211106412', '李四', '', '', '3', '1', null, 'owug5t_1Q7dYlFQLhfdgbKFitz_w', '');
+INSERT INTO `t_student` VALUES ('32', '2018001', 'chen', '123456', '', '3', '1', null, 'owug5t86Yg2eLWYsY-aVPirzTfVg', '/file/icon/2018001_1525700163987.jpg');
 
 -- ----------------------------
 -- Table structure for `t_user`
@@ -251,7 +272,7 @@ CREATE TABLE `t_user` (
 INSERT INTO `t_user` VALUES ('1', 'admin', '系统管理员', '123456', '', '1', '1', '1', '2015-03-04 22:55:38', '', '');
 INSERT INTO `t_user` VALUES ('2', 'jiaoshi', '教师', '123456', '', '2', '1', '1', '2015-03-05 11:21:11', '', '');
 INSERT INTO `t_user` VALUES ('3', 'jiaoshi2', '教师2', '123456', '', '2', '1', '1', '2018-04-20 21:26:07', '', '');
-INSERT INTO `t_user` VALUES ('4', 'jiaoshi3', '教师3', '123456', '', '2', '1', '1', '2018-05-04 20:56:33', '', '');
+INSERT INTO `t_user` VALUES ('4', 'jiaoshi3', '教师3', '123456', '', '2', '1', '1', '2018-05-04 20:56:33', 'owug5t1qEvaC8PnxPlBVrjKYFWwg', '/file/icon/jiaoshi3_1525786121569.jpg');
 
 -- ----------------------------
 -- View structure for `v_user`

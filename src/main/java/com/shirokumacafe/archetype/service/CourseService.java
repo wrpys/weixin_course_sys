@@ -81,6 +81,7 @@ public class CourseService {
         paramsMap.put("cId", course.getcId());
         paramsMap.put("cPid", course.getcPid());
         paramsMap.put("cName", course.getcName());
+        paramsMap.put("userId", sessionUsers.getCurrentUser().getUserId());
         List<CourseExt> courseList = courseMapper.listByParams(paramsMap);
         page.setRows(courseList);
         page.setResults((int) pageHelper.getTotal());

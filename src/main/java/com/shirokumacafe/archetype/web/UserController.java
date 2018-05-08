@@ -82,10 +82,10 @@ class UserController {
         return Responses.writeSuccess();
     }
 
-    @RequestMapping(value = "changeState", method = RequestMethod.POST)
+    @RequestMapping(value = "unbinding", method = RequestMethod.POST)
     @ResponseBody
-    public Map changeState(User user) {
-        userService.changeState(user);
+    public Map unbinding(User user) {
+        userService.unbinding(user);
         return Responses.writeSuccess();
     }
 }

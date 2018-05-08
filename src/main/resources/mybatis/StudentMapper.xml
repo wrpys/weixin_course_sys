@@ -114,7 +114,7 @@
             <if test="clzssId != null">
                 clzss_id = #{clzssId,jdbcType=INTEGER},
             </if>
-            <if test="weixinId != null and weixinId != ''">
+            <if test="weixinId != null">
                 weixin_id = #{weixinId,jdbcType=VARCHAR},
             </if>
             <if test="chatHeadAddr != null and chatHeadAddr != ''">

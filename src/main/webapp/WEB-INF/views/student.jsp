@@ -114,12 +114,12 @@
                                 listeners : {
                                     'click' : delFunction
                                 }
-                            }
-                            ,{
+                            },
+                            {
                                 btnCls: 'button button-small',
-                                text: '<i class="icon-repeat"></i>重置密码',
+                                text: '<i class="icon-remove"></i>解绑微信',
                                 listeners : {
-                                    'click' : resetFunction
+                                    'click' : unbindingFunction
                                 }
                             }
                         ]
@@ -179,20 +179,26 @@
             }
         }
 
-        function resetFunction(){
+        function unbindingFunction(){
             var selections = grid.getSelection();
             if(selections.length == 1){
-                BUI.Message.Confirm('确认要重置密码吗？',function(){
+                var selected = selections[0];
+                if(!selected.weixinId){
+                    BUI.Message.Alert('该用户未绑定微信账号！');
+                    return;
+                }
+                BUI.Message.Confirm('确认解绑微信账号吗？',function(){
                     $.ajax({
-                        url : '${ctx}/student/resetPassword',
+                        url : '${ctx}/student/unbinding',
                         type:'post',
                         dataType : 'json',
-                        data : {sId : selections[0].sId},
+                        data : {sId : selected.sId},
                         success : function(data){
                             if(data.success){
-                                BUI.Message.Alert('重置成功！');
+                                search.load();
+                                BUI.Message.Alert('解绑成功！');
                             }else{
-                                BUI.Message.Alert('重置失败！');
+                                BUI.Message.Alert('解绑失败！');
                             }
                         }
                     });

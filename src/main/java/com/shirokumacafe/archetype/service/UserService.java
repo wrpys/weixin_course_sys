@@ -241,18 +241,12 @@ public class UserService {
     }
 
     /**
-     * 改变用户状态
+     * 解绑微信
      *
      * @param user
      */
-    public void changeState(User user) {
-        Integer state = user.getState();
-        if (state == 0) {
-            state = 1;
-        } else {
-            state = 0;
-        }
-        user.setState(state);
+    public void unbinding(User user) {
+        user.setWeixinId("");
         userMapper.updateByPrimaryKeySelective(user);
     }
 

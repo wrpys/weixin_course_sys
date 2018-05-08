@@ -59,10 +59,10 @@ public class StudentController {
         return Responses.writeSuccess();
     }
 
-    @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
+    @RequestMapping(value = "unbinding", method = RequestMethod.POST)
     @ResponseBody
-    public Map resetPassword(Integer sId) {
-        studentService.resetPassword(sId);
+    public Map unbinding(Student student) {
+        studentService.unbinding(student);
         return Responses.writeSuccess();
     }
 
