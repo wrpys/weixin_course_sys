@@ -4,6 +4,17 @@
 <html>
 <head>
     <%@include file="../layouts/default.jsp"%>
+    <style>
+        .bui-select .x-icon {
+            height: 16px;
+        }
+        .bui-select .icon-caret{
+            margin-top: 4px;
+        }
+        input.calendar {
+            width: 95px;
+        }
+    </style>
 </head>
 <body>
     <div class="container" style="height:auto;">
@@ -24,9 +35,9 @@
                 <div class="control-group span9">
                     <label class="control-label">创建时间：</label>
                     <div class="controls">
-                        <input type="text" class="calendar" name="startDate">
+                        <input type="text" class="calendar" name="startDate" width="200">
                         <span> - </span>
-                        <input type="text" class="calendar" name="endDate">
+                        <input type="text" class="calendar" name="endDate" width="200">
                     </div>
                 </div>
                 <div class="control-group span8">

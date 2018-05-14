@@ -111,12 +111,12 @@ BUI.use(['common/search','bui/list','bui/picker','bui/select','bui/calendar','bu
     var
             columns = [
                 { title: '课程名字', width: 120, dataIndex: 'cName'},
-                { title: '教师', width: 90, dataIndex: 'userName'},
-                { title: '添加时间', width: 180, dataIndex: 'cCreateTime'},
-                { title: '课程描述', width: 200, dataIndex: 'cDesc'},
-                { title: '课件名字', width: 200, dataIndex: 'fName'},
-                { title: '下载次数', width: 80, dataIndex: 'downloadNum'},
-                { title: '热度', width: 80, dataIndex: 'heatNum'},
+                { title: '教师', width: 70, dataIndex: 'userName'},
+                { title: '添加时间', width: 170, dataIndex: 'cCreateTime'},
+                { title: '课程描述', width: 100, dataIndex: 'cDesc'},
+                { title: '课件名字', width: 150, dataIndex: 'fName'},
+                { title: '下载次数', width: 70, dataIndex: 'downloadNum'},
+                { title: '热度', width: 50, dataIndex: 'heatNum'},
                 { title: '操作', width: 100, dataIndex: 'cId',renderer : function(value,obj){
                     var returnStr = '<span class="grid-command uploadFile">上传课件</span>&nbsp;&nbsp;';
                     return returnStr;
