@@ -27,7 +27,7 @@ body {
 .discuss-li{
     float: left;
     border-top: 1px dashed #C6C7DB;
-    margin-bottom: 0.5rem;
+    /*margin-bottom: 0.5rem;*/
     padding-top: 0.5rem;
     width: 100%;
 }
@@ -74,7 +74,7 @@ body {
 }
 .sub-discuss-ul{
     float: left;
-    margin-top: 1rem;
+    /*margin-top: 1rem;*/
     width: 100%;
 }
 /*.sub-discuss-ul ul {*/
@@ -270,7 +270,7 @@ body {
             for (var i = 0; i < messageList.length; i++) {
                 var _html = [];
                 var msg = messageList[i];
-                _html.push('<li class="discuss-li">');
+                _html.push('<li class="discuss-li" style="margin-bottom: 1rem;">');
                 _html.push(buildDiscussLi(null, msg));
                 if (msg.messageExts && msg.messageExts.length > 0) {
                     _html.push('<div class="sub-discuss-ul">');
