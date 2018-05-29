@@ -84,7 +84,7 @@
                         </a>
                         </c:if>
                         <c:if test="${empty course.fId}">
-                            无
+                            <p style="font-size: 1.1rem;">暂无</p>
                         </c:if>
                     </li>
                     <li class="li" style="width: 10%;border: 0;">
